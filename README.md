@@ -92,17 +92,9 @@ Neste projeto, foi configurado o seguinte comando para facilitar a inicializaç�
 composer serve
 ```
 
-### Desativação da Virtualização
-
-Para interromper o processo e garantir que não continue em execução em segundo plano, é necessário desativar a virtualização. Isso pode ser feito utilizando o seguinte comando:
-
-```sh
-docker compose down
-```
-
 ## Executando os Testes Unitários
 
-Para executar os testes, é necessário habilitar o SQLite em memória e acessar o terminal do ambiente virtualizado para executar um comando específico. Todas as configurações já estão feitas, incluindo o X-debug.
+Para executar os testes, é necessário habilitar o SQLite em memória e executar o comando. Todas as configurações já estão feitas, incluindo o X-debug.
 
 ### Habilitação para utilização de sqlite em memoria
 
@@ -113,14 +105,18 @@ No arquivo phpunit.xml, habilite as seguintes linhas:
 <env name="DB_DATABASE" value=":memory:" />
 ```
 
-### Acesse o bash
-
-```sh
-docker compose exec php bash
-```
-
 ### Execute o comando para rodar os testes
 
 ```bash
 docker compose exec php php artisan test --coverage
 ```
+
+### Desativação da Virtualização
+
+Para interromper o processo e garantir que não continue em execução em segundo plano, é necessário desativar a virtualização. Isso pode ser feito utilizando o seguinte comando:
+
+```sh
+docker compose down
+```
+
+Atenção, se esse comando for executado, será necessário refazer o build do sistema.
