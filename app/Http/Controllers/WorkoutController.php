@@ -22,10 +22,12 @@ class WorkoutController extends Controller
         }
     }
 
-    public function workoutsByStudent()
+    public function workoutsByStudent($studentId)
     {
         try {
-            $workouts = Workout::orderBy('created_at')->get();
+            $workouts = Workout::where('student_id', $studentId)
+           ->orderBy('created_at')
+           ->get();
            
             $workoutsByStudent = $workouts->groupBy('student_id')->map(function ($workouts) {
                 return $workouts->groupBy(function ($workout) {
@@ -38,7 +40,6 @@ class WorkoutController extends Controller
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
-    }
-    
+    }    
 
 }
