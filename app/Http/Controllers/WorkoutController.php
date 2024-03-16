@@ -25,8 +25,9 @@ class WorkoutController extends Controller
     public function workoutsByStudent()
     {
         try {
+            $workouts = Workout::orderBy('created_at')->get();
            
-            $workoutsByStudent = Workout::all()->groupBy('student_id')->map(function ($workouts) {
+            $workoutsByStudent = $workouts->groupBy('student_id')->map(function ($workouts) {
                 return $workouts->groupBy(function ($workout) {
                    
                     return $workout->day;
