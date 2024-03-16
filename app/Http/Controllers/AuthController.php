@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Traits\HttpResponses;
 
 use Illuminate\Http\Request;
@@ -12,6 +13,29 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
     use HttpResponses;
+
+    private $permissions = [
+        'ADMIN' => [
+            'get-students',
+            'get-workouts'
+        ],
+        'RECEPCIONISTA' => [
+            'get-students',
+            'get-workouts'
+        ],
+        'INSTRUTOR' => [
+            'get-students',
+            'get-workouts'
+        ],
+        'NUTRICIONISTA' => [
+            'get-students',
+            'get-workouts'
+        ],
+        'ALUNO' => [
+            'get-students',
+            'get-workouts'
+        ]
+    ];
 
     public function store(Request $request)
     {
@@ -30,12 +54,16 @@ class AuthController extends Controller
             }
 
             $request->user()->tokens()->delete();
+            $profile = Profile::find($request->user()->profile_id);
+            $permissionsUser =  $this->permissions[$profile->name];
 
-            $token = $request->user()->createToken('@academia');
+            $token = $request->user()->createToken('@academia', $permissionsUser);
 
             return $this->response('Autorizado', 201, [
                 'token' => $token->plainTextToken,
+                'permissions' => $permissionsUser,
                 'name' =>  $request->user()->name,
+                'profile' => $profile->name
             ]);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
