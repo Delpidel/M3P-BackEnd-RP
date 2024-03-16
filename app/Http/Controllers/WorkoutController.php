@@ -32,17 +32,28 @@ class WorkoutController extends Controller
             ->orderBy('created_at')
             ->get();
            
-            $workoutsByStudent = $workouts->groupBy('student_id')->map(function ($workouts) {
-                return $workouts->groupBy(function ($workout) {
-                   
-                    return $workout->day;
-                });
-            });
-          
-            return $workoutsByStudent;
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
-    }    
+            $formattingWorkouts = [];
 
+            foreach ($workouts as $workout) {
+                $formattingWorkouts['student_id'] = $workout->student_id;
+                $formattingWorkouts['name'] = $workout->name;
+                
+                $day = $workout->day;
+                $formattingWorkouts['workouts'][$day][] = [
+                    'description' => $workout->description,
+                    'repetitions' => $workout->repetitions,
+                    'weight' => $workout->weight,
+                    'break_time' => $workout->break_time,
+                    'observations' => $workout->observations,
+                    'time' => $workout->time,
+                    'created_at' => $workout->created_at,
+                ];
+            }
+    
+            return response()->json($formattingWorkouts);
+    } catch (\Exception $exception) {
+        return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+    }
+
+}
 }
