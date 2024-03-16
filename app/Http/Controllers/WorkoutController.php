@@ -25,7 +25,13 @@ class WorkoutController extends Controller
     public function workoutsByStudent()
     {
         try {
-            $workoutsByStudent = Workout::all()->groupBy('student_id');    
+           
+            $workoutsByStudent = Workout::all()->groupBy('student_id')->map(function ($workouts) {
+                return $workouts->groupBy(function ($workout) {
+                   
+                    return $workout->day;
+                });
+            });
           
             return $workoutsByStudent;
         } catch (\Exception $exception) {
