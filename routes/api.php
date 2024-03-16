@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\DashboardInstructorController;
 use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('students', [StudentController::class, 'index']);
     Route::get('workouts', [WorkoutController::class, 'index']);
+    Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index']); // Adicione esta linha
 });
 
 Route::post('login', [AuthController::class, 'store']);
