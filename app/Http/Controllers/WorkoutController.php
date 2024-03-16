@@ -25,13 +25,13 @@ class WorkoutController extends Controller
     public function workoutsByStudent()
     {
         try {
-
-            $workouts = Workout::all();
-
-            return $workouts;
+            $workoutsByStudent = Workout::all()->groupBy('student_id');    
+          
+            return $workoutsByStudent;
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
+    
 
 }
