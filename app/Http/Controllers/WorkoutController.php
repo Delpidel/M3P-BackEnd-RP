@@ -17,7 +17,18 @@ class WorkoutController extends Controller
 
             $workouts = Workout::all();
             return $workouts;
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
 
+    public function workoutsByStudent()
+    {
+        try {
+
+            $workouts = Workout::all();
+
+            return $workouts;
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
