@@ -13,16 +13,6 @@ class WorkoutController extends Controller
 {
     use HttpResponses;
 
-
-    public function index()
-    {
-        try {
-            $workouts = Workout::all();
-            return $workouts;
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
-    }
     public function update($id, UpdateWorkoutRequest $request, UpdateOneWorkoutService $updateOneWorkoutService)
     {
         try {

@@ -24,7 +24,6 @@ class UpdateOneWorkoutService
 
         if(!$workout) throw new ErrorException('workout não encontrado', 404);
 
-        // validar erro da existencia do workout com base no id
         return $this->workoutRepositoy->updateOne($workout, $data);
     }
 }
