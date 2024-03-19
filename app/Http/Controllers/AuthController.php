@@ -16,24 +16,47 @@ class AuthController extends Controller
 
     private $permissions = [
         'ADMIN' => [
-            'get-students',
-            'get-workouts'
+            'create-users',
+            'get-users',
+            'delete-users',
+            'update-users',
+            'admin-dashboard',
+            
         ],
         'RECEPCIONISTA' => [
+            'create-students',
             'get-students',
-            'get-workouts'
+            'delete-students',
+            'update-students',
+            'create-documents-students',
+            'get-documents-students',
+            'get-avaliations'
+            
         ],
         'INSTRUTOR' => [
+            'instrutor-dashboard',
+            'create-exercises',
+            'get-exercises',
+            'delete-exercises',
             'get-students',
-            'get-workouts'
+            'create-workouts',
+            'get-workouts', 
+            'delete-workouts',
+            'update-workouts'
+            
         ],
         'NUTRICIONISTA' => [
-            'get-students',
-            'get-workouts'
+            'create-avaliations',
+            'get-actives-students',
+            'get-avaliations',
+            'create-meal-plans',
+            'get-meal-plans'
+            
         ],
         'ALUNO' => [
-            'get-students',
-            'get-workouts'
+            'get-workout',
+            'get-meal-plans'
+            
         ]
     ];
 
