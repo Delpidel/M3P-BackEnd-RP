@@ -12,8 +12,10 @@ class Student extends Model
         'name', 'email', 'date_birth', 'contact', 'cpf', 'city', 'neighborhood', 'number', 'street', 'state', 'cep'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function user()
     {
-        return $this->hasOne(UserStudent::class);
+        return $this->belongsTo(UserStudent::class, 'user_id');
     }
 }
