@@ -62,7 +62,6 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        try {
             $data = $request->only('email', 'password');
 
             $request->validate([
@@ -88,9 +87,6 @@ class AuthController extends Controller
                 'name' =>  $request->user()->name,
                 'profile' => $profile->name
             ]);
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
     }
 
     public function logout(Request $request)
