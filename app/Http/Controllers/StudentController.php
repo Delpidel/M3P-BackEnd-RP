@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudentRequest;
 
+use App\Mail\CredentialsStudentEmail;
+
 use App\Models\Student;
 use App\Models\UserStudent;
+
+use Illuminate\Support\Str;
 
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
@@ -29,6 +34,9 @@ class StudentController extends Controller
                 // Cria o estudante associado ao usuário autenticado
                 $student = Student::create($body);
 
+                $password = Str::random(8); // Gerar senha aleatória
+                Mail::to($student->email)->send(new CredentialsStudentEmail($student, $password));
+
                 // Vincula o estudante ao usuário na tabela intermediária
                 UserStudent::create([
                     'user_id' => $userId,
@@ -36,9 +44,6 @@ class StudentController extends Controller
                 ]);
 
                 return $student;
-            } else {
-                // Retorna erro se não houver usuário autenticado
-                return $this->error('Usuário não autenticado', Response::HTTP_UNAUTHORIZED);
             }
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
