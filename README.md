@@ -111,12 +111,52 @@ No arquivo phpunit.xml, habilite as seguintes linhas:
 docker compose exec php php artisan test --coverage
 ```
 
+##
+
+### Comandos para migrações
+
+Para executar uma nova migração:
+
+```bash
+composer migrate
+```
+
+Para reverter:
+
+```bash
+composer rollback
+```
+
+##
+
+### Acessando o bash
+
+Os comandos com composer foram configurados, isto é, são atalhos de comandos maiores. Porém, outro modo de se trabalhar seria acessando o terminal da maquina virtual:
+
+```bash
+docker compose exec php bash
+```
+
+Aparecerá algo como "root@docker-desktop:/var/www# ", dentro desse terminal você poderá rodar todos os comandos que estamos habituados.
+
+##
+
+### Finalizei o dia, como encerrar a virtualização
+
+Basta encerrar o servidor com ctrl+c e clicar em stop no container (m3p-backend) do docker desktop. Isso garante o encerramento do processo e garante que não continue em execução em segundo plano.
+
+### Iniciei o dia, como iniciar a virtualização
+
+Se você já fez todo o setup, basta clicar em start no container m3p-backend do docker desktop e rodar o servidor com composer serve.
+
+##
+
 ### Desativação da Virtualização
 
-Para interromper o processo e garantir que não continue em execução em segundo plano, é necessário desativar a virtualização. Isso pode ser feito utilizando o seguinte comando:
+Para desativar completamente a virtualização, rode o comando:
 
 ```sh
 docker compose down
 ```
 
-Atenção, se esse comando for executado, será necessário refazer o build do sistema.
+Atenção, se esse comando for executado, será necessário refazer todo o processo de configuração pois tudo será apagado.
