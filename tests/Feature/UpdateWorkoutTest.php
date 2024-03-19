@@ -16,7 +16,6 @@ class UpdateWorkoutTest extends TestCase
 {
     public function test_can_edit_one_workout(): void
     {
-
         $user = User::factory()->create();
         Log::info("User criado", ['user_id' => $user->id]);
 
@@ -26,13 +25,17 @@ class UpdateWorkoutTest extends TestCase
         $exercise = Exercise::factory()->create();
         Log::info("Exercise criado", ['exercise_id' => $exercise->id]);
 
-        $workout = Workout::factory()->create(['student_id' => $student->id, 'exercise_id' => $exercise->id, 'user_id' => $user->id]);
+        $workout = Workout::factory()->create([
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'user_id' => $user->id
+        ]);
 
-        // Defina os novos valores para 'repetitions' e 'weight'
+        Log::info("Workout criado", ['workout' => $workout]);
+
         $newRepetitions = 3;
         $newWeight = 15.0;
 
-        // Corpo da requisição com os novos valores
         $body = [
             'repetitions' => $newRepetitions,
             'weight' => $newWeight,
@@ -42,10 +45,16 @@ class UpdateWorkoutTest extends TestCase
             'time' => 60
         ];
 
-        // Faça a requisição PUT com os novos valores
-        $response = $this->actingAs($user)->put("/api/workouts/$workout->id", $body);
+        Log::info("Valores atualizados do workout", [
+            'repetitions' => $workout->repetitions,
+            'weight' => $workout->weight
+        ]);
 
-        // Verifique se os novos valores foram atualizados no banco de dados
+        // Faça a requisição PUT com os novos valores
+        $response = $this->actingAs($user)->put("/api/students/{$student->id}/workouts", $body);
+
+        Log::info("response", ['response' => $response]);
+
         $this->assertDatabaseHas('workouts', [
             'id' => $workout->id,
             'repetitions' => $newRepetitions, // Verifique se as novas repetições estão corretas
@@ -65,5 +74,4 @@ class UpdateWorkoutTest extends TestCase
             'time' => $body['time']
         ]);
     }
-
 }
