@@ -19,7 +19,7 @@ class ExerciseInstructorController extends Controller
     {
         $userId = $this->auth->guard()->id();
 
-        $exercises = Exercise::where('user_id', $userId)->get(['id', 'description']);
+        $exercises = Exercise::where('user_id', $userId)->paginate(10, ['id', 'description']);
 
         return response()->json($exercises);
     }
