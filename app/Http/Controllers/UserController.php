@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\User\DeleteOneUserService;
 use App\Http\Services\User\GetAllUsersService;
+
 use App\Traits\HttpResponses;
 
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -19,5 +20,11 @@ class UserController extends Controller
         $users = $getAllUsersService->handle($search);
 
         return $users;
+    }
+
+    public function destroy($id, DeleteOneUserService $deleteOneUserService)
+    {
+
+        return $deleteOneUserService->handle($id);
     }
 }
