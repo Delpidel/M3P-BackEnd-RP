@@ -16,21 +16,17 @@ class DatabaseSeeder extends Seeder
         try {
             DB::beginTransaction();
 
-            Log::info('Ambiente de execução: ' . env("APP_ENV"));
-
             Profile::create(['id' => 1, 'name' => 'ADMIN']);
             Profile::create(['id' => 2, 'name' => 'RECEPCIONISTA']);
             Profile::create(['id' => 3, 'name' => 'INSTRUTOR']);
             Profile::create(['id' => 4, 'name' => 'NUTRICIONISTA']);
             Profile::create(['id' => 5, 'name' => 'ALUNO']);
 
-            // Verifica se o valor do email padrão está definido no arquivo .env
             $defaultEmail = env("DEFAULT_EMAIL");
             if (!$defaultEmail) {
                 throw new \Exception('O valor do email padrão não está definido no arquivo .env');
             }
 
-            // Insere o usuário ADMIN apenas se o email padrão estiver definido
             User::create([
                 'name' => 'ADMIN',
                 'email' => $defaultEmail,
@@ -38,7 +34,6 @@ class DatabaseSeeder extends Seeder
                 'profile_id' => 1
             ]);
 
-            // Insere os outros usuários normalmente
             User::create([
                 'name' => 'Maria da recepção',
                 'email' => "maria_recepcao@gmail.com",
