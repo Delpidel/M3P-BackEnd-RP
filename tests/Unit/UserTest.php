@@ -58,8 +58,11 @@ class UserTest extends TestCase
         $response->assertJson([
             'data' => [
                 'permissions' => [
-                    'get-students',
-                    'get-workouts'
+                    'create-users',
+                    'get-users',
+                    'delete-users',
+                    'update-users',
+                    'admin-dashboard',
                 ]
             ]
         ]);
@@ -81,8 +84,13 @@ class UserTest extends TestCase
         $response->assertJson([
             'data' => [
                 'permissions' => [
+                    'create-students',
                     'get-students',
-                    'get-workouts'
+                    'delete-students',
+                    'update-students',
+                    'create-documents-students',
+                    'get-documents-students',
+                    'get-avaliations'
                 ]
             ]
         ]);
@@ -105,8 +113,15 @@ class UserTest extends TestCase
         $response->assertJson([
             'data' => [
                 'permissions' => [
+                    'instrutor-dashboard',
+                    'create-exercises',
+                    'get-exercises',
+                    'delete-exercises',
                     'get-students',
-                    'get-workouts'
+                    'create-workouts',
+                    'get-workouts', 
+                    'delete-workouts',
+                    'update-workouts'
                 ]
             ]
         ]);
@@ -129,8 +144,11 @@ class UserTest extends TestCase
         $response->assertJson([
             'data' => [
                 'permissions' => [
-                    'get-students',
-                    'get-workouts'
+                    'create-avaliations',
+                    'get-actives-students',
+                    'get-avaliations',
+                    'create-meal-plans',
+                    'get-meal-plans'
                 ]
             ]
         ]);
@@ -153,8 +171,8 @@ class UserTest extends TestCase
         $response->assertJson([
             'data' => [
                 'permissions' => [
-                    'get-students',
-                    'get-workouts'
+                    'get-workout',
+                    'get-meal-plans'
                 ]
             ]
         ]);
