@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
@@ -22,3 +23,12 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('login', [AuthController::class, 'store']);
+
+
+//MINHAS ROTAS
+
+Route::get('meal_plans', [MealPlanController::class, 'index']);
+
+Route::post('meal_plans', [MealPlanController::class, 'store']);
+Route::post('store', [MealPlanController::class, 'store']);
+
