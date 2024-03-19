@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Http\Repositories\Workout\WorkoutRepository;
 use App\Http\Requests\UpdateWorkoutRequest;
 use App\Http\Services\Workout\UpdateOneWorkoutService;
 use App\Models\Exercise;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Workout;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
@@ -18,11 +18,29 @@ class UpdateWorkoutTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Testa a atualização de um treino (workout).
-     *
-     * @return void
-     */
+    public function test_catch_exception(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->put('/api/workouts/1', [
+            'repetitions' => 10,
+            'weight' => 76.23,
+        ]);
+
+        $responseData = $response->json();
+
+        $response->assertStatus(404);
+
+        $this->assertEquals('workout não encontrado', $responseData['message']);
+
+        if (array_key_exists('status', $responseData)) {
+            $this->assertEquals(404, $responseData['status']);
+        } else {
+            $this->fail('A chave "code" não está definida no array de resposta');
+        }
+    }
+
     public function test_can_update_workout(): void
     {
         $user = User::factory()->create();
@@ -37,13 +55,14 @@ class UpdateWorkoutTest extends TestCase
 
         $newRepetitions = 12;
         $newWeight = 11.5;
-        $newDay = 'SEGUNDA';
+        $newDay = 'QUARTA';
 
-        $response = $this->updateWorkout($workout->id, $user, [
-            'repetitions' => $newRepetitions,
-            'weight' => $newWeight,
-            'day' => $newDay,
-        ]);
+        $response = $this->actingAs($user)
+            ->put("/api/workouts/{$workout->id}", [
+                'repetitions' => $newRepetitions,
+                'weight' => $newWeight,
+                'day' => $newDay,
+            ]);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -52,20 +71,6 @@ class UpdateWorkoutTest extends TestCase
                 'weight' => $newWeight,
                 'day' => $newDay,
             ]);
-    }
-
-    /**
-     * Faz uma requisição PUT para atualizar um treino.
-     *
-     * @param int $workoutId
-     * @param User $user
-     * @param array $data
-     * @return \Illuminate\Testing\TestResponse
-     */
-    private function updateWorkout(int $workoutId, User $user, array $data)
-    {
-        return $this->actingAs($user)
-            ->put("/api/workouts/{$workoutId}", $data);
     }
 
     public function test_repetitions_must_be_an_integer(): void
