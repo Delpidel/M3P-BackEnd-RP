@@ -29,20 +29,19 @@ class StudentController extends Controller
             // Gerar senha aleatória
             $password = Str::random(8);
 
-            // Cria o estudante
-            $student = Student::create($body);
-
-            // Enviar email com as credenciais
-            Mail::to($student->email)->send(new CredentialsStudent($student, $password));
-
             // Obtém o ID do usuário autenticado
             $userId = auth()->user()->id;
+
+            // Cria o estudante
+            $student = Student::create($body);
 
             // Vincula o estudante ao usuário na tabela intermediária
             UserStudent::create([
                 'user_id' => $userId,
                 'student_id' => $student->id,
             ]);
+            // Enviar email com as credenciais
+            Mail::to($student->email)->send(new CredentialsStudent($student, $password));
 
             return $student;
         } catch (\Exception $exception) {

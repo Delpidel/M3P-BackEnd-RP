@@ -33,15 +33,8 @@ class SendCredentialsStudentEmail extends Command
         $students = Student::query()->all();
 
         foreach ($students as $student) {
-            // Gera uma senha aleatória
-            $password = Str::random(8);
-
-            // Define a senha para o estudante
-            $student->password = bcrypt($password);
-            $student->save();
-
             // Envie o e-mail para o estudante com suas credenciais de acesso
-            Mail::to($student->email)->send(new CredentialsStudent($student, $password));
+            Mail::to($student->email)->send(new CredentialsStudent($student->email, $student->password));
         }
     }
 }
