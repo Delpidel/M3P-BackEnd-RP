@@ -32,4 +32,40 @@ class MealPlanScheduleController extends Controller
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function destroy(Request $request, $id)
+    {
+        //$user_id = $request->user()->id;
+
+        $meals = MealPlanSchedule::find($id);
+
+        if (!$meals) return $this->error('Dado não encontrado', Response::HTTP_NOT_FOUND);
+
+        //if ($student->user_id !== $user_id) return $this->error('voce nao pode excluir este dado', Response::HTTP_FORBIDDEN);
+
+        $meals->delete();
+
+        return $this->response('', Response::HTTP_NO_CONTENT);
+    }
+
+
+    public function update($id, Request $request)
+    {
+        try {
+
+           // $user_id = $request->user()->id;
+
+            $meals = MealPlanSchedule::find($id);
+
+            //if (!$student) return $this->error('dado nao encontrado', Response::HTTP_BAD_REQUEST);
+
+           // if ($student->user_id !== $user_id) return $this->error('voce nao pode editar este dado', Response::HTTP_FORBIDDEN);
+
+            $meals->update($request->all());
+
+            return $meals;
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 400);
+        }
+    }
 }
