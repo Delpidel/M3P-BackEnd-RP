@@ -161,6 +161,14 @@ No arquivo phpunit.xml, habilite as seguintes linhas:
 
 ### Execute o comando para rodar os testes
 
+Se você fez uma migração nova será necessário atualizar o banco de testes com o seguinte comando:
+
+```sh
+php artisan migrate:fresh --seed --env=testing
+```
+
+Em seguida, rode o comando de testes:
+
 ```sh
 docker compose exec php php artisan test --coverage --env=testing
 ```
