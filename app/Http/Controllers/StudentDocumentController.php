@@ -26,7 +26,6 @@ class StudentDocumentController extends Controller
 
             $studentId = auth()->user()->id;
 
-            // Create student document record in the database
             $document = StudentDocument::create([
                 'title' => $data['title'],
                 'file_id' => $data['file_id'],
