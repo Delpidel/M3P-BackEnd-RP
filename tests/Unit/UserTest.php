@@ -2,34 +2,20 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\AuthController;
 use App\Models\User;
-use Database\Seeders\DatabaseSeeder;
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    public function test_user_admin_can_done_login()
+    public function test_admin_can_login()
     {
-
-        // $response = $this->post('/api/login', [
-        //     'email' => env("DEFAULT_EMAIL"),
-        //     'password' => env("DEFAULT_PASSWORD")
-        // ]);
-
         $response = $this->post('/api/login', [
-            'email' => "admin@gmail.com",
-            'password' => "@coxinha"
+            'email' => env("DEFAULT_EMAIL"),
+            'password' => env("DEFAULT_PASSWORD")
         ]);
 
-        // Verificar se o status code está como esperado
-        $response->assertStatus(Response::HTTP_OK);
-
-        $response->assertJson([
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
             "message" => "Autorizado",
             "status" => Response::HTTP_OK,
             'data' => [
@@ -37,26 +23,44 @@ class UserTest extends TestCase
                 "profile" => "ADMIN",
                 "permissions" => true,
                 "token" => true
-
             ]
         ]);
     }
 
-    public function test_user_admin_permissions_load_correct()
+    public function test_admin_can_not_login_with_invalid_credentials()
     {
-        // $response = $this->post('/api/login', [
-        //     'email' => env("DEFAULT_EMAIL"),
-        //     'password' => env("DEFAULT_PASSWORD")
-        // ]);
-        
         $response = $this->post('/api/login', [
-            'email' => "admin@gmail.com",
-            'password' => "@coxinha"
+            'email' => env("DEFAULT_EMAIL"),
+            'password' => "12345678"
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
+        $response->assertStatus(401)->assertJson([
+            "message" => "Não autorizado. Credenciais incorretas",
+            "status" => 401,
+            "errors" => [],
+            "data" => []
+        ]);
+    }
 
-        $response->assertJson([
+    public function test_admin_can_not_login_without_email()
+    {
+        $response = $this->post('/api/login', [
+            'password' => env("DEFAULT_PASSWORD")
+        ]);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $responseData = json_decode($response->getContent(), true);
+        $this->assertEquals('The email field is required.', $responseData['message']);
+    }
+
+    public function test_admin_permissions_load_correct()
+    {
+        $response = $this->post('/api/login', [
+            'email' => env("DEFAULT_EMAIL"),
+            'password' => env("DEFAULT_PASSWORD")
+        ]);
+
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
             'data' => [
                 'permissions' => [
                     'create-users',
@@ -69,9 +73,8 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_user_recepcionista_permissions_load_correct()
+    public function test_recepcionista_permissions_load_correct()
     {
-
         $user = User::factory()->create(['profile_id' => 2, 'password' => '12345678']);
 
         $response = $this->post('/api/login', [
@@ -79,10 +82,7 @@ class UserTest extends TestCase
             'password' => '12345678'
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
-
-
-        $response->assertJson([
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
             'data' => [
                 'permissions' => [
                     'create-students',
@@ -97,10 +97,8 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_user_instrutor_permissions_load_correct()
+    public function test_instrutor_permissions_load_correct()
     {
-
-
         $user = User::factory()->create(['profile_id' => 3, 'password' => '12345678']);
 
         $response = $this->post('/api/login', [
@@ -108,10 +106,7 @@ class UserTest extends TestCase
             'password' => '12345678'
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
-
-
-        $response->assertJson([
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
             'data' => [
                 'permissions' => [
                     'instrutor-dashboard',
@@ -120,7 +115,7 @@ class UserTest extends TestCase
                     'delete-exercises',
                     'get-students',
                     'create-workouts',
-                    'get-workouts', 
+                    'get-workouts',
                     'delete-workouts',
                     'update-workouts'
                 ]
@@ -128,10 +123,8 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_user_nutricionista_permissions_load_correct()
+    public function test_nutricionista_permissions_load_correct()
     {
-
-
         $user = User::factory()->create(['profile_id' => 4, 'password' => '12345678']);
 
         $response = $this->post('/api/login', [
@@ -139,10 +132,7 @@ class UserTest extends TestCase
             'password' => '12345678'
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
-
-
-        $response->assertJson([
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
             'data' => [
                 'permissions' => [
                     'create-avaliations',
@@ -155,10 +145,8 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_user_aluno_permissions_load_correct()
+    public function test_aluno_permissions_load_correct()
     {
-
-
         $user = User::factory()->create(['profile_id' => 5, 'password' => '12345678']);
 
         $response = $this->post('/api/login', [
@@ -166,10 +154,7 @@ class UserTest extends TestCase
             'password' => '12345678'
         ]);
 
-        $response->assertStatus(Response::HTTP_OK);
-
-
-        $response->assertJson([
+        $response->assertStatus(Response::HTTP_OK)->assertJson([
             'data' => [
                 'permissions' => [
                     'get-workout',
@@ -179,64 +164,12 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_check_bad_request_login_api_response(): void
+    public function test_admin_can_logout()
     {
+        $user = User::factory()->create(['profile_id' => 1]);
 
-        $response = $this->post('/api/login', [
-            'email' => "juca@hotmail.com",
-            'password' => "8712541"
-        ]);
+        $response = $this->actingAs($user)->post('/api/logout');
 
-        $response->assertStatus(401);
-
-        $response->assertJson([
-            "message" => "Não autorizado. Credenciais incorretas",
-            "status" => 401,
-            "errors" => [],
-            "data" => []
-        ]);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
-
-    public function test_http_bad_request_on_exception()
-    {
-        $response = $this->post('/api/login', [
-            'password' => '12345678'
-        ]);
-    
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-
-        $responseData = json_decode($response->getContent(), true);
-    
-        $this->assertEquals('The email field is required.', $responseData['message']);
-    }
-
-    /*falha ocorrendo devido ser uma rota autenticada, e não estamos conseguindo receber o retorno da requisição*/
-    public function test_login_and_logout()
-    {
-        $response = $this->post('/api/login', [
-            'email' => 'paulo_whey@gmail.com',
-            'password' => '12345678'
-        ]);
-    
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'message',
-            'status',
-            'data' => [
-                'token',
-                'permissions',
-                'name',
-                'profile'
-            ]
-        ]);
-
-        $token = $response->json('data.token');
-    
-        $logoutResponse = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->post('/api/logout');
-    
-        // $logoutResponse->assertStatus(Response::HTTP_NO_CONTENT);
-    }
-    
 }
