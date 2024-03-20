@@ -2,10 +2,11 @@
 
 namespace App\Http\Repositories;
 
+use App\Interfaces\AuthRepositoryInterface;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 
-class AuthRepository
+class AuthRepository implements AuthRepositoryInterface
 {
     private $permissions = [
         'ADMIN' => [
