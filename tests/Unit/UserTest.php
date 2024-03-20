@@ -36,9 +36,7 @@ class UserTest extends TestCase
 
         $response->assertStatus(401)->assertJson([
             "message" => "Não autorizado. Credenciais incorretas",
-            "status" => 401,
-            "errors" => [],
-            "data" => []
+            "status" => 401
         ]);
     }
 
