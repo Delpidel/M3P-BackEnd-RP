@@ -14,17 +14,7 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
-            // 'email' => $this->faker->unique()->email,
-            // 'date_birth' => $this->faker->dateTimeThisCentury()->format('Y-m-d'),
-            // 'cpf' => $this->faker->numerify('###.###.###-##'),
-            // 'contact' => $this->faker->phoneNumber(),
-            // 'cep' => $this->faker->postcode,
-            // 'street' => $this->faker->streetName,
-            // 'state' => $this->faker->state,
-            // 'neighborhood' => $this->faker->citySuffix,
-            // 'city' => $this->faker->city,
-            // 'number' => $this->faker->buildingNumber
+            'name' => $this->faker->name
         ];
     }
 }
