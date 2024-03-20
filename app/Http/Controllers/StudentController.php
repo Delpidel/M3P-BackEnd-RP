@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudentRequest;
+use App\Mail\CredentialsStudent;
 
-use App\Mail\CredentialsStudentEmail;
 
 use App\Models\Student;
 use App\Models\UserStudent;
@@ -24,27 +24,27 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         try {
-            $body = $request->validate();
+            $body = $request->validated();
 
-            // Verifica se há um usuário autenticado
-            if (Auth::check()) {
-                // Obtém o ID do usuário autenticado
-                $userId = Auth::id();
+            // Gerar senha aleatória
+            $password = Str::random(8);
 
-                // Cria o estudante associado ao usuário autenticado
-                $student = Student::create($body);
+            // Cria o estudante
+            $student = Student::create($body);
 
-                $password = Str::random(8); // Gerar senha aleatória
-                Mail::to($student->email)->send(new CredentialsStudentEmail($student, $password));
+            // Enviar email com as credenciais
+            Mail::to($student->email)->send(new CredentialsStudent($student, $password));
 
-                // Vincula o estudante ao usuário na tabela intermediária
-                UserStudent::create([
-                    'user_id' => $userId,
-                    'student_id' => $student->id,
-                ]);
+            // Obtém o ID do usuário autenticado
+            $userId = auth()->user()->id;
 
-                return $student;
-            }
+            // Vincula o estudante ao usuário na tabela intermediária
+            UserStudent::create([
+                'user_id' => $userId,
+                'student_id' => $student->id,
+            ]);
+
+            return $student;
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }

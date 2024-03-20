@@ -27,7 +27,7 @@ class StoreStudentRequest extends FormRequest
             'email' => 'string|required|email|max:255|unique:students',
             'date_birth' => 'nullable|date_format:Y-m-d',
             'contact' => 'string|required|max:20',
-            'cpf' => 'nullable|unique:students|regex:/^(?:\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/',
+            'cpf' => 'string|nullable|unique:students|regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$/',
             'cep' => 'nullable|string|max:20',
             'street' => 'required|string',
             'state' => 'required|string|max:2',

@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\CredentialsStudent;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+
 use App\Models\Student;
-use App\Mail\CredentialsStudentEmail;
 use Illuminate\Support\Str;
 
-class CredentialsEmailToStudent extends Command
+class SendCredentialsStudentEmail extends Command
 {
     /**
      * The name and signature of the console command.
@@ -29,7 +30,7 @@ class CredentialsEmailToStudent extends Command
      */
     public function handle()
     {
-        $students = Student::where('created_at', '>=', now()->subMinute())->get(); // Obtém os estudantes criados nos últimos 60 segundos
+        $students = Student::query()->all();
 
         foreach ($students as $student) {
             // Gera uma senha aleatória
@@ -40,9 +41,7 @@ class CredentialsEmailToStudent extends Command
             $student->save();
 
             // Envie o e-mail para o estudante com suas credenciais de acesso
-            Mail::to($student->email)->send(new CredentialsStudentEmail($student, $password));
-
-            $this->info("Email enviado para {$student->email}");
+            Mail::to($student->email)->send(new CredentialsStudent($student, $password));
         }
     }
 }
