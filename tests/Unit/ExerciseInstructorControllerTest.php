@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Interfaces\ExerciseInstructorRepositoryInterface;
+use App\Http\Services\PaginationInstructorService;
 use Illuminate\Http\Response;
 
 class ExerciseInstructorControllerTest extends TestCase
@@ -42,6 +43,12 @@ class ExerciseInstructorControllerTest extends TestCase
                 'to' => 4,
                 'total' => 4
             ]);
+        });
+
+        $this->mock(PaginationInstructorService::class, function ($mock) {
+            $mock->shouldReceive('paginate')->andReturnUsing(function ($query, $perPage) {
+                return $query->paginate($perPage);
+            });
         });
     }
 
