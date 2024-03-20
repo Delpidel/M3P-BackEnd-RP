@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class StudentDocument extends Model
 {
-    protected $fillable = ['title', 'file'];
+    protected $fillable = [
+        'title',
+        'file_id',
+        'student_id',
+    ];
 
-    public function student()
+    public function file()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(File::class);
     }
 }
