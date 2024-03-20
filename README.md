@@ -162,7 +162,7 @@ No arquivo phpunit.xml, habilite as seguintes linhas:
 ### Execute o comando para rodar os testes
 
 ```sh
-docker compose exec php php artisan test --coverage
+docker compose exec php php artisan test --coverage --env=testing
 ```
 
 ##
