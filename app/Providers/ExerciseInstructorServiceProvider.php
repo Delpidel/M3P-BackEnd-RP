@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Http\Services\PaginationInstructorService;
 use App\Interfaces\ExerciseInstructorRepositoryInterface;
 use App\Http\Repositories\ExerciseInstructorRepository;
 
@@ -17,6 +18,10 @@ class ExerciseInstructorServiceProvider extends ServiceProvider
             ExerciseInstructorRepositoryInterface::class,
             ExerciseInstructorRepository::class
         );
+
+        $this->app->bind(PaginationInstructorService::class, function ($app) {
+            return new PaginationInstructorService();
+        });
     }
 
     /**
