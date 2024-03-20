@@ -4,8 +4,8 @@ namespace App\Interfaces;
 
 use App\Models\Workout;
 
-interface UpdateWorkoutRepositoryInterface {
+interface UpdateWorkoutRepositoryInterface
+{
 
-    public function updateOne(Workout $workout,$id);
-
+    public function updateOne(Workout $workout, $id);
 }

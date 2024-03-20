@@ -22,7 +22,7 @@ class UpdateOneWorkoutService
     {
         $workout = Workout::find($id);
 
-        if(!$workout) throw new ErrorException('workout não encontrado', 404);
+        if (!$workout) throw new ErrorException('workout não encontrado', 404);
 
         return $this->workoutRepositoy->updateOne($workout, $data);
     }

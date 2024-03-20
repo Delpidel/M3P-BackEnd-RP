@@ -7,7 +7,6 @@ use App\Models\Workout;
 
 class WorkoutRepository implements UpdateWorkoutRepositoryInterface
 {
-
     public function updateOne(Workout $workout, $data)
     {
         $workout->update($data);
