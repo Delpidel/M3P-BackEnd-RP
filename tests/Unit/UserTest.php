@@ -16,8 +16,8 @@ class UserTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_OK)->assertJson([
-            "message" => "Autorizado",
-            "status" => Response::HTTP_OK,
+            'message' => "Autorizado",
+            'status' => Response::HTTP_OK,
             'data' => [
                 "name" => true,
                 "profile" => "ADMIN",
@@ -31,12 +31,12 @@ class UserTest extends TestCase
     {
         $response = $this->post('/api/login', [
             'email' => env("DEFAULT_EMAIL"),
-            'password' => "12345678"
+            'password' => "1234567"
         ]);
 
-        $response->assertStatus(401)->assertJson([
-            "message" => "Não autorizado. Credenciais incorretas",
-            "status" => 401
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)->assertJson([
+            'message' => "Não autorizado. Credenciais incorretas",
+            'status' => Response::HTTP_UNAUTHORIZED
         ]);
     }
 

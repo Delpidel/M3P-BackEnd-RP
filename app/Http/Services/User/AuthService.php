@@ -3,24 +3,18 @@
 namespace App\Http\Services\User;
 
 use App\Http\Repositories\AuthRepository;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
+
 
 class AuthService
 {
+    use HttpResponses;
     private $authRepository;
 
     public function __construct(AuthRepository $authRepository)
     {
         $this->authRepository = $authRepository;
-    }
-
-    public function response($message, $status, $data)
-    {
-        return [
-            'message' => $message,
-            'status' => $status,
-            'data' => $data
-        ];
     }
 
     public function login($request)
@@ -34,11 +28,10 @@ class AuthService
 
         $authenticated = $this->authRepository->attempt($data);
 
+
         if (!$authenticated) {
-            return response()->json([
-                'message' => 'Não autorizado. Credenciais incorretas',
-                'status' => Response::HTTP_UNAUTHORIZED
-            ], Response::HTTP_UNAUTHORIZED);
+            return $this->error("Não autorizado. Credenciais incorretas", 
+            Response::HTTP_UNAUTHORIZED);
         }
 
         $request->user()->tokens()->delete();
@@ -58,6 +51,6 @@ class AuthService
     public function logout($request)
     {
         $request->user()->tokens()->delete();
-        return response()->json([], Response::HTTP_NO_CONTENT);
+        return response('', Response::HTTP_NO_CONTENT, []);
     }
 }
