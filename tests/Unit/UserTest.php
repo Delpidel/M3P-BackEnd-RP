@@ -33,10 +33,11 @@ class UserTest extends TestCase
             "message" => "Autorizado",
             "status" => Response::HTTP_OK,
             'data' => [
-                "token" => true,
-                "permissions" => true,
                 "name" => true,
-                "profile" => "ADMIN"
+                "profile" => "ADMIN",
+                "permissions" => true,
+                "token" => true
+
             ]
         ]);
     }

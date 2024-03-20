@@ -82,10 +82,10 @@ class AuthController extends Controller
             $token = $request->user()->createToken('@academia', $permissionsUser);
 
             return $this->response('Autorizado', Response::HTTP_OK, [
-                'token' => $token->plainTextToken,
-                'permissions' => $permissionsUser,
                 'name' =>  $request->user()->name,
-                'profile' => $profile->name
+                'profile' => $profile->name,
+                'permissions' => $permissionsUser,
+                'token' => $token->plainTextToken
             ]);
     }
 
