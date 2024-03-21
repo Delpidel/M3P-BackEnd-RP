@@ -26,13 +26,15 @@ class UserController extends Controller
         $file = $request->file('photo');
         $body =  $request->input();
 
-        $file = $createFileService->handle('photos', $file, $body['name']);
+        if ($file) {
+            $file = $createFileService->handle('photos', $file, $body['name']);
+            $body['file_id'] = $file->id;
+        }
 
         $password = $passwordGenerationService->handle();
         $hashedPassword = $passwordHashingService->handle($password);
 
-        $user = $createOneUserService->handle([...$body, 'password' => $hashedPassword, 'file_id' => $file->id]);
-
+        $user = $createOneUserService->handle([...$body, 'password' => $hashedPassword]);
         $sendEmailWelcomeService->handle($user, $password);
 
         return $user;
