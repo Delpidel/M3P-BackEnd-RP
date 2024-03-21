@@ -29,7 +29,7 @@ class StudentController extends Controller
 
             DB::beginTransaction();
 
-            $file = $request->file('photos');
+            $file = $request->file('photo');
 
             $body = $request->all();
 
