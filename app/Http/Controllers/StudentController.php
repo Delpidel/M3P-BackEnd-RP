@@ -3,44 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Services\File\CreateFileService;
+
 use App\Mail\CredentialsStudent;
 
 
 use App\Models\Student;
+use App\Models\User;
 use App\Models\UserStudent;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 use App\Traits\HttpResponses;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
 {
     use HttpResponses;
 
-    public function store(StoreStudentRequest $request)
+    public function store(StoreStudentRequest $request, CreateFileService $createFileService)
     {
         try {
-            $body = $request->validated();
 
-            // Gerar senha aleatória
+            $file = $request->file('photo');
+
+            $body = $request->all();
+
+            $file = $createFileService->handle('photo', $file, $body['name']);
+
             $password = Str::random(8);
 
-            // Obtém o ID do usuário autenticado
-            $userId = auth()->user()->id;
-
-            // Cria o estudante
             $student = Student::create($body);
 
-            // Vincula o estudante ao usuário na tabela intermediária
+            $user = User::create([
+                'name' => $body['name'],
+                'email' => $body['email'],
+                'password' => $password,
+                'profile_id' => 5,
+            ]);
+
             UserStudent::create([
-                'user_id' => $userId,
+                'user_id' => $user->id,
                 'student_id' => $student->id,
             ]);
-            // Enviar email com as credenciais
+
             Mail::to($student->email)->send(new CredentialsStudent($student, $password));
 
             return $student;
