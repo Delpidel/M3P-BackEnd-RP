@@ -9,6 +9,8 @@ class MealPlanSchedule extends Model
 {
     use HasFactory;
 
+    protected $table = "meal_plans_schedule";
+
     protected $fillable = [
         'student_id',
         'meal_plan_id',
