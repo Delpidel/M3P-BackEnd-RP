@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 use App\Traits\HttpResponses;
-
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
@@ -27,7 +27,9 @@ class StudentController extends Controller
     {
         try {
 
-            $file = $request->file('photo');
+            DB::beginTransaction();
+
+            $file = $request->file('photos');
 
             $body = $request->all();
 
@@ -51,8 +53,11 @@ class StudentController extends Controller
 
             Mail::to($student->email)->send(new CredentialsStudent($student, $password));
 
+            DB::commit();
+
             return $student;
         } catch (\Exception $exception) {
+            DB::rollBack();
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
