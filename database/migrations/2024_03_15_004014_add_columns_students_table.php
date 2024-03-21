@@ -24,9 +24,6 @@ return new class extends Migration
             $table->string('number', 30)->nullable()->after('neighborhood');
             $table->string('street', 30)->nullable()->after('number');
             $table->string('state', 2)->nullable()->after('street');
-
-            $table->unsignedBigInteger('user_id')->after('cpf');
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
