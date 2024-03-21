@@ -13,7 +13,11 @@ class UserStudent extends Model
         'user_id', 'student_id'
     ];
 
+    protected $table = 'users_students';
+
     protected $hidden = ['created_at', 'updated_at'];
+
+
 
     public function user()
     {
