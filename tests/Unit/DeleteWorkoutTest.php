@@ -17,7 +17,7 @@ class DeleteWorkoutTest extends TestCase
 
         $workoutCreated = Workout::factory()->create();
 
-        $user = User::factory()->create(['profile_id'=>1, 'password'=>'12345678']);
+        $user = User::factory()->create(['profile_id'=>3, 'password'=>'12345678']);
         $response = $this->actingAs($user)->delete("/api/workouts/$workoutCreated->id");
 
         $response->assertStatus(204);
@@ -26,7 +26,7 @@ class DeleteWorkoutTest extends TestCase
 
     public function test_user_can_not_delete_non_existing_workout()
     {
-        $user = User::factory()->create(['profile_id'=>1, 'password'=>'12345678']);
+        $user = User::factory()->create(['profile_id'=>3, 'password'=>'12345678']);
         $nonExistingWorkoutId = 9999;
 
         $response = $this->actingAs($user)->delete("/api/workouts/$nonExistingWorkoutId");
