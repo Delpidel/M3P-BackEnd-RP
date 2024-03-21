@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DashboardStudentFactory extends Factory
@@ -13,6 +14,9 @@ class DashboardStudentFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'user_id' => function() {
+                return User::factory()->create()->id;
+            }
         ];
     }
 }
