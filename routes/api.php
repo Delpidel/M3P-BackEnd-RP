@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('students', [StudentController::class, 'index']);
     Route::get('workouts', [WorkoutController::class, 'index']);
+    Route::post('workouts', [WorkoutController::class, 'store'])->middleware(['ability:create-workouts']);
 });
 
 Route::post('login', [AuthController::class, 'store']);
