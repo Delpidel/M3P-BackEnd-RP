@@ -7,9 +7,33 @@ use App\Http\Repositories\DashboardInstructorRepository;
 use App\Models\User;
 use Database\Factories\DashboardExerciseFactory;
 use Database\Factories\DashboardStudentFactory;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class DashboardInstructorRepositoryTest extends TestCase
 {
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // Adiciona a coluna user_id temporariamente à tabela students para os testes
+        Schema::table('students', function (Blueprint $table) {
+            if (!Schema::hasColumn('students', 'user_id')) {
+                $table->unsignedBigInteger('user_id')->nullable()->after('id');
+            }
+        });
+    }
+
+    protected function tearDown(): void
+    {
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
+
+        parent::tearDown();
+    }
+
     /**
      * @testdox Verifica a contagem correta de estudantes para um usuário
      */
