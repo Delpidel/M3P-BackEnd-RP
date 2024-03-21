@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('students', [StudentController::class, 'index']);
-    Route::get('workouts', [WorkoutController::class, 'index']);
-    Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index']); // Adicione esta linha
+
+    Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
+    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+    Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::post('login', [AuthController::class, 'store']);
