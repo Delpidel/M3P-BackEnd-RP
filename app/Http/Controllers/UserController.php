@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Mail\SendWelcomeToUser;
 use App\Models\File;
 use App\Models\User;
@@ -20,15 +21,8 @@ class UserController extends Controller
             ->send(new SendWelcomeToUser($user->name, $user->profile->name, $password));
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name' => 'string|required|max:255',
-            'email' => 'string|required|email|max:255|unique:users',
-            'profile_id' => 'integer|required',
-            'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
-        ]);
-
         $file = $request->file('photo');
         $body =  $request->input();
 
