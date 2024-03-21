@@ -5,9 +5,6 @@ namespace App\Http\Services\User;
 use App\Http\Repositories\UserRepository;
 use App\Traits\HttpResponses;
 
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-
 class GetAllUsersService
 {
     use HttpResponses;
@@ -21,12 +18,6 @@ class GetAllUsersService
 
     public function handle($search)
     {
-
-        $user_id = Auth::user()->id;
-
-        if ($user_id !== 1) {
-            return $this->error('O usuário não tem permissão para visualizar essa informação.', Response::HTTP_NOT_FOUND);
-        }
 
         $users = $this->userRepository->getAll($search);
 
