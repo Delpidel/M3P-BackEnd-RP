@@ -34,8 +34,8 @@ class UserController extends Controller
 
         $file = $createFileService->handle('photos', $file, $body['name']);
 
-        $password = $passwordGenerationService->generatePassword();
-        $hashedPassword = $passwordHashingService->hashPassword($password);
+        $password = $passwordGenerationService->handle();
+        $hashedPassword = $passwordHashingService->handle($password);
 
         $user = User::create([
             ...$body,

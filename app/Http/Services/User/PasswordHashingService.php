@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordHashingService
 {
-    public function hashPassword($password)
+    public function handle($password)
     {
         return Hash::make($password);
     }

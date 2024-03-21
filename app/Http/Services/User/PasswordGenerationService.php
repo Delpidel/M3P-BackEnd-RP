@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 class PasswordGenerationService
 {
-    public function generatePassword($length = 8)
+    public function handle($length = 8)
     {
         return Str::password($length);
     }
