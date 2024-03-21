@@ -23,11 +23,10 @@ class UserController extends Controller
         SendEmailWelcomeService $sendEmailWelcomeService,
         CreateOneUserService $createOneUserService
     ) {
-        $file = $request->file('photo');
         $body =  $request->input();
 
-        if ($file) {
-            $file = $createFileService->handle('photos', $file, $body['name']);
+        if ($request->hasFile('photo')) {
+            $file = $createFileService->handle('photos', $request->file('photo'), $body['name']);
             $body['file_id'] = $file->id;
         }
 
