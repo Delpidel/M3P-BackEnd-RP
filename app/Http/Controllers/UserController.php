@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Services\File\CreateFileService;
 use App\Mail\SendWelcomeToUser;
 use App\Models\File;
 use App\Models\User;
@@ -21,22 +22,12 @@ class UserController extends Controller
             ->send(new SendWelcomeToUser($user->name, $user->profile->name, $password));
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request, CreateFileService $createFileService)
     {
         $file = $request->file('photo');
         $body =  $request->input();
 
-        $pathBucket = Storage::disk('s3')->put('photos', $file);
-        $fullPathFile = Storage::disk('s3')->url($pathBucket);
-
-        $file = File::create(
-            [
-                'name' => 'foto_' . $body['name'],
-                'size' => $file->getSize(),
-                'mime' => $file->extension(),
-                'url' => $fullPathFile
-            ]
-        );
+        $file = $createFileService->handle('photos', $file, $body['name']);
 
         $password = Str::password(8);
         $hashedPassword = Hash::make($password);
