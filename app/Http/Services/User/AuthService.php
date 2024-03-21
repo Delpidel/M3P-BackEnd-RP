@@ -12,6 +12,47 @@ class AuthService
     use HttpResponses;
     private $authRepository;
 
+    private $permissions = [
+        'ADMIN' => [
+            'create-users',
+            'get-users',
+            'delete-users',
+            'update-users',
+            'admin-dashboard',
+        ],
+        'RECEPCIONISTA' => [
+            'create-students',
+            'get-students',
+            'delete-students',
+            'update-students',
+            'create-documents-students',
+            'get-documents-students',
+            'get-avaliations'
+        ],
+        'INSTRUTOR' => [
+            'instrutor-dashboard',
+            'create-exercises',
+            'get-exercises',
+            'delete-exercises',
+            'get-students',
+            'create-workouts',
+            'get-workouts',
+            'delete-workouts',
+            'update-workouts'
+        ],
+        'NUTRICIONISTA' => [
+            'create-avaliations',
+            'get-actives-students',
+            'get-avaliations',
+            'create-meal-plans',
+            'get-meal-plans'
+        ],
+        'ALUNO' => [
+            'get-workout',
+            'get-meal-plans'
+        ]
+    ];
+
     public function __construct(AuthRepository $authRepository)
     {
         $this->authRepository = $authRepository;
@@ -36,7 +77,7 @@ class AuthService
 
         $request->user()->tokens()->delete();
         $profile = $this->authRepository->findProfileById($request->user()->profile_id);
-        $permissionsUser =  $this->authRepository->getPermissions($profile->name);
+        $permissionsUser = $this->permissions[$profile->name] ?? [];
 
         $token = $request->user()->createToken('@academia', $permissionsUser);
 
@@ -53,4 +94,5 @@ class AuthService
         $request->user()->tokens()->delete();
         return response('', Response::HTTP_NO_CONTENT, []);
     }
+
 }
