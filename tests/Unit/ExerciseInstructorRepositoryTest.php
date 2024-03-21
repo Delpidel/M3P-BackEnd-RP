@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Exercise;
 use App\Http\Repositories\ExerciseInstructorRepository;
 use App\Http\Services\PaginationInstructorService;
+use App\Interfaces\ExerciseInstructorRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -16,6 +17,9 @@ class ExerciseInstructorRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @testdox Recupera exercícios paginados para um usuário específico com exercícios
+     */
     public function test_retrieving_paginated_exercises_for_a_specific_user()
     {
         $user = User::factory()->create(['profile_id' => 3]);
@@ -38,6 +42,9 @@ class ExerciseInstructorRepositoryTest extends TestCase
         $this->assertEquals($exercises->pluck('id')->sort()->values(), $result->pluck('id')->sort()->values());
     }
 
+    /**
+     * @testdox Recupera exercícios paginados para um usuário específico sem exercícios
+     */
     public function test_retrieving_paginated_exercises_for_a_user_with_no_exercises()
     {
         $user = User::factory()->create(['profile_id' => 3]);
@@ -56,6 +63,9 @@ class ExerciseInstructorRepositoryTest extends TestCase
         $this->assertEquals(0, $result->total());
     }
 
+    /**
+     * @testdox Verifica o comportamento correto da paginação para os exercícios de um usuário
+     */
     public function test_correct_pagination_behavior_for_user_exercises()
     {
         $user = User::factory()->create(['profile_id' => 3]);
@@ -73,5 +83,17 @@ class ExerciseInstructorRepositoryTest extends TestCase
 
         $this->assertCount(10, $result->items());
         $this->assertEquals(15, $result->total());
+    }
+
+    /**
+     * @testdox Assegura que o ServiceProvider vincula corretamente o repositório e o serviço de paginação
+     */
+    public function test_service_provider_bindings()
+    {
+        $repository = app(ExerciseInstructorRepositoryInterface::class);
+        $this->assertInstanceOf(ExerciseInstructorRepository::class, $repository);
+
+        $paginationService = app(PaginationInstructorService::class);
+        $this->assertInstanceOf(PaginationInstructorService::class, $paginationService);
     }
 }
