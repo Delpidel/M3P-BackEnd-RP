@@ -7,8 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\User\PasswordGenerationService;
 use App\Http\Services\User\PasswordHashingService;
-
-use App\Mail\SendWelcomeToUser;
+use App\Http\Services\User\SendEmailWelcomeService;
 
 use App\Models\User;
 
@@ -17,17 +16,12 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    private function sendWelcomeEmail(User $user, string $password)
-    {
-        Mail::to($user->email, $user->name)
-            ->send(new SendWelcomeToUser($user->name, $user->profile->name, $password));
-    }
-
     public function store(
         StoreUserRequest $request,
         CreateFileService $createFileService,
         PasswordGenerationService $passwordGenerationService,
-        PasswordHashingService $passwordHashingService
+        PasswordHashingService $passwordHashingService,
+        SendEmailWelcomeService $sendEmailWelcomeService
     ) {
         $file = $request->file('photo');
         $body =  $request->input();
@@ -43,7 +37,7 @@ class UserController extends Controller
             'file_id' => $file->id
         ]);
 
-        $this->sendWelcomeEmail($user, $password);
+        $sendEmailWelcomeService->handle($user, $password);
 
         return $user;
     }
