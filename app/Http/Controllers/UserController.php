@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -22,10 +24,26 @@ class UserController extends Controller
         $file = $request->file('photo');
         $body =  $request->input();
 
+        $pathBucket = Storage::disk('s3')->put('photos', $file);
+        $fullPathFile = Storage::disk('s3')->url($pathBucket);
+
+        $file = File::create(
+            [
+                'name' => 'foto_' . $body['name'],
+                'size' => $file->getSize(),
+                'mime' => $file->extension(),
+                'url' => $fullPathFile
+            ]
+        );
+
         $password = Str::password(8);
         $hashedPassword = Hash::make($password);
 
-        $user = User::create([...$body, 'password' => $hashedPassword]);
+        $user = User::create([
+            ...$body,
+            'password' => $hashedPassword,
+            'file_id' => $file->id
+        ]);
         return $user;
     }
 
