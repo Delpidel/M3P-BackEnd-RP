@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
-    Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])/*->middleware(['ability:delete-workouts'])*/;
+    Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
