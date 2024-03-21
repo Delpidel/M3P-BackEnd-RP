@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Services\File\CreateFileService;
-use App\Mail\SendWelcomeToUser;
-use App\Models\File;
-use App\Models\User;
-use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Hash;
+use App\Http\Services\File\CreateFileService;
+use App\Http\Services\User\PasswordGenerationService;
+use App\Http\Services\User\PasswordHashingService;
+
+use App\Mail\SendWelcomeToUser;
+
+use App\Models\User;
+
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+
 
 class UserController extends Controller
 {
@@ -22,15 +23,19 @@ class UserController extends Controller
             ->send(new SendWelcomeToUser($user->name, $user->profile->name, $password));
     }
 
-    public function store(StoreUserRequest $request, CreateFileService $createFileService)
-    {
+    public function store(
+        StoreUserRequest $request,
+        CreateFileService $createFileService,
+        PasswordGenerationService $passwordGenerationService,
+        PasswordHashingService $passwordHashingService
+    ) {
         $file = $request->file('photo');
         $body =  $request->input();
 
         $file = $createFileService->handle('photos', $file, $body['name']);
 
-        $password = Str::password(8);
-        $hashedPassword = Hash::make($password);
+        $password = $passwordGenerationService->generatePassword();
+        $hashedPassword = $passwordHashingService->hashPassword($password);
 
         $user = User::create([
             ...$body,
