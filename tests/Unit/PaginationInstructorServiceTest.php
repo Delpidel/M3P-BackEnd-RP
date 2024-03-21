@@ -10,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaginationInstructorServiceTest extends TestCase
 {
-    /** @test */
+    /** @test Realiza a paginação dos resultados de uma consulta corretamente*/
     public function it_paginates_query_results()
     {
         $queryMock = $this->getMockBuilder(Builder::class)

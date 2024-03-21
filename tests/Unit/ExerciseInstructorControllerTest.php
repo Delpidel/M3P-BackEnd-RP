@@ -3,18 +3,20 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Interfaces\ExerciseInstructorRepositoryInterface;
 use App\Http\Services\PaginationInstructorService;
+
 use Illuminate\Http\Response;
 
 class ExerciseInstructorControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,15 +54,16 @@ class ExerciseInstructorControllerTest extends TestCase
         });
     }
 
-    /** @test */
+    /** @testdox Instrutor autenticado acessa com sucesso a lista de exercícios */
     public function test_authenticated_instructor_can_access_exercise_list()
     {
+        $email = $this->faker->unique()->safeEmail;
         $user = User::create([
-            'name' => 'Paulo Instrutor',
-            'email' => 'paulo_whey@gmail.com',
-            'password' => Hash::make('12345678'),
-            'profile_id' => 3,
-        ]);
+        'name' => 'Paulo Instrutor',
+        'email' => $email,
+        'password' => Hash::make('12345678'),
+        'profile_id' => 3,
+    ]);
 
         $loginResponse = $this->postJson('/api/login', [
             'email' => 'paulo_whey@gmail.com',
@@ -96,7 +99,7 @@ class ExerciseInstructorControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /** @test (testdox quebra o teste) Requisição não autenticada retorna erro de rota de login não definida*/
     public function unauthenticated_request_returns_route_login_not_defined_error()
     {
         $response = $this->get('/api/exercises');
@@ -104,6 +107,4 @@ class ExerciseInstructorControllerTest extends TestCase
         $response->assertStatus(500);
         $response->assertSee('Route [login] not defined.');
     }
-
-
 }
