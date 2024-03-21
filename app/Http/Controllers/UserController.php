@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendWelcomeToUser;
 use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    private function sendWelcomeEmail(User $user, string $password)
+    {
+        Mail::to($user->email, $user->name)
+            ->send(new SendWelcomeToUser($user->name, $user->profile->name, $password));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -44,30 +52,9 @@ class UserController extends Controller
             'password' => $hashedPassword,
             'file_id' => $file->id
         ]);
+
+        $this->sendWelcomeEmail($user, $password);
+
         return $user;
     }
-
-
-
-    // $file = $createFileService->handle('photos', $file, $body['name']);
-    // $pet = $createOnePetService->handle([...$body, 'file_id' => $file->id]);
-
-    // $sendEmailWelcomeService->handle($pet);
-
-    // return $pet;
-
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         $request->validate([
-    //             'name' => 'required|unique:species|max:50'
-    //         ]);
-
-    //         $body = $request->all();
-    //         $specie = Specie::create($body);
-    //         return $specie;
-    //     } catch (\Exception $exception) {
-    //         return $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-    //     }
-    // }
 }
