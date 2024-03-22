@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+            'name' => 'required|string|max:255|regex:/^[\p{L}\s]+$/u',
             'email' => 'required|string|email|max:255|unique:users',
             'profile_id' => 'required|integer',
             'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
