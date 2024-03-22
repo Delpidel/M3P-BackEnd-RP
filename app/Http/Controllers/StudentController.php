@@ -24,6 +24,17 @@ class StudentController extends Controller
 {
     use HttpResponses;
 
+    public function index()
+    {
+        try {
+
+            $students = Student::all();
+            return $students;
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
+
     public function store(StoreStudentRequest $request, CreateFileService $createFileService)
     {
         try {
