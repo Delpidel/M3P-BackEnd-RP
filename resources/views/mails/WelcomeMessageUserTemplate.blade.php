@@ -95,7 +95,7 @@
             border-radius: 4px;
             font-weight: bold;
             transition: background-color 0.3s;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         .cta-button:hover {
@@ -130,7 +130,7 @@
     <div class="container">
         <div class ="bgcolor">
             <img class="logo" src="{{ $message->embed(public_path('fit-manage-tech.svg')) }}"
-                alt="Logo Go!Fit System branco">
+                alt="Logo FITMANAGE TECH completo">
             <p class="welcome-text">Bem-vindo, {{ $userName }}!</p>
         </div>
 
@@ -149,7 +149,7 @@
         </div>
     </div>
     <div class="footer">
-        <img class="logoSecundario" src="{{ $message->embed(public_path('logo.svg')) }}" alt="Logo Go!Fit System">
+        <img class="logoSecundario" src="{{ $message->embed(public_path('logo.svg')) }}" alt="Logo FITMANAGE TECH">
         <div>
             <a href="#">Facebook</a>
             <a href="#">Twitter</a>
@@ -157,7 +157,7 @@
 
         </div>
         <br>
-        <p>&copy; {{ date('Y') }} Go!Fit System. Todos os direitos reservados.</p>
+        <p>&copy; {{ date('Y') }} FITMANAGE TECH. Todos os direitos reservados.</p>
         <div>
             <a href="#">Unsubscribe</a>
             <a href="#">Preferences</a>
