@@ -46,4 +46,21 @@ class AdminCreateTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonStructure(['id', 'name', 'email', 'profile_id', 'file_id', 'created_at', 'updated_at']);
     }
+
+    public function test_others_users_cannot_create_user_recepcionista()
+    {
+        $user = User::factory()->create(['profile_id' => 3]);
+        $token = $user->createToken('@academia', [''])->plainTextToken;
+
+        $recepcionista = [
+            'name' => 'Recepcionista',
+            'email' => 'recep@test.com',
+            'profile_id' => 2,
+            'password' => '12345678',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $recepcionista);
+
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não tem permissão para executar esta ação.']);
+    }
 }
