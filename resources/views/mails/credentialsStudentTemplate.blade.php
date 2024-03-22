@@ -1,11 +1,61 @@
-<template>
-    <v-container>
-        <v-card class="elevation-12" color="grey darken-1">
-            <v-card-title class="headline amber--text">
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crendenciais de acesso</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .card {
+            width: 600px;
+            padding: 20px;
+            background-color: #424242;
+            color: #FFC107;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        ol {
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-title">
                 Bem-vindo!
-            </v-card-title>
-            <v-img src="/fit-manage-tech.jpg" aspect-ratio="2.75" contain></v-img>
-            <v-card-text>
+            </div>
+            <img src="{{ asset('images/fit-manage-tech.jpg') }}" style="width: 50%" alt="Logo FitManage Tech">
+            <div class="card-text">
                 <p>
                     Olá {{ $student->name }},
                 </p>
@@ -30,39 +80,9 @@
                 <p>
                     Aproveite sua experiência conosco!
                 </p>
-            </v-card-text>
-        </v-card>
-    </v-container>
-</template>
+            </div>
+        </div>
+    </div>
+</body>
 
-<style>
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-
-    .card {
-        width: 600px;
-        padding: 20px;
-    }
-
-    .card-title {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    .card-text {
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-    ol {
-        margin-top: 10px;
-    }
-
-    li {
-        margin-bottom: 5px;
-    }
-</style>
+</html>
