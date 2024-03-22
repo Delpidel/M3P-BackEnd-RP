@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
@@ -33,16 +34,19 @@ class StudentController extends Controller
 
             $body = $request->all();
 
-            $file = $createFileService->handle('photo', $file, $body['name']);
+            $file = $createFileService->handle('photos', $file, $body['name']);
 
-            $password = Str::random(8);
+            $password = Str::password(8);
+
+            $passwordHashed = Hash::make($password);
 
             $student = Student::create($body);
 
             $user = User::create([
                 'name' => $body['name'],
                 'email' => $body['email'],
-                'password' => $password,
+                'password' => $passwordHashed,
+                'file_id' => $file->id,
                 'profile_id' => 5,
             ]);
 

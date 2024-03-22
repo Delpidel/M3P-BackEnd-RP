@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date_birth')->nullable()->after('email');
             $table->string('contact', 20)->after('date_birth');
             $table->string('cpf')->unique()->after('contact');
-            $table->string('cep', 20)->nullable()->after('user_id');
+            $table->string('cep', 20)->nullable();
             $table->string('city', 50)->nullable()->after('cep');
             $table->string('neighborhood', 50)->nullable()->after('city');
             $table->string('number', 30)->nullable()->after('neighborhood');
@@ -39,8 +39,6 @@ return new class extends Migration
             $table->dropColumn('date_birth');
             $table->dropColumn('contact');
             $table->dropColumn('cpf');
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
             $table->dropColumn('city');
             $table->dropColumn('neighborhood');
             $table->dropColumn('number');

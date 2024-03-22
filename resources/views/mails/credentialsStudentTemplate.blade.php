@@ -7,7 +7,7 @@
             <v-img src="/fit-manage-tech.jpg" aspect-ratio="2.75" contain></v-img>
             <v-card-text>
                 <p>
-                    Olá {{ user . name }},
+                    Olá {{ $student->name }},
                 </p>
                 <p>
                     Seja bem-vindo ao nosso serviço! Estamos muito felizes em tê-lo conosco.
@@ -16,8 +16,8 @@
                     Abaixo estão suas credenciais de acesso:
                 </p>
                 <ul>
-                    <li><strong>Email:</strong> {{ user . email }}</li>
-                    <li><strong>Senha:</strong> {{ user . password }}</li>
+                    <li><strong>Email:</strong> {{ $student->email }}</li>
+                    <li><strong>Senha:</strong> {{ $student->password }}</li>
                 </ul>
                 <p>
                     Por favor, siga as instruções abaixo para começar a usar nossa plataforma:

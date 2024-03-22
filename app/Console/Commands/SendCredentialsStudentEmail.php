@@ -34,7 +34,7 @@ class SendCredentialsStudentEmail extends Command
 
         foreach ($students as $student) {
             // Envie o e-mail para o estudante com suas credenciais de acesso
-            Mail::to($student->email)->send(new CredentialsStudent($student->email, $student->password));
+            Mail::to($student->email)->send(new CredentialsStudent($student->name, $student->email, $student->password));
         }
     }
 }

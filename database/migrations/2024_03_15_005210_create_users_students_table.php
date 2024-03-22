@@ -12,14 +12,17 @@ class CreateUsersStudentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('student_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('student_id')->references('id')->on('students');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('users_students');
+        Schema::table('users_students', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+            $table->dropColumn('student_id');
+        });
     }
 };

@@ -23,6 +23,7 @@ class StoreStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
             'name' => 'string|required|max:255',
             'email' => 'string|required|email|max:255|unique:students',
             'date_birth' => 'nullable|date_format:Y-m-d',
