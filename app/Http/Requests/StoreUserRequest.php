@@ -27,7 +27,7 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|regex:/^[\p{L}\s]+$/u',
             'email' => 'required|string|email|max:255|unique:users',
-            'profile_id' => 'required|integer',
+            'profile_id' => 'required|integer|in:2,3,4',
             'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
@@ -48,6 +48,7 @@ class StoreUserRequest extends FormRequest
             'email.unique' => 'Este email já foi cadastrado',
             'profile_id.integer' => 'O campo profile_id deve ser um inteiro',
             'profile_id.required' => 'O campo profile_id é obrigatório',
+            'profile_id.in' => 'O campo profile_id aceita os valores: 2 (RECEPCIONISTA), 3 (INSTRUTOR) ou 4 (NUTRICIONISTA).',
             'photo.file' => 'O campo photo deve ser um arquivo',
             'photo.mimes' => 'O campo photo deve ser um arquivo do tipo: jpeg, png, jpg, gif, svg',
         ];
