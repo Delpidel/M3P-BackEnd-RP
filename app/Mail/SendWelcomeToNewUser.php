@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendWelcomeToUser extends Mailable
+class SendWelcomeToNewUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,9 +17,7 @@ class SendWelcomeToUser extends Mailable
      * Create a new message instance.
      */
 
-    public $userName;
-    public $userProfile;
-    public $password;
+    public $userName, $userProfile, $password;
 
     public function __construct($userName, $userProfile, $password)
     {
@@ -34,7 +32,7 @@ class SendWelcomeToUser extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Envia um email de boas-vindas para o usuário com a senha inicial de acesso',
+            subject: 'Bem-vindo ao FITMANAGE TECH - Sua Plataforma Fitness',
         );
     }
 
@@ -44,7 +42,7 @@ class SendWelcomeToUser extends Mailable
     public function content(): Content
     {
         return new Content(
-            html: 'mails.welcomeTemplate',
+            html: 'mails.WelcomeMessageUserTemplate',
         );
     }
 
