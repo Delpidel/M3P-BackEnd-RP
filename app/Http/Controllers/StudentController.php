@@ -37,9 +37,9 @@ class StudentController extends Controller
 
     public function store(StoreStudentRequest $request, CreateFileService $createFileService)
     {
-        try {
+        try { // remover no ultimo commit
 
-            DB::beginTransaction();
+            DB::beginTransaction(); // remover no ultimo commit
 
             $file = $request->file('photo');
 
@@ -51,13 +51,12 @@ class StudentController extends Controller
 
             $passwordHashed = Hash::make($password);
 
-            $student = Student::create($body);
+            $student = Student::create([...$body, 'file_id' => $file->id]);
 
             $user = User::create([
                 'name' => $body['name'],
                 'email' => $body['email'],
                 'password' => $passwordHashed,
-                'file_id' => $file->id,
                 'profile_id' => 5,
             ]);
 
