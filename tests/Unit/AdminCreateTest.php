@@ -144,4 +144,71 @@ class AdminCreateTest extends TestCase
 
         $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não tem permissão para executar esta ação.']);
     }
+
+    public function test_admin_can_create_user_nutricionista()
+    {
+        Mail::fake();
+
+        $user = User::factory()->create(['profile_id' => 1]);
+        $token = $user->createToken('@academia', ['create-users'])->plainTextToken;
+
+        $nutricionista = [
+            'name' => 'Nutricionista',
+            'email' => 'nutricionista@test.com',
+            'profile_id' => 4,
+            'password' => '12345678',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $nutricionista);
+
+        Mail::assertSent(SendWelcomeToNewUser::class, function ($mail) {
+            return $mail->hasTo('nutricionista@test.com');
+        });
+
+        $response->assertStatus(201)->assertJsonStructure(['id', 'name', 'email', 'profile_id', 'created_at', 'updated_at']);
+    }
+
+    public function test_admin_can_create_user_nutricionista_with_image()
+    {
+        Mail::fake();
+
+        $user = User::factory()->create(['profile_id' => 1]);
+        $token = $user->createToken('@academia', ['create-users'])->plainTextToken;
+
+        Storage::fake('s3'); // Mock AWS S3
+
+        $nutricionista = [
+            'name' => 'Nutricionista',
+            'email' => 'nutricionista@test.com',
+            'profile_id' => 4,
+            'password' => '12345678',
+            'photo' => UploadedFile::fake()->image('nutricionista.jpg') // Mock do upload do arquivo
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $nutricionista);
+
+        Mail::assertSent(SendWelcomeToNewUser::class, function ($mail) {
+            return $mail->hasTo('nutricionista@test.com');
+        });
+
+        $response->assertStatus(201)
+            ->assertJsonStructure(['id', 'name', 'email', 'profile_id', 'file_id', 'created_at', 'updated_at']);
+    }
+
+    public function test_others_users_cannot_create_user_nutricionista()
+    {
+        $user = User::factory()->create(['profile_id' => 3]);
+        $token = $user->createToken('@academia', [''])->plainTextToken;
+
+        $nutricionista = [
+            'name' => 'Nutricionista',
+            'email' => 'nutricionista@test.com',
+            'profile_id' => 4,
+            'password' => '12345678',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $nutricionista);
+
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não tem permissão para executar esta ação.']);
+    }
 }
