@@ -134,9 +134,9 @@ class AdminCreateTest extends TestCase
         $token = $user->createToken('@academia', [''])->plainTextToken;
 
         $instrutor = [
-            'name' => 'Recepcionista',
-            'email' => 'recep@test.com',
-            'profile_id' => 2,
+            'name' => 'Instrutor',
+            'email' => 'instrutor@test.com',
+            'profile_id' => 3,
             'password' => '12345678',
         ];
 
