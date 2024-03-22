@@ -14,12 +14,14 @@ class AdminCreateTest extends TestCase
         $user = User::factory()->create(['profile_id' => 1]);
         $token = $user->createToken('@academia', ['create-users'])->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', [
+        $recepcionista = [
             'name' => 'Recepcionista',
             'email' => 'recep@test.com',
             'profile_id' => 2,
             'password' => '12345678',
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $recepcionista);
 
         $response->assertStatus(201)->assertJsonStructure(['id', 'name', 'email', 'profile_id', 'created_at', 'updated_at']);
     }
