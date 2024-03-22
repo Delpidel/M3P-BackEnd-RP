@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\MealPlan;
-use App\Models\MealPlanSchedule;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class MealPlanController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         $mealPlans = MealPlan::all();
         return $mealPlans;
@@ -19,19 +19,21 @@ class MealPlanController extends Controller
 
     public function store(Request $request)
     {
+
         try {
+            DB::beginTransaction();
             $data = $request->all();
 
             $request->validate([
                 'description' => 'string|required',
             ]);
 
-            $student = MealPlan::create($data);
-
-            return $student;
+            $mealPlans = MealPlan::create($data);
+            DB::commit();
+            return $mealPlans;
         } catch (Exception $exception) {
+            DB::rollback();
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
-
 }
