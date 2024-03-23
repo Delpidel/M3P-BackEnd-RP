@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -54,7 +54,8 @@
             <div class="card-title">
                 Bem-vindo!
             </div>
-            <img src="{{ asset('images/fit-manage-tech.jpg') }}" style="width: 50%" alt="Logo FitManage Tech">
+            <img class="logo" src="{{ $message->embed(public_path('fit-manage-tech.svg')) }}" alt="Logo FitManage Tech"
+                width="50%">
             <div class="card-text">
                 <p>
                     Olá {{ $student->name }},
@@ -67,7 +68,7 @@
                 </p>
                 <ul>
                     <li><strong>Email:</strong> {{ $student->email }}</li>
-                    <li><strong>Senha:</strong> {{ $student->password }}</li>
+                    <li><strong>Senha:</strong> {{ $password }}</li>
                 </ul>
                 <p>
                     Por favor, siga as instruções abaixo para começar a usar nossa plataforma:
