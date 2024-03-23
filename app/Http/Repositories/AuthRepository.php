@@ -15,6 +15,7 @@ class AuthRepository implements AuthRepositoryInterface
             'delete-users',
             'update-users',
             'admin-dashboard',
+            'get-dashbord'
         ],
         'RECEPCIONISTA' => [
             'create-students',

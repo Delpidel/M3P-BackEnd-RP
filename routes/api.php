@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkoutController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+    Route::get('dashboard/admin', [DashboardController::class, 'getDashboard'])->middleware(['ability:get-dashbord']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
