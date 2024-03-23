@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crendenciais de acesso</title>
+    <title>Crendênciais de acesso</title>
     <style>
         body {
             margin: 0;
