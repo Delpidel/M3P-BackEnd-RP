@@ -3,6 +3,7 @@
 namespace App\Http\Services\Workout;
 
 use App\Http\Repositories\CreateWorkoutRepository;
+use Exception;
 
 class CreateWorkoutService
 {
@@ -15,6 +16,9 @@ class CreateWorkoutService
 
     public function handle(array $data)
     {
+        if ($this->createWorkoutRepository->exerciseExists($data['student_id'], $data['day'], $data['exercise_id'])) {
+            throw new Exception('Exercício já cadastrado para esse dia');
+        }
         return $this->createWorkoutRepository->create($data);
     }
 }
