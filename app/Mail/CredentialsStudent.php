@@ -2,15 +2,13 @@
 
 namespace App\Mail;
 
-
-
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
+use Illuminate\Queue\SerializesModels;
 
 class CredentialsStudent extends Mailable
 {
@@ -36,7 +34,7 @@ class CredentialsStudent extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Envio de credencias de acesso do estudante',
+            subject: 'Envio de credências de acesso do estudante',
         );
     }
 
@@ -46,7 +44,7 @@ class CredentialsStudent extends Mailable
     public function content(): Content
     {
         return new Content(
-            html: 'mails.credentialsStudentTemplate',
+            html: 'mails.CredentialsStudentTemplate',
         );
     }
 
