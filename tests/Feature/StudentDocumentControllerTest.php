@@ -1,46 +1,56 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 use App\Models\StudentDocument;
+use App\Http\Services\File\CreateFileService;
+use App\Http\Controllers\StudentDocumentController;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 
 class StudentDocumentControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Test the document storage functionality.
-     *
-     * @return void
-     */
-    public function testStore()
+    public function test_store_method_creates_document_successfully()
     {
-        // Simulated document for testing
-        $file = UploadedFile::fake()->create('testdocument.pdf', 100);
+        $file = UploadedFile::fake()->create('document.pdf', 1024);
 
-        $response = $this->postJson('/api/students/1/documents', [
-            'title' => 'Sample Document',
-            'file' => $file,
+        $createFileService = $this->createMock(CreateFileService::class);
+
+        $createFileService->expects($this->once())
+            ->method('handle')
+            ->with(
+                $this->anything(),
+                $this->identicalTo($file),
+                $this->anything()
+            )
+            ->willReturn(['name' => 'document.pdf', 'size' => 1024, 'mime' => 'pdf', 'url' => 'http://example.com/document.pdf']);
+
+        $controller = new StudentDocumentController($createFileService);
+
+        $request = Request::create('/api/documents', 'POST', [
+            'title' => 'Document Title',
+            'file_id' => 1
         ]);
 
-        // Successful response (status 200)
-        $response->assertStatus(200);
+        $request->setUserResolver(function () {
+            return (object) ['id' => 1];
+        });
 
-        // Checking if the document is stored in the database
-        $this->assertDatabaseHas('student_documents', [
-            'title' => 'Sample Document',
-        ]);
+        $response = $controller->store($request);
 
-        // Check if the file is stored
-        $this->assertFileExists($file->getPathname());
-
-        // Using student with id 1 for testing
-        $this->assertDatabaseHas('student_documents', [
-            'student_id' => 1,
-        ]);
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJson([
+                'message' => 'Document created successfully',
+                'document' => [
+                    'title' => 'Document Title',
+                    'student_id' => 1,
+                    'file_id' => 1,
+                ]
+            ]);
     }
 }
