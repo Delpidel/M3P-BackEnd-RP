@@ -7,15 +7,10 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Models\Student;
 
-class SendEmailWelcomeService
+class SendCredentialsStudentEmail
 {
-    public function handle()
+    public function handle(Student $student, string $password)
     {
-        $students = Student::query()->all();
-
-        foreach ($students as $student) {
-
-            Mail::to($student->email)->send(new CredentialsStudent($student->name, $student->email, $student->password));
-        }
+        Mail::to($student->email)->send(new CredentialsStudent($student, $password));
     }
 }
