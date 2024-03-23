@@ -72,11 +72,11 @@
                 <p>
                     Por favor, siga as instruções abaixo para começar a usar nossa plataforma:
                 </p>
-                <ol>
+                <ul>
                     <li>Passo 1: Faça login com suas credenciais.</li>
                     <li>Passo 2: Explore todas as funcionalidades disponíveis.</li>
                     <li>Passo 3: Entre em contato conosco se precisar de ajuda.</li>
-                </ol>
+                </ul>
                 <p>
                     Aproveite sua experiência conosco!
                 </p>
