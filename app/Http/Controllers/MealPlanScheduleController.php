@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MealPlanScheduleController extends Controller
 {
+    public function index()
+    {
+        $meals = MealPlanSchedule::all();
+        return $meals;
+    }
+
     public function store(Request $request)
     {
 

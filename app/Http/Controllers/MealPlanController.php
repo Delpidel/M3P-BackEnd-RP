@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MealPlanController extends Controller
 {
-    public function index($id)
+    public function index()
     {
         $mealPlans = MealPlan::all();
         return $mealPlans;
@@ -25,7 +25,8 @@ class MealPlanController extends Controller
             $data = $request->all();
 
             $request->validate([
-                'description' => 'string|required',
+                'sudent_id' => 'int|required',
+                'description' => 'string|required'
             ]);
 
             $mealPlans = MealPlan::create($data);
