@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Services\User;
+namespace App\Http\Services\Auth;
 
 use App\Http\Repositories\AuthRepository;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
+use App\Http\Requests\AuthRequest;
 
 
 class AuthService
@@ -60,6 +61,7 @@ class AuthService
 
     public function login($request)
     {
+
         $data = $request->only('email', 'password');
 
         $request->validate([
