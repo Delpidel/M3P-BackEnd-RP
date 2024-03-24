@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
-    Route::get('dashboard/admin', [DashboardController::class, 'getDashboard'])->middleware(['ability:get-dashbord']);
+    Route::get('dashboard/admin', [DashboardController::class, 'getDashboard'])->middleware(['ability:get-dashboard']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
