@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
-    Route::get('students/{id}/workouts', [WorkoutController::class, 'workoutsByStudent']);
+    Route::get('students/{id}/workouts', [WorkoutController::class, 'workoutsByStudent'])->middleware(['ability:get-workout']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
