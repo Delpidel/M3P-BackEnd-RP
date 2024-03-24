@@ -12,6 +12,8 @@ use Tests\TestCase;
 
 class MealsTest extends TestCase
 {
+
+
     public function test_can_list_all_meals()
     {
         $this->seed(DatabaseSeeder::class);
@@ -129,4 +131,15 @@ class MealsTest extends TestCase
             'day' => true
         ]);
     }
+
+    public function test_can_delete_meal(): void
+    {
+        $meal = MealPlanSchedule::factory()->create();
+
+        $response = $this->delete("/api/delete_meal/$meal->id");
+
+        $this->assertDatabaseMissing('meal_plans_schedule', ['id' => $meal->id]);
+        $response->assertStatus(204);
+    }
+
 }

@@ -3,74 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\MealPlanScheduleService;
 use App\Models\MealPlanSchedule;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response;
 
 class MealPlanScheduleController extends Controller
 {
+    private $mealPlanScheduleService;
+
+    public function __construct(MealPlanScheduleService $mealPlanScheduleService)
+    {
+        $this->mealPlanScheduleService = $mealPlanScheduleService;
+    }
+
     public function index()
     {
-        $meals = MealPlanSchedule::all();
-        return $meals;
+        return $this->mealPlanScheduleService->getAll();
     }
+
+    public function studentMeal($id)
+    {
+        return $this->mealPlanScheduleService->findById($id);
+    }
+
 
     public function store(Request $request)
     {
-
-        try {
-            DB::beginTransaction();
-
-            $data = $request->all();
-
-            $request->validate([
-                'meal_plan_id' => 'int|required',
-                'hour' => 'string',
-                'title' => 'string|required',
-                'description' => 'string|required',
-                'day' => 'required|in:SEGUNDA,TERCA,QUARTA,QUINTA,SEXTA,SABADO,DOMINGO',
-            ]);
-
-            DB::commit();
-
-            $student = MealPlanSchedule::create($data);
-
-            return $student;
-        } catch (Exception $exception) {
-             DB::rollback();
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
+        return $this->mealPlanScheduleService->create($request);
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-
-        $meals = MealPlanSchedule::find($id);
-
-        if (!$meals) return $this->error('Dado não encontrado', Response::HTTP_NOT_FOUND);
-
-        $meals->delete();
-
-        return $this->response('', Response::HTTP_NO_CONTENT);
+        return $this->mealPlanScheduleService->delete($id);
     }
-
 
     public function update($id, Request $request)
     {
-        try {
-            DB::beginTransaction();
-            $meals = MealPlanSchedule::find($id);
-
-            if (!$meals) return $this->error('dado nao encontrado', Response::HTTP_BAD_REQUEST);
-
-            $meals->update($request->all());
-            DB::commit();
-            return $meals;
-        } catch (Exception $exception) {
-            DB::rollback();
-            return response()->json(['message' => $exception->getMessage()], 400);
-        }
+        return $this->mealPlanScheduleService->update($id, $request);
     }
 }
