@@ -14,25 +14,19 @@ class StudentTest extends TestCase
 {
     public function test_receptionist_token_was_generated(): void
     {
-        // Obtém o usuário da recepcionista existente
-        $receptionist = User::find(2); // Assumindo que o ID da recepcionista é 2
-
-        // Dados de login da recepcionista
+        $receptionist = User::find(2);
         $credentials = [
             'email' => $receptionist->email,
-            'password' => '12345678', // Senha da recepcionista
+            'password' => '12345678',
         ];
 
-        // Faz uma requisição para a rota de login
         $response = $this->postJson('/api/login', $credentials);
 
-        // Verifica se o login foi bem-sucedido (HTTP 200)
         $response->assertStatus(200);
     }
 
     public function test_request_body_all(): void
     {
-        // Simula uma requisição HTTP com dados
         $body = [
             'name' => 'João da Silva',
             'email' => 'joao@example.com',
@@ -45,50 +39,38 @@ class StudentTest extends TestCase
             'neighborhood' => 'Centro',
             'city' => 'Santa cruz do sul',
             'number' => '642',
-            // Adicione outros dados conforme necessário
         ];
         $request = new Request($body);
 
-        // Faz a chamada para o método que queremos testar
         $result = $request->all();
 
-        // Verifica se os dados da requisição foram corretamente capturados
         $this->assertEquals($body, $result);
     }
 
     public function test_password_is_being_generated(): void
     {
-        // Cria uma instância do serviço de geração de senha
+
         $passwordGenerationService = new PasswordGenerationService();
 
-        // Chama o método handle() para gerar uma senha
         $password = $passwordGenerationService->handle();
 
-        // Verifica se a senha foi gerada corretamente
-        $this->assertIsString($password); // Verifica se é uma string
-        $this->assertGreaterThanOrEqual(8, strlen($password)); // Verifica se a senha tem pelo menos 8 caracteres
-        // Adicione outras verificações conforme necessário, como caracteres especiais, etc.
+        $this->assertIsString($password);
+        $this->assertGreaterThanOrEqual(8, strlen($password));
     }
 
     public function test_credentials_are_being_sent_by_email(): void
     {
-        // Simula um estudante
         $student = new Student([
             'name' => 'João da Silva',
             'email' => 'joao@example.com',
-            // Adicione outros atributos conforme necessário
         ]);
 
-        // Simula uma senha
         $password = 'senha123';
 
-        // Cria um mock para o serviço de envio de e-mail
         $emailServiceMock = \Mockery::mock(SendCredentialsStudentEmail::class);
 
-        // Espera que o método handle() seja chamado com o estudante e a senha
         $emailServiceMock->shouldReceive('handle')->with($student, $password)->once();
 
-        // Chama o método handle() do mock para simular o envio de e-mail
         $emailServiceMock->handle($student, $password);
     }
 }
