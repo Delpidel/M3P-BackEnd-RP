@@ -24,7 +24,6 @@ class WorkoutController extends Controller
 
     public function workoutsByStudent($studentId)
     {
-        try {
             $workouts = Workout::select('workouts.*', 'students.name', 'exercises.description')
             ->join('students', 'workouts.student_id', '=', 'students.id')
             ->join('exercises', 'workouts.exercise_id', '=', 'exercises.id')
@@ -50,10 +49,7 @@ class WorkoutController extends Controller
                 ];
             }
     
-            return response()->json($formattingWorkouts);
-    } catch (\Exception $exception) {
-        return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-    }
+            return $this->response('Listagem de treinos realizada com sucesso', Response::HTTP_OK, $formattingWorkouts);
 
 }
 }
