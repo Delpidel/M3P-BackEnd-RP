@@ -8,6 +8,11 @@ use App\Models\User;
 class UserRepository implements UserRepositoryInterface
 {
 
+    public function createOne(array $data)
+    {
+        return User::create($data);
+    }
+
     public function getAll($search)
     {
         $search = strtolower($search);
