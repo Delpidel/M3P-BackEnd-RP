@@ -42,6 +42,7 @@ class UserController extends Controller
 
         return $user;
     }
+
     public function index(Request $request, GetAllUsersService $getAllUsersService)
     {
         $search = $request->input('word');
@@ -49,6 +50,10 @@ class UserController extends Controller
         $users = $getAllUsersService->handle($search);
 
         return $users;
+    }
+
+    public function update()
+    {
     }
 
     public function destroy($id, DeleteOneUserService $deleteOneUserService)
