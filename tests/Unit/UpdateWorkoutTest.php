@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Http\Repositories\Workout\WorkoutRepository;
 use App\Http\Requests\UpdateWorkoutRequest;
-use App\Http\Services\Workout\UpdateOneWorkoutService;
 use App\Models\Exercise;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Workout;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
@@ -126,4 +123,23 @@ class UpdateWorkoutTest extends TestCase
         $this->assertTrue($validator->fails());
         $this->assertEquals(['O tempo deve ser um número inteiro'], $validator->errors()->all());
     }
+
+    public function test_exercise_id_must_exist_in_exercises_table(): void
+{
+    $request = new UpdateWorkoutRequest();
+    $validator = Validator::make(['exercise_id' => 'string'], $request->rules(), $request->messages());
+
+    $this->assertTrue($validator->fails());
+    $this->assertEquals(['O ID do exercício deve ser um número inteiro'], $validator->errors()->all());
+}
+
+public function test_exercise_id_must_be_an_integer(): void
+{
+    $request = new UpdateWorkoutRequest();
+    $validator = Validator::make(['exercise_id' => 999], $request->rules(), $request->messages());
+
+    $this->assertTrue($validator->fails());
+    $this->assertEquals(['O ID do exercício fornecido não existe'], $validator->errors()->all());
+}
+
 }
