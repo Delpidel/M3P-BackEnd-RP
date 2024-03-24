@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\User\CreateOneUserService;
@@ -12,10 +12,12 @@ use App\Http\Services\User\GetAllUsersService;
 use App\Http\Services\User\PasswordGenerationService;
 use App\Http\Services\User\PasswordHashingService;
 use App\Http\Services\User\SendEmailWelcomeService;
-use App\Models\User;
 
+use App\Models\User;
 use App\Traits\HttpResponses;
+
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -54,7 +56,7 @@ class UserController extends Controller
         return $users;
     }
 
-    public function update(Request $request, $id, CreateFileService $createFileService,)
+    public function update(UpdateUserRequest $request, $id, CreateFileService $createFileService)
     {
         $user = User::find($id);
 
@@ -64,16 +66,8 @@ class UserController extends Controller
 
         $body = $request->input();
 
-        $request->validate([
-            'name' => 'string|max:255|regex:/^[\p{L}\s]+$/u',
-            'email' => 'string|email|max:255|unique:users',
-            'profile_id' => 'integer|in:2,3,4',
-            'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
-        ]);
-
         if ($request->hasFile('photo')) {
-
-            $file = $createFileService->handle('photos', $request->file('photo'), $body['name']);
+            $file = $createFileService->handle('photos', $request->file('photo'), $user['name']);
             $body['file_id'] = $file->id;
         }
 
