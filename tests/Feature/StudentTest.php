@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Student;
+use App\Http\Services\Student\PasswordGenerationService;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
+
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class StudentTest extends TestCase
@@ -55,5 +53,19 @@ class StudentTest extends TestCase
 
         // Verifica se os dados da requisição foram corretamente capturados
         $this->assertEquals($body, $result);
+    }
+
+    public function test_password_is_being_generated(): void
+    {
+        // Cria uma instância do serviço de geração de senha
+        $passwordGenerationService = new PasswordGenerationService();
+
+        // Chama o método handle() para gerar uma senha
+        $password = $passwordGenerationService->handle();
+
+        // Verifica se a senha foi gerada corretamente
+        $this->assertIsString($password); // Verifica se é uma string
+        $this->assertGreaterThanOrEqual(8, strlen($password)); // Verifica se a senha tem pelo menos 8 caracteres
+        // Adicione outras verificações conforme necessário, como caracteres especiais, etc.
     }
 }
