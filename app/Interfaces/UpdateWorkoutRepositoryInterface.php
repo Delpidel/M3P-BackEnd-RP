@@ -8,4 +8,5 @@ interface UpdateWorkoutRepositoryInterface
 {
 
     public function updateOne(Workout $workout, $id);
+
 }

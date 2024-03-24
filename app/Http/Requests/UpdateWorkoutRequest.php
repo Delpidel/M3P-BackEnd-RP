@@ -23,6 +23,7 @@ class UpdateWorkoutRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'exercise_id' => 'exists:exercises,id',
             'repetitions' => 'integer',
             'weight' => 'numeric',
             'break_time' => 'integer',
@@ -35,6 +36,7 @@ class UpdateWorkoutRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'exercise_id.exists' => 'O ID do exercício fornecido não existe',
             'repetitions.integer' => 'O número de repetições deve ser um número inteiro',
             'weight.numeric' => 'O peso deve ser um número decimal',
             'break_time.integer' => 'O tempo de pausa entre as séries deve ser um número inteiro',
