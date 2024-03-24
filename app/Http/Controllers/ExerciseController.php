@@ -9,6 +9,9 @@ use App\Traits\HttpResponses;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Services\Exercise\DeleteOneExerciseService;
+
+
 class ExerciseController extends Controller
 {
     use HttpResponses;
@@ -25,4 +28,9 @@ class ExerciseController extends Controller
         return $createExerciseService->handle($user_id, $description);
     }
 
+    public function destroy($id, DeleteOneExerciseService $deleteOneExerciseService)
+    {
+
+        return $deleteOneExerciseService->handle($id);
+    }
 }
