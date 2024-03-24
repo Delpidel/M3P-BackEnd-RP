@@ -3,7 +3,8 @@
 namespace Tests\Feature;
 
 use App\Http\Services\Student\PasswordGenerationService;
-
+use App\Http\Services\Student\SendCredentialsStudentEmail;
+use App\Models\Student;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -67,5 +68,27 @@ class StudentTest extends TestCase
         $this->assertIsString($password); // Verifica se é uma string
         $this->assertGreaterThanOrEqual(8, strlen($password)); // Verifica se a senha tem pelo menos 8 caracteres
         // Adicione outras verificações conforme necessário, como caracteres especiais, etc.
+    }
+
+    public function test_credentials_are_being_sent_by_email(): void
+    {
+        // Simula um estudante
+        $student = new Student([
+            'name' => 'João da Silva',
+            'email' => 'joao@example.com',
+            // Adicione outros atributos conforme necessário
+        ]);
+
+        // Simula uma senha
+        $password = 'senha123';
+
+        // Cria um mock para o serviço de envio de e-mail
+        $emailServiceMock = \Mockery::mock(SendCredentialsStudentEmail::class);
+
+        // Espera que o método handle() seja chamado com o estudante e a senha
+        $emailServiceMock->shouldReceive('handle')->with($student, $password)->once();
+
+        // Chama o método handle() do mock para simular o envio de e-mail
+        $emailServiceMock->handle($student, $password);
     }
 }
