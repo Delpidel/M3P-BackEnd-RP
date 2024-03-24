@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminDeleteTest extends TestCase
@@ -15,7 +13,10 @@ class AdminDeleteTest extends TestCase
         $user = User::factory()->create(['profile_id' => 1]);
         $token = $user->createToken('@academia', ['delete-users'])->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete('/api/users/2');
+        $otherUser = User::factory()->create(['profile_id' => 2]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->delete('/api/users/' . $otherUser->id);
 
         $response->assertStatus(204);
     }
@@ -25,7 +26,10 @@ class AdminDeleteTest extends TestCase
         $user = User::factory()->create(['profile_id' => 2]);
         $token = $user->createToken('@academia', [''])->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete('/api/users/2');
+        $otherUser = User::factory()->create(['profile_id' => 2]);
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->delete('/api/users/' . $otherUser->id);
 
         $response->assertStatus(403);
     }
@@ -35,9 +39,10 @@ class AdminDeleteTest extends TestCase
         $user = User::factory()->create(['profile_id' => 1]);
         $token = $user->createToken('@academia', ['delete-users'])->plainTextToken;
 
-        $count = User::count();
+        $otherUser = User::factory()->create(['profile_id' => 2]);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->delete("/api/users/" . ($count + 1));
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->delete("/api/users/" . ($otherUser->id + 1));
 
         $response->assertStatus(404);
 
