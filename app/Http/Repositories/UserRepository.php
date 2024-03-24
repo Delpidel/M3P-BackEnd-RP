@@ -26,6 +26,13 @@ class UserRepository implements UserRepositoryInterface
             ->get();
     }
 
+    public function updateOne($user, $body)
+    {
+        $user->update($body);
+
+        return $user;
+    }
+
     public function find($id)
     {
         return User::find($id);

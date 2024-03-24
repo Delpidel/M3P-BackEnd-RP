@@ -9,10 +9,11 @@ use App\Http\Services\File\CreateFileService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\User\DeleteOneUserService;
 use App\Http\Services\User\GetAllUsersService;
+use App\Http\Services\User\GetOneUserService;
 use App\Http\Services\User\PasswordGenerationService;
 use App\Http\Services\User\PasswordHashingService;
 use App\Http\Services\User\SendEmailWelcomeService;
-
+use App\Http\Services\User\UpdateOneUserService;
 use App\Models\User;
 use App\Traits\HttpResponses;
 
@@ -56,14 +57,14 @@ class UserController extends Controller
         return $users;
     }
 
-    public function update(UpdateUserRequest $request, $id, CreateFileService $createFileService)
-    {
-        $user = User::find($id);
-
-        if (!$user) {
-            return $this->error('O usuário não está cadastrado no banco de dados.', Response::HTTP_NOT_FOUND);
-        }
-
+    public function update(
+        $id,
+        UpdateUserRequest $request,
+        UpdateOneUserService $updateOneUserService,
+        GetOneUserService $getOneUserService,
+        CreateFileService $createFileService
+    ) {
+        $user = $getOneUserService->handle($id);
         $body = $request->input();
 
         if ($request->hasFile('photo')) {
@@ -71,9 +72,8 @@ class UserController extends Controller
             $body['file_id'] = $file->id;
         }
 
-        $user->update($body);
-
-        return $user;
+        $userUpdate = $updateOneUserService->handle($user, $body);
+        return $userUpdate;
     }
 
     public function destroy($id, DeleteOneUserService $deleteOneUserService)
