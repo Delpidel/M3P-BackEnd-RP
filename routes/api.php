@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AvaliationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+
+    Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });

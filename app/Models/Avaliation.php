@@ -11,11 +11,15 @@ class Avaliation extends Model
 
     protected $fillable = ['student_id', 'date', 'weight', 'height', 'age', 'observations_to_student', 'observations_to_nutritionist', 'file_id', 'measures'];
 
+    protected $casts = [
+        'measures' => 'array',
+    ];
+
     public function Student() {
-        return $this->hasOne(File::class, 'id', 'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
     public function file() {
-        return $this->hasOne(File::class, 'id', 'file_id');
+        return $this->belongsTo(File::class, 'file_id');
     }
 }
