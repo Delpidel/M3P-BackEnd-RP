@@ -75,7 +75,7 @@ class AdminCreateTest extends TestCase
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $recepcionista);
 
-        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não tem permissão para executar esta ação.']);
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
     }
 
     public function test_admin_can_create_user_instrutor()
@@ -142,7 +142,7 @@ class AdminCreateTest extends TestCase
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $instrutor);
 
-        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não tem permissão para executar esta ação.']);
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
     }
 
     public function test_admin_can_create_user_nutricionista()
@@ -209,6 +209,6 @@ class AdminCreateTest extends TestCase
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->post('/api/users', $nutricionista);
 
-        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não tem permissão para executar esta ação.']);
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
     }
 }
