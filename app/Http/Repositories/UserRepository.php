@@ -20,4 +20,20 @@ class UserRepository implements UserRepositoryInterface
             ->orderBy('id')
             ->get();
     }
+
+    public function find($id)
+    {
+        return User::find($id);
+    }
+
+    public function deactivateUser($user)
+    {
+        $user->is_active = false;
+        $user->save();
+    }
+
+    public function delete($user)
+    {
+        $user->delete();
+    }
 }
