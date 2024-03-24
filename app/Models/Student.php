@@ -22,4 +22,9 @@ class Student extends Model
         'city',
         'number',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

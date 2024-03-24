@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Student;
+use App\Models\Exercise;
 
 class User extends Authenticatable
 {
@@ -43,4 +45,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    /**
+     * Obtenha os estudantes associados ao usuário.
+     */
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    /**
+     * Obtenha os exercícios associados ao usuário.
+     */
+    public function exercises()
+    {
+        return $this->hasMany(Exercise::class);
+    }
 }
