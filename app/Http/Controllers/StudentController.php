@@ -17,7 +17,6 @@ class StudentController extends Controller
     public function index()
     {
         try {
-
             $students = Student::all();
             return $students;
 

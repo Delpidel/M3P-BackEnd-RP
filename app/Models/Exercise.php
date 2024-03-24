@@ -11,8 +11,13 @@ class Exercise extends Model
 
     protected $fillable = ['description', 'user_id'];
 
-    public function user()
-    {
+    protected $hidden = [
+        'user_id',
+        'updated_at',
+        'created_at',
+    ];
+
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }
