@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Workout;
 use App\Traits\HttpResponses;
-
+use App\Http\Services\Workout\DeleteWorkoutService;
 use Symfony\Component\HttpFoundation\Response;
 
 class WorkoutController extends Controller
@@ -22,14 +22,13 @@ class WorkoutController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $workout = Workout::find($id);
+    public function destroy($id, DeleteWorkoutService $deleteWorkoutService)
+{
+       $workout = Workout::find($id);
 
-        if (!$workout) return $this->error('Dado não encontrado', Response::HTTP_NOT_FOUND);
+        if (!$workout) return $this->error('Treino não encontrado', Response::HTTP_NOT_FOUND);
+         $deleteWorkoutService->handle($id);
+         return $this->response('', Response::HTTP_NO_CONTENT);
+}
 
-        $workout->delete();
-
-        return $this->response('', Response::HTTP_NO_CONTENT);
-    }
 }
