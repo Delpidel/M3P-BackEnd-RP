@@ -13,9 +13,9 @@ class TokenManagementService
         $this->getPermissionsService = $getPermissionsService;
     }
 
-    public function manageToken(Request $request, $profile)
+    public function handle(Request $request, $profile)
     {
-        $permissionsUser = $this->getPermissionsService->getPermissionsForProfile($profile->name);
+        $permissionsUser = $this->getPermissionsService->handle($profile->name);
         $token = $request->user()->createToken('@academia', $permissionsUser);
 
         return $token->plainTextToken;

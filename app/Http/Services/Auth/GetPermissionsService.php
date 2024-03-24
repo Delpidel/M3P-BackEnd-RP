@@ -45,7 +45,7 @@ class GetPermissionsService
         ]
     ];
 
-    public function getPermissionsForProfile($profileName)
+    public function handle($profileName)
     {
         return $this->permissions[$profileName] ?? [];
     }

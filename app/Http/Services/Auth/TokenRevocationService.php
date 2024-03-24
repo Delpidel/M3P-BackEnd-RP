@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class TokenRevocationService
 {
-    public function revokeTokens(Request $request)
+    public function handle(Request $request)
     {
         $request->user()->tokens()->delete();
     }

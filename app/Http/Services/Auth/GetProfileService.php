@@ -14,7 +14,7 @@ class GetProfileService
         $this->authRepository = $authRepository;
     }
 
-    public function getProfile(Request $request)
+    public function handle(Request $request)
     {
         return $this->authRepository->findProfileById($request->user()->profile_id);
     }

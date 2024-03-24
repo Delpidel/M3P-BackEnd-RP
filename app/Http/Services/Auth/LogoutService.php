@@ -21,9 +21,9 @@ class LogoutService
         $this->tokenRevocationService = $tokenRevocationService;
     }
 
-    public function logout($request)
+    public function handle($request)
     {
-        $this->tokenRevocationService->revokeTokens($request);
+        $this->tokenRevocationService->handle($request);
         return response('', Response::HTTP_NO_CONTENT, []);
     }
 }

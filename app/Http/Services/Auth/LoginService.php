@@ -5,7 +5,6 @@ namespace App\Http\Services\Auth;
 use App\Http\Repositories\AuthRepository;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
-use App\Http\Requests\AuthRequest;
 
 class LoginService
 {
@@ -33,20 +32,20 @@ class LoginService
         $this->getPermissionsService = $getPermissionsService;
     }
 
-    public function login($request)
+    public function handle($request)
     {
-        $authenticated = $this->authenticationService->authenticate($request);
+        $authenticated = $this->authenticationService->handle($request);
 
         if (!$authenticated) {
             return $this->error("Não autorizado. Credenciais incorretas", Response::HTTP_UNAUTHORIZED);
         }
 
-        $this->tokenRevocationService->revokeTokens($request);
-        $profile = $this->getProfileService->getProfile($request);
+        $this->tokenRevocationService->handle($request);
+        $profile = $this->getProfileService->handle($request);
 
         // Gestão do token
-        $permissionsUser = $this->getPermissionsService->getPermissionsForProfile($profile->name);
-        $token = $this->tokenManagementService->manageToken($request, $profile);
+        $permissionsUser = $this->getPermissionsService->handle($profile->name);
+        $token = $this->tokenManagementService->handle($request, $profile);
 
         return $this->response('Autorizado', Response::HTTP_OK, [
             'name' =>  $request->user()->name,

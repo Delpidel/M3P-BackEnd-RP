@@ -14,7 +14,7 @@ class AuthenticationService
         $this->authRepository = $authRepository;
     }
 
-    public function authenticate(Request $request)
+    public function handle(Request $request)
     {
         $data = $request->only('email', 'password');
 

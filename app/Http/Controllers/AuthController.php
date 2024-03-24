@@ -20,11 +20,11 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        return $this->loginService->login($request);
+        return $this->loginService->handle($request);
     }
 
     public function logout(Request $request)
     {
-        return $this->logoutService->logout($request);
+        return $this->logoutService->handle($request);
     }
 }
