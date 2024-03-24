@@ -4,7 +4,6 @@ namespace App\Http\Repositories;
 
 use App\Interfaces\CreateWorkoutRepositoryInterface;
 use App\Models\Workout;
-use Illuminate\Http\Request;
 
 class CreateWorkoutRepository implements CreateWorkoutRepositoryInterface
 {
