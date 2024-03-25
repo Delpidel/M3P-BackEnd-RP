@@ -89,6 +89,53 @@ class AdminUpdateTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_not_update_without_valid_name()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        $body = [
+            'name' => '',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(400)->assertJson(['message' => 'O campo name deve ser uma string válida']);
+    }
+
+    public function test_admin_can_not_update_without_valid_email()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        $body = [
+            'email' => 'invalidemail',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(400)->assertJson(['message' => 'O campo email deve conter um email válido']);
+    }
+
+    public function test_admin_can_not_update_without_valid_file_type()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        Storage::fake('s3'); // Mock AWS S3
+
+        $body = [
+            'photo' => UploadedFile::fake()->create('new_photo.pdf')
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(400)->assertJson(['message' => 'O campo photo deve ser um arquivo do tipo: jpeg, png, jpg, gif, svg']);
+    }
+
     public function test_admin_can_not_update_user_profile_id()
     {
         $admin = User::factory()->create(['profile_id' => 1]);
