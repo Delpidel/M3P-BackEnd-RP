@@ -65,15 +65,15 @@ class UserController extends Controller
         CreateFileService $createFileService
     ) {
         $user = $getOneUserService->handle($id);
-        $body = $request->input();
+        $body = $request->except('profile_id');
 
         if ($request->hasFile('photo')) {
             $file = $createFileService->handle('photos', $request->file('photo'), $user['name']);
             $body['file_id'] = $file->id;
         }
 
-        $userUpdate = $updateOneUserService->handle($user, $body);
-        return $userUpdate;
+        $updatedUser = $updateOneUserService->handle($user, $body);
+        return $updatedUser;
     }
 
     public function destroy($id, DeleteOneUserService $deleteOneUserService)

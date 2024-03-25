@@ -28,8 +28,6 @@ class UpdateUserRequest extends FormRequest
             'name' => 'string|max:255|regex:/^[\p{L}\s]+$/u',
             'email' => 'string|email|max:255|unique:users',
             'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
-            'profile_id' => 'exclude',
-
         ];
     }
     public function messages(): array
@@ -47,7 +45,6 @@ class UpdateUserRequest extends FormRequest
             'email.unique' => 'Este email já foi cadastrado',
             'photo.file' => 'O campo photo deve ser um arquivo',
             'photo.mimes' => 'O campo photo deve ser um arquivo do tipo: jpeg, png, jpg, gif, svg',
-            'profile_id.exclude' => 'O campo profile_id não pode ser alterado',
         ];
     }
 }
