@@ -34,7 +34,7 @@ class CreateWorkoutTest extends TestCase
             $this->fail('A chave "status" não está definida no array de resposta');
         }
     }
-
+    //Ainda em desenvolvimento
     public function test_create_workout(): void
     {
         $user = User::factory()->create();
