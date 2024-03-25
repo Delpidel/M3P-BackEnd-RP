@@ -5,17 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class UserStudent extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'name', 'email', 'date_birth', 'contact', 'cpf', 'city', 'neighborhood', 'number', 'street', 'state', 'cep', 'file_id'
+        'user_id', 'student_id'
     ];
 
+    protected $table = 'users_students';
+
     protected $hidden = ['created_at', 'updated_at'];
+
+
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
     }
 }
