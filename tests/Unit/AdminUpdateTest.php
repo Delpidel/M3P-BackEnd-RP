@@ -136,6 +136,22 @@ class AdminUpdateTest extends TestCase
         $response->assertStatus(400)->assertJson(['message' => 'O campo photo deve ser um arquivo do tipo: jpeg, png, jpg, gif, svg']);
     }
 
+    public function test_admin_can_not_update_user_email_to_an_existing_one()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $user = User::factory()->create(['profile_id' => 2]);
+        $user2 = User::factory()->create(['profile_id' => 3]);
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        $body = [
+            'email' => $user2->email,
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(400)->assertJson(['message' => 'Este email já foi cadastrado']);
+    }
+
     public function test_admin_can_not_update_user_profile_id()
     {
         $admin = User::factory()->create(['profile_id' => 1]);
