@@ -108,4 +108,18 @@ class AdminUpdateTest extends TestCase
             'profile_id' => 2 //O profile_id não é alterado, apesar do status 200
         ]);
     }
+
+    public function test_others_users_cannot_update_user()
+    {
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $user->createToken('@academia', [''])->plainTextToken;
+
+        $body = [
+            'name' => 'New Name',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
+    }
 }
