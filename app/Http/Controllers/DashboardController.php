@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercise;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
 
 class DashboardController extends Controller
 {
+    use HttpResponses;
+
     public function getDashboard()
     {
         $registeredExercises = Exercise::count();
@@ -18,7 +20,7 @@ class DashboardController extends Controller
             ->groupBy('profiles.name')
             ->pluck('count', 'profile_name');
 
-        return response()->json([
+        return $this->response('',Response::HTTP_OK,[
             'registered_exercises' => $registeredExercises,
             'profiles' => $profiles,
         ]);
