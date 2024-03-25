@@ -88,4 +88,24 @@ class AdminUpdateTest extends TestCase
             'file_id' => $response['file_id']
         ]);
     }
+
+    public function test_admin_can_not_update_user_profile_id()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        $body = [
+            'name' => 'New Name',
+            'profile_id' => 3,
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(200)->assertJson([
+            ...$user->toArray(),
+            'name' => 'New Name',
+            'profile_id' => 2 //O profile_id não é alterado, apesar do status 200
+        ]);
+    }
 }
