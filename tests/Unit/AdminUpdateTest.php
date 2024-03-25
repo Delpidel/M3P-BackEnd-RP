@@ -64,4 +64,28 @@ class AdminUpdateTest extends TestCase
             'file_id' => $response['file_id']
         ]);
     }
+
+    public function test_admin_can_update_all_user_data()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        Storage::fake('s3'); // Mock AWS S3
+
+        $body = [
+            'name' => 'New Name',
+            'email' => 'newemail@test.com',
+            'photo' => UploadedFile::fake()->image('new_photo.jpg')
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $user->id, $body);
+
+        $response->assertStatus(200)->assertJson([
+            ...$user->toArray(),
+            'name' => 'New Name',
+            'email' => 'newemail@test.com',
+            'file_id' => $response['file_id']
+        ]);
+    }
 }
