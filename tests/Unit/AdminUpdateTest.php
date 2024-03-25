@@ -89,6 +89,30 @@ class AdminUpdateTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_update_user_student()
+    {
+        $admin = User::factory()->create(['profile_id' => 1]);
+        $student = User::factory()->create(['profile_id' => 5]); //profile_id 5 é o de estudante
+        $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
+
+        Storage::fake('s3'); // Mock AWS S3
+
+        $body = [
+            'name' => 'New Name student',
+            'email' => 'newemailstudent@test.com',
+            'photo' => UploadedFile::fake()->image('new_photo_student.jpg')
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/users/' . $student->id, $body);
+
+        $response->assertStatus(200)->assertJson([
+            ...$student->toArray(),
+            'name' => 'New Name student',
+            'email' => 'newemailstudent@test.com',
+            'file_id' => $response['file_id']
+        ]);
+    }
+
     public function test_admin_can_not_update_without_valid_name()
     {
         $admin = User::factory()->create(['profile_id' => 1]);
