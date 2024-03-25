@@ -54,5 +54,25 @@ class StudentWorkoutTest extends TestCase
                 ]
             ]
         ]);
-    }    
+    } 
+
+    public function test_student_can_list_their_own_workouts()
+    {
+        $student = User::factory()->create(['profile_id' => 5]);
+        $token = $student->createToken('@academia', ['get-workout'])->plainTextToken;
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/students/' . $student->id . '/workouts');
+        $response->assertStatus(200);
+    }
+
+    public function test_student_can_not_list_workouts_from_another_student()
+    {
+        $student = User::factory()->create(['profile_id' => 5]);
+        $anotherStudent = User::factory()->create(['profile_id' => 5]);
+        $token = $student->createToken('@academia', ['get-workout'])->plainTextToken;
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/students/' . $anotherStudent->id . '/workouts');
+        $response->assertStatus(403);
+    }
+
 }
