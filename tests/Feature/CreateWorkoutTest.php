@@ -2,11 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\Http\Repositories\CreateWorkoutRepository;
 use App\Http\Requests\StoreWorkoutRequest;
+use App\Http\Services\Workout\CreateWorkoutService;
 use App\Models\Exercise;
 use App\Models\Student;
 use App\Models\User;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 class CreateWorkoutTest extends TestCase
@@ -16,25 +21,35 @@ class CreateWorkoutTest extends TestCase
     public function test_catch_exception(): void
     {
         $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create();
+
         $this->actingAs($user);
 
-        $response = $this->post('/api/workouts', [
+        $workout = $this->post('/api/workouts', [
+
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
             'repetitions' => 10,
-            'weight' => 76.23,
+            // O erro ao montar o workout está nesta linha abaixo
+            'weight' => 's',
+            'break_time' => 10,
+            'day' => 'SEGUNDA',
+            'observations' => 'Observações',
+            'time' => 10,
         ]);
 
-        $responseData = $response->json();
-
-        $response->assertStatus(404);
-        $this->assertEquals('workout não encontrado', $responseData['message']);
+        $responseData = $workout->json();
+        $workout->assertStatus(400);
+        $this->assertEquals('O peso deve ser um número inteiro ou decimal.', $responseData['message']);
 
         if (array_key_exists('status', $responseData)) {
-            $this->assertEquals(404, $responseData['status']);
+            $this->assertEquals(400, $responseData['status']);
         } else {
             $this->fail('A chave "status" não está definida no array de resposta');
         }
     }
-    //Ainda em desenvolvimento
+
     public function test_create_workout(): void
     {
         $user = User::factory()->create();
@@ -78,109 +93,307 @@ class CreateWorkoutTest extends TestCase
         $this->assertDatabaseHas('workouts', $data);
     }
 
-    //Testes abaixo verificam valores individuais
-    public function test_student_id_required(): void
+    public function test_handle_throws_exception_when_exercise_already_registered_for_day()
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'exercise_id' => Exercise::factory()->create()->id,
-            'repetitions' => 10,
-            'weight' => 76.23,
-            'break_time' => 5,
+        // Criar um cenário onde o exercício já está cadastrado para o mesmo dia para o aluno
+        $data = [
+            'student_id' => 1,
+            'exercise_id' => 1,
             'day' => 'SEGUNDA',
-            'time' => 60,
-        ]);
+        ];
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['student_id']);
+        // Mock para retornar true indicando que o exercício já está cadastrado para o dia
+        $createWorkoutRepositoryMock = $this->createMock(CreateWorkoutRepository::class);
+        $createWorkoutRepositoryMock->method('exerciseExists')->willReturn(true);
+
+        // Criar uma instância do serviço passando o repositório mockado
+        $createWorkoutService = new CreateWorkoutService($createWorkoutRepositoryMock);
+
+        // Verificar se o método handle lança uma exceção quando o exercício já está cadastrado para o dia
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Exercício já cadastrado para esse dia');
+
+        // Chamar o método handle com os dados preparados
+        $createWorkoutService->handle($data);
     }
 
-    public function test_exercise_id_required(): void
+    //Testes abaixo verificam valores individuais
+    public function test_invalid_student_id(): void
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'student_id' => Student::factory()->create()->id,
+        $request = new StoreWorkoutRequest();
+
+        // Informa um ID inexistente do student
+        $data = [
+            'student_id' => 9999999999,
+            'exercise_id' => 1,
             'repetitions' => 10,
-            'weight' => 76.23,
+            'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
             'time' => 60,
-        ]);
+        ];
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['exercise_id']);
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O aluno selecionado não existe.'], $validator->errors()->get('student_id'));
     }
 
     public function test_repetitions_required(): void
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'student_id' => Student::factory()->create()->id,
-            'exercise_id' => Exercise::factory()->create()->id,
-            'weight' => 76.23,
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            // 'repetitions' =>  Este campo não é enviado, por isso deve falhar a validação
+            'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
             'time' => 60,
-        ]);
+        ];
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['repetitions']);
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O número de repetições é obrigatório.'], $validator->errors()->get('repetitions'));
+    }
+
+    public function test_repetitions_invalid(): void
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' =>  'teste',  // campo enviando string
+            'weight' => 10.5,
+            'break_time' => 5,
+            'day' => 'SEGUNDA',
+            'time' => 60,
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O número de repetições deve ser um número inteiro.'], $validator->errors()->get('repetitions'));
     }
 
     public function test_weight_required(): void
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'student_id' => Student::factory()->create()->id,
-            'exercise_id' => Exercise::factory()->create()->id,
-            'repetitions' => 10,
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' =>  12,
+            // 'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
             'time' => 60,
-        ]);
+        ];
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['weight']);
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O peso é obrigatório.'], $validator->errors()->get('weight'));
+    }
+
+    public function test_weight_invalid(): void
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' =>  12,
+            'weight' => 'teste', //valor invalido para weight
+            'break_time' => 5,
+            'day' => 'SEGUNDA',
+            'time' => 60,
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O peso deve ser um número inteiro ou decimal.'], $validator->errors()->get('weight'));
     }
 
     public function test_break_time_required(): void
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'student_id' => Student::factory()->create()->id,
-            'exercise_id' => Exercise::factory()->create()->id,
-            'repetitions' => 10,
-            'weight' => 76.23,
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' =>  12,
+            'weight' => 12.5,
+            // 'break_time' => 5, //Este campo está vazio, por isso deve falhar a validação
             'day' => 'SEGUNDA',
             'time' => 60,
-        ]);
+        ];
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['break_time']);
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O tempo de pausa entre as séries é obrigatório.'], $validator->errors()->get('break_time'));
+    }
+
+    public function test_break_time_invalid(): void
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' =>  12,
+            'weight' => 12.5,
+            'break_time' => 'Teste',
+            'day' => 'SEGUNDA',
+            'time' => 60,
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O tempo de pausa entre as séries deve ser um número inteiro.'], $validator->errors()->get('break_time'));
     }
 
     public function test_day_required(): void
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'student_id' => Student::factory()->create()->id,
-            'exercise_id' => Exercise::factory()->create()->id,
-            'repetitions' => 10,
-            'weight' => 76.23,
-            'break_time' => 5,
-            'time' => 60,
-        ]);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['day']);
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' =>  12,
+            'weight' => 12.5,
+            'break_time' => 1,
+            // 'day' => 'SEGUNDA',  //Este campo está vazio, por isso deve falhar a validação
+            'time' => 60,
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O dia da semana é obrigatório.'], $validator->errors()->get('day'));
+    }
+
+    public function test_day_invalid(): void
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' => 12,
+            'weight' => 12.5,
+            'break_time' => 1,
+            'day' => 1, // valor inválido para day
+            'time' => 60,
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+        Log::info($validator->errors()->all());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(
+            ['O dia da semana deve ser uma string.', 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO.'],
+            $validator->errors()->get('day')
+        );
     }
 
     public function test_time_required(): void
     {
-        $response = $this->actingAs(User::factory()->create())->postJson('/api/workouts', [
-            'student_id' => Student::factory()->create()->id,
-            'exercise_id' => Exercise::factory()->create()->id,
-            'repetitions' => 10,
-            'weight' => 76.23,
-            'break_time' => 5,
-            'day' => 'SEGUNDA',
-        ]);
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['time']);
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' => 12,
+            'weight' => 12.5,
+            'break_time' => 1,
+            'day' => 'SEGUNDA',
+            // 'time' => 60,
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+        Log::info($validator->errors()->all());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O tempo é obrigatório.'], $validator->errors()->get('time'));
+    }
+
+    public function test_time_invalid(): void
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $request = new StoreWorkoutRequest();
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' => 12,
+            'weight' => 12.5,
+            'break_time' => 1,
+            'day' => 'SEGUNDA',
+            'time' => 'teste',
+        ];
+
+        $validator = Validator::make($data, $request->rules(), $request->messages());
+        Log::info($validator->errors()->all());
+
+        $this->assertTrue($validator->fails());
+
+        $this->assertEquals(['O tempo deve ser um número inteiro.'], $validator->errors()->get('time'));
     }
 }

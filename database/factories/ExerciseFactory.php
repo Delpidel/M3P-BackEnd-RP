@@ -12,11 +12,10 @@ class ExerciseFactory extends Factory
 
     public function definition()
     {
-        $user = User::factory()->create();
 
         return [
             'description' => $this->faker->unique()->name(),
-            'user_id' => $user->id
+            'user_id' => 3
         ];
     }
 }
