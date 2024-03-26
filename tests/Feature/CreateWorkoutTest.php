@@ -93,9 +93,9 @@ class CreateWorkoutTest extends TestCase
         $this->assertDatabaseHas('workouts', $data);
     }
 
-    public function test_handle_throws_exception_when_exercise_already_registered_for_day()
+    public function test_exercise_already_exists()
     {
-        // Criar um cenário onde o exercício já está cadastrado para o mesmo dia para o aluno
+        // exercício já está cadastrado para o aluno naquele mesmo dia
         $data = [
             'student_id' => 1,
             'exercise_id' => 1,
