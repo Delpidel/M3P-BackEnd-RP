@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\StoreAvaliationRequest;
 use App\Http\Repositories\AvaliationRepository; // Repositório de Avaliações
+use App\Http\Requests\StoreAvaliationRequest;
+use App\Http\Requests\AvaliationFirstStep;
 use App\Http\Services\File\CreateFileService; // Serviço para criar arquivos
+use App\Models\Avaliation;
 use Illuminate\Http\Response;
 
 class AvaliationController extends Controller
@@ -18,8 +19,46 @@ class AvaliationController extends Controller
         $this->createFileService = $createFileService;
     }
 
-    public function store(StoreAvaliationRequest $request)
+    public function step1(AvaliationFirstStep $request)
     {
+          // Validação dos dados recebidos na requisição
+
+         $validatedData = $request->validate([
+            'student_id' => ['required', 'exists:students,id'],
+            'age' => ['required', 'integer', 'min:0'],
+            'date' => ['required', 'date_format:Y-m-d H:i:s'],
+            'weight' => ['required', 'numeric'],
+            'height' => ['required', 'numeric'],
+            'observations_to_student' => ['nullable', 'string'],
+            'observations_to_nutritionist' => ['nullable', 'string'],
+        ], );
+
+        // Crie uma instância de Avaliation e preenche com os dados validados
+        $avaliation = new Avaliation();
+
+        $avaliation->student_id = $validatedData['student_id'];
+        $avaliation->age = $validatedData['age'];
+        $avaliation->date = $validatedData['date'];
+        $avaliation->weight = $validatedData['weight'];
+        $avaliation->height = $validatedData['height'];
+        $avaliation->observations_to_student = $validatedData['observations_to_student'];
+        $avaliation->observations_to_nutritionist = $validatedData['observations_to_nutritionist'];
+        $avaliation->measures = [];
+
+        // Salve a avaliação no banco de dados
+        $avaliation->save();
+
+        return response()->json(['Mensagem' => 'Dados da etapa 1 salvos com sucesso'], Response::HTTP_OK);
+    }
+
+
+    public function step2(StoreAvaliationRequest $request)
+    {
+        // Validação e processamento dos dados da segunda etapa
+    }
+    public function step3(StoreAvaliationRequest $request)
+    {
+        // Validação e processamento dos dados da terceira etapa
         try {
             $data = $request->validated();
 
