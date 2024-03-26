@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InstructorWorkoutController extends Controller
 {
-    public function index($id){
+    public function listWorkouts($id){
         try {
             $student = Student::find($id);
 
@@ -18,7 +18,7 @@ class InstructorWorkoutController extends Controller
                 ->orderBy('created_at', 'ASC')
                 ->with(['exercise' => function ($query) {
                     $query->select('id', 'description');
-                }])->paginate(4);
+                }])->get();
 
             $workoutsByDay = [];
 

@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('exercises/{id}', [ExerciseController::class, 'destroy'])->middleware(['ability:delete-exercises']);
     Route::put('workouts/{id}', [WorkoutController::class, 'update'])->middleware(['ability:get-workouts']);
     Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
-    Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+    Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'listWorkouts'])->middleware(['ability:get-workouts']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
