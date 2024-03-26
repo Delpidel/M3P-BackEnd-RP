@@ -37,12 +37,22 @@ class StoreWorkoutRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'repetitions.integer' => 'O número de repetições deve ser um número inteiro',
-            'weight.numeric' => 'O peso deve ser um número inteiro ou decimal',
-            'break_time.integer' => 'O tempo de pausa entre as séries deve ser um número inteiro',
-            'day.in' => 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO',
-            'observations.string' => 'O campo de observações deve conter um texto',
-            'time.integer' => 'O tempo deve ser um número inteiro',
+            'student_id.required' => 'O campo de identificação do aluno é obrigatório.',
+            'student_id.exists' => 'O aluno selecionado não existe.',
+            'exercise_id.required' => 'O campo de identificação do exercício é obrigatório.',
+            'exercise_id.exists' => 'O exercício selecionado não existe.',
+            'repetitions.required' => 'O número de repetições é obrigatório.',
+            'repetitions.integer' => 'O número de repetições deve ser um número inteiro.',
+            'weight.required' => 'O peso é obrigatório.',
+            'weight.numeric' => 'O peso deve ser um número inteiro ou decimal.',
+            'break_time.required' => 'O tempo de pausa entre as séries é obrigatório.',
+            'break_time.integer' => 'O tempo de pausa entre as séries deve ser um número inteiro.',
+            'day.required' => 'O dia da semana é obrigatório.',
+            'day.string' => 'O dia da semana deve ser uma string.',
+            'day.in' => 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO.',
+            'observations.string' => 'O campo de observações deve conter um texto.',
+            'time.required' => 'O tempo é obrigatório.',
+            'time.integer' => 'O tempo deve ser um número inteiro.',
         ];
     }
 }
