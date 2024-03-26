@@ -5,6 +5,7 @@ use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DashboardInstructorController;
 use App\Http\Controllers\ExerciseInstructorController;
+use App\Http\Controllers\InstructorWorkoutController;
 use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('exercises/{id}', [ExerciseController::class, 'destroy'])->middleware(['ability:delete-exercises']);
     Route::put('workouts/{id}', [WorkoutController::class, 'update'])->middleware(['ability:get-workouts']);
     Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
+    Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
