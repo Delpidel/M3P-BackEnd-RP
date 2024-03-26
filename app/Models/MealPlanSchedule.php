@@ -20,4 +20,9 @@ class MealPlanSchedule extends Model
         'day'
     ];
 
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Interfaces\MealPlanScheduleRepositoryInterface;
 use App\Interfaces\MealPlanScheduleServiceInterface;
 use App\Models\MealPlanSchedule;
+use App\Models\Student;
 use App\Traits\HttpResponses;
 use ErrorException;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class MealPlanScheduleService implements MealPlanScheduleServiceInterface
 
     public function findById($id)
     {
-        $meal = MealPlanSchedule::where('student_id', $id)->get();
+        $meal = MealPlanSchedule::with('student')->where('student_id', $id)->get();
 
         if($meal->isEmpty()) throw new ErrorException('id não encontrado', 404);
 
