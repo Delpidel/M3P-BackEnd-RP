@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'profile_id',
         'is_active',
+        'file_id'
     ];
 
     /**
@@ -33,10 +34,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'created_at',
-        'updated_at',
-        'profile_id',
-        'email_verified_at',
+        'profile'
     ];
 
     /**
@@ -49,7 +47,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function profile() {
-        return $this->hasOne(Profile::class, 'id', 'profile_id');
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
     }
 }
