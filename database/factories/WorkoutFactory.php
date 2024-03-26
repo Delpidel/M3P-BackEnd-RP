@@ -15,7 +15,9 @@ class WorkoutFactory extends Factory
 
     public function definition(): array
     {
+        $user = User::factory()->create();
         return [
+            'user_id' => $user->id,
             'repetitions' => $this->faker->numberBetween(1, 12),
             'weight' => $this->faker->randomFloat(2, 1, 100),
             'break_time' => $this->faker->numberBetween(30, 600),
