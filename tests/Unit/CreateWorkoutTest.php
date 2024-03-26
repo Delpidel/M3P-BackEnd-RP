@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Http\Repositories\CreateWorkoutRepository;
 use App\Http\Requests\StoreWorkoutRequest;
