@@ -17,13 +17,20 @@ class UserRepository implements UserRepositoryInterface
     {
         $search = strtolower($search);
 
-        return User::query()->with("profile")
+        return User::query()->with("profile")->withTrashed()
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%$search%") //O correto é utilizar o ilike, mas o teste unitário falha por causa do banco de dados sqlite
                     ->orWhere('email', 'like', "%$search%");
             })
             ->orderBy('id')
             ->get();
+    }
+
+    public function updateOne($user, $body)
+    {
+        $user->update($body);
+
+        return $user;
     }
 
     public function find($id)
