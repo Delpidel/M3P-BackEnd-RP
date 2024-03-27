@@ -9,5 +9,4 @@ interface AuthRepositoryInterface
 
     public function findProfileById($profileId);
 
-    public function getPermissions($profileId);
 }
