@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('email', 255)->unique();
             $table->date('date_birth')->required();
-            $table->string('contact', 20);
+            $table->string('contact', 20)->required();
             $table->string('cpf')->unique();
             $table->string('cep', 20)->required();
             $table->string('city', 50)->required();
