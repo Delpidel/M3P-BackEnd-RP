@@ -14,7 +14,7 @@ class AuthRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -25,7 +25,7 @@ class AuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string',
+            'email' => 'required|email|string',
             'password' => 'required|string'
         ];
     }
@@ -34,6 +34,7 @@ class AuthRequest extends FormRequest
         return [
             'email.required' => 'O email e obrigátorio',
             'email.string' => 'O email deve ser um texto',
+            'email.email' => 'O email deve ser válido',
             'password.required' => 'A senha e obrigátorio',
             'password.string' => 'A senha deve ser válida'
         ];
