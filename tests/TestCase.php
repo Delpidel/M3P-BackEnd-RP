@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-
 use Database\Seeders\DatabaseSeeder;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,4 +17,6 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->seed(DatabaseSeeder::class);
     }
+
 }
+
