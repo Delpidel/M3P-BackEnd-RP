@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudentRequest;
-
+use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\Student\CreateOneStudentService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\PasswordHashingService;
 use App\Http\Services\Student\SendCredentialsStudentEmail;
+use App\Http\Services\Student\UpdateOneStudentService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
+use Illuminate\Support\Str;
 
 use App\Models\Student;
+use App\Models\File;
 
 use App\Traits\HttpResponses;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Storage;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -62,6 +68,13 @@ class StudentController extends Controller
 
         $sendCredentialsStudentEmail->handle($student, $password);
 
+        return $student;
+    }
+
+    public function update($id, UpdateStudentRequest $request, UpdateOneStudentService $updateOneStudentService)
+    {
+        $body = $request->all();
+        $student =  $updateOneStudentService->handle($id, $body);
         return $student;
     }
 }
