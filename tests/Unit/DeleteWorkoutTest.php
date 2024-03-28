@@ -13,8 +13,8 @@ class DeleteWorkoutTest extends TestCase
 {
     public function test_user_can_delete_workout()
     {
-
-        $student = Student::factory()->create();
+        $user = User::factory()->create(['profile_id' => 3, 'password' => '12345678']);
+        $student = Student::factory()->create(['user_id' => $user->id]);
         $exercise = Exercise::factory()->create();
 
         $workoutCreated = Workout::factory()->create([
@@ -22,7 +22,7 @@ class DeleteWorkoutTest extends TestCase
             'exercise_id' => $exercise->id
         ]);
 
-        $user = User::factory()->create(['profile_id' => 3, 'password' => '12345678']);
+
         $response = $this->actingAs($user)->delete("/api/workouts/$workoutCreated->id");
 
         $response->assertStatus(204);
