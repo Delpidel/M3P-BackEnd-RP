@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Http\Controllers\InstructorWorkoutController;
-use App\Http\Services\InstructorListWorkoutService;
+use App\Http\Services\Workout\InstructorListWorkoutService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 

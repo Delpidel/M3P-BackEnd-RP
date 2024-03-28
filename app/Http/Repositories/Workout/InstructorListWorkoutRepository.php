@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Repositories;
+namespace App\Http\Repositories\Workout;
 
 use App\Interfaces\InstructorListWorkoutRepositoryInterface;
 use App\Models\Workout;

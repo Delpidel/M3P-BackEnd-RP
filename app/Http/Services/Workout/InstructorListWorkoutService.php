@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Workout;
 
-use App\Http\Repositories\InstructorListWorkoutRepository;
+use App\Http\Repositories\Workout\InstructorListWorkoutRepository;
 use App\Models\Student;
 
 class InstructorListWorkoutService

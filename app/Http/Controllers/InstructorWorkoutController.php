@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Traits\HttpResponses;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Services\InstructorListWorkoutService;
-
+use App\Http\Services\Workout\InstructorListWorkoutService;
 class InstructorWorkoutController extends Controller
 {
     use HttpResponses;
