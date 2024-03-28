@@ -20,7 +20,7 @@ class InstructorListWorkoutService
         $workouts = $this->repository->listWorkout($id);
 
         $workoutsByDay = [];
-        $weekDays = ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'];
+        $weekDays = ['SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO', 'DOMINGO'];
 
         foreach ($weekDays as $day) {
             $workoutsByDay[$day] = $workouts->where('day', $day)->isEmpty() ? [] : $workouts->where('day', $day)->all();

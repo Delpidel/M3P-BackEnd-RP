@@ -21,7 +21,7 @@ return new class extends Migration
         $daysMapping = [
             'TERÇA' => 'TERCA',
             'SÁBADO' => 'SABADO'
-        ]; // Itera sobre o mapeamento para atualizar os valores na nova coluna
+        ];
         foreach ($daysMapping as $original => $new) {
             DB::table('workouts')->where('day', $original)->update(['day_without_accents' => $new]);
         }
@@ -36,9 +36,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down()
     {
         //
