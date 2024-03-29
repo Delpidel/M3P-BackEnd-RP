@@ -36,7 +36,6 @@ class CreateWorkoutTest extends TestCase
             'break_time' => 10,
             'day' => 'SEGUNDA',
             'observations' => 'Observações',
-            'time' => 10,
         ]);
 
         $responseData = $workout->json();
@@ -64,7 +63,6 @@ class CreateWorkoutTest extends TestCase
             'break_time' => 10,
             'day' => 'SEGUNDA',
             'observations' => 'Observações',
-            'time' => 60,
         ];
 
         // Valida os dados da requisição usando regras e mensagens do StoreWorkoutRequest
@@ -86,7 +84,6 @@ class CreateWorkoutTest extends TestCase
             'break_time' => $data['break_time'],
             'day' => $data['day'],
             'observations' => $data['observations'],
-            'time' => $data['time'],
         ]);
 
         // Verifica se o treino foi realmente criado no banco de dados
@@ -130,7 +127,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -155,7 +151,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -180,7 +175,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -205,7 +199,6 @@ class CreateWorkoutTest extends TestCase
             // 'weight' => 10.5,
             'break_time' => 5,
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -230,7 +223,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 'teste', //valor invalido para weight
             'break_time' => 5,
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -255,7 +247,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 12.5,
             // 'break_time' => 5, //Este campo está vazio, por isso deve falhar a validação
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -280,7 +271,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 12.5,
             'break_time' => 'Teste',
             'day' => 'SEGUNDA',
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -306,7 +296,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 12.5,
             'break_time' => 1,
             // 'day' => 'SEGUNDA',  //Este campo está vazio, por isso deve falhar a validação
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -331,7 +320,6 @@ class CreateWorkoutTest extends TestCase
             'weight' => 12.5,
             'break_time' => 1,
             'day' => 1, // valor inválido para day
-            'time' => 60,
         ];
 
         $validator = Validator::make($data, $request->rules(), $request->messages());
@@ -343,57 +331,5 @@ class CreateWorkoutTest extends TestCase
             ['O dia da semana deve ser uma string.', 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO.'],
             $validator->errors()->get('day')
         );
-    }
-
-    public function test_time_required(): void
-    {
-        $user = User::factory()->create();
-        $student = Student::factory()->create(['user_id' => $user->id]);
-        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
-
-        $request = new StoreWorkoutRequest();
-
-        $data = [
-            'student_id' => $student->id,
-            'exercise_id' => $exercise->id,
-            'repetitions' => 12,
-            'weight' => 12.5,
-            'break_time' => 1,
-            'day' => 'SEGUNDA',
-            // 'time' => 60,
-        ];
-
-        $validator = Validator::make($data, $request->rules(), $request->messages());
-        Log::info($validator->errors()->all());
-
-        $this->assertTrue($validator->fails());
-
-        $this->assertEquals(['O tempo é obrigatório.'], $validator->errors()->get('time'));
-    }
-
-    public function test_time_invalid(): void
-    {
-        $user = User::factory()->create();
-        $student = Student::factory()->create(['user_id' => $user->id]);
-        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
-
-        $request = new StoreWorkoutRequest();
-
-        $data = [
-            'student_id' => $student->id,
-            'exercise_id' => $exercise->id,
-            'repetitions' => 12,
-            'weight' => 12.5,
-            'break_time' => 1,
-            'day' => 'SEGUNDA',
-            'time' => 'teste',
-        ];
-
-        $validator = Validator::make($data, $request->rules(), $request->messages());
-        Log::info($validator->errors()->all());
-
-        $this->assertTrue($validator->fails());
-
-        $this->assertEquals(['O tempo deve ser um número inteiro.'], $validator->errors()->get('time'));
     }
 }

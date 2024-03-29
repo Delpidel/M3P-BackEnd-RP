@@ -30,7 +30,6 @@ class StoreWorkoutRequest extends FormRequest
             'break_time' => 'required|integer',
             'day' => 'required|string|in:SEGUNDA,TERCA,QUARTA,QUINTA,SEXTA,SABADO,DOMINGO',
             'observations' => 'nullable|string',
-            'time' => 'required|integer',
         ];
     }
 
@@ -51,8 +50,6 @@ class StoreWorkoutRequest extends FormRequest
             'day.string' => 'O dia da semana deve ser uma string.',
             'day.in' => 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO.',
             'observations.string' => 'O campo de observações deve conter um texto.',
-            'time.required' => 'O tempo é obrigatório.',
-            'time.integer' => 'O tempo deve ser um número inteiro.',
         ];
     }
 }
