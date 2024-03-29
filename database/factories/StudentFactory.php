@@ -2,27 +2,29 @@
 
 namespace Database\Factories;
 
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 class StudentFactory extends Factory
 {
+    protected $model = Student::class;
 
-    public function definition(): array
+    public function definition()
     {
         return [
+            'photo' => $this->faker->image('public/storage/photos', 400, 300, null, false), // Gera um nome de arquivo aleatório
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'cpf' => $this->faker->numerify('###########'),
-            'date_birth' => $this->faker->date,
+            'date_birth' => $this->faker->date('Y-m-d'),
             'contact' => $this->faker->phoneNumber,
-            'cep' => $this->faker->numerify('########'),
+            'cpf' => $this->faker->unique()->regexify('^\d{3}.\d{3}.\d{3}-\d{2}$'),
+            'cep' => $this->faker->postcode,
             'street' => $this->faker->streetName,
             'state' => $this->faker->stateAbbr,
-            'neighborhood' => $this->faker->city,
+            'neighborhood' => $this->faker->citySuffix,
             'city' => $this->faker->city,
-            'number' => $this->faker->randomNumber(3),
-            'complement' => 'Apartamento ' . $this->faker->randomNumber(2), // Adicionando o complemento aos dados gerados
+            'number' => $this->faker->buildingNumber,
+            'complement' => $this->faker->optional()->text(50),
         ];
     }
 }
