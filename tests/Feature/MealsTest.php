@@ -5,10 +5,8 @@ namespace Tests\Feature;
 use App\Models\MealPlan;
 use App\Models\MealPlanSchedule;
 use App\Models\Student;
-use Database\Seeders\DatabaseSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
 
 class MealsTest extends TestCase
 {
@@ -16,14 +14,16 @@ class MealsTest extends TestCase
 
     public function test_can_list_all_meals()
     {
-        $this->seed(DatabaseSeeder::class);
+        $user = User::factory()->create(['profile_id' => 4, 'password' => '12345678']);
+
         MealPlanSchedule::factory()->count(10)->create();
 
-        $response = $this->get('/api/meals');
+        $response = $this->actingAs($user)->get('/api/meals');
         $response->assertStatus(200)->assertJsonStructure([
             '*' => [
                 'id',
                 'meal_plan_id',
+                'student_id',
                 'title',
                 'description',
                 'hour',
@@ -32,18 +32,18 @@ class MealsTest extends TestCase
                 'updated_at'
             ]
         ]);
-
     }
 
     public function test_can_create_meal_plans_schedule()
     {
-        $this->seed(DatabaseSeeder::class);
+        $user = User::factory()->create(['profile_id' => 4, 'password' => '12345678']);
 
         $student = Student::factory()->create();
         $meal_plan = MealPlan::factory()->create(['student_id' => $student->id]);
 
-        $response = $this->post('/api/cad_meal', [
+        $response = $this->actingAs($user)->post('/api/cad_meal', [
             'meal_plan_id' => $meal_plan->id,
+            'student_id' => $student->id,
             'hour' => '08:00',
             'title' => 'cafe da manha',
             'description' => 'pao com ovos',
@@ -108,12 +108,12 @@ class MealsTest extends TestCase
 
     public function test_can_edit_one_meal(): void
     {
-        $this->seed(DatabaseSeeder::class);
+        $user = User::factory()->create(['profile_id' => 4, 'password' => '12345678']);
 
         $meal = MealPlanSchedule::factory()->create();
 
         $body = ['hour' => '9:00', 'description' => 'torradas'];
-        $response = $this->put("/api/update_meal/$meal->id", $body);
+        $response = $this->actingAs($user)->put("/api/update_meal/$meal->id", $body);
 
         $this->assertDatabaseHas('meal_plans_schedule', [
             'id' => $meal->id,
@@ -134,12 +134,13 @@ class MealsTest extends TestCase
 
     public function test_can_delete_meal(): void
     {
+        $user = User::factory()->create(['profile_id' => 4, 'password' => '12345678']);
+
         $meal = MealPlanSchedule::factory()->create();
 
-        $response = $this->delete("/api/delete_meal/$meal->id");
+        $response = $this->actingAs($user)->delete("/api/delete_meal/$meal->id");
 
         $this->assertDatabaseMissing('meal_plans_schedule', ['id' => $meal->id]);
         $response->assertStatus(204);
     }
-
 }
