@@ -35,7 +35,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function find($id)
     {
-        return User::find($id);
+        return User::withTrashed()->find($id);
     }
 
     public function deactivateUser($user)
