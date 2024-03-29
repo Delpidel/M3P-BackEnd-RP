@@ -19,22 +19,14 @@ class MealPlanController extends Controller
 
     public function store(Request $request)
     {
-
-        try {
-            DB::beginTransaction();
             $data = $request->all();
-
             $request->validate([
                 'sudent_id' => 'int|required',
                 'description' => 'string|required'
             ]);
 
             $mealPlans = MealPlan::create($data);
-            DB::commit();
             return $mealPlans;
-        } catch (Exception $exception) {
-            DB::rollback();
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
+
     }
 }
