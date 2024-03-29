@@ -17,7 +17,7 @@ class Exercise extends Model
         'created_at',
     ];
 
-    public function user_id() {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }

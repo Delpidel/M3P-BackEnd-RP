@@ -10,12 +10,17 @@ class ExerciseFactory extends Factory
 {
     protected $model = Exercise::class;
 
-    public function definition()
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
     {
 
         return [
-            'description' => $this->faker->unique()->name(),
-            'user_id' => 3
+            'user_id' => User::factory(),
+            'description' => fake()->sentence(),
         ];
     }
 }
