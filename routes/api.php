@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    Route::post('/api/students/{id}/documents', [StudentDocumentController::class, 'store'])->middleware(['ability:post-students']);
-
+    Route::post('/api/students/{id}/documents', [StudentDocumentController::class, 'store'])->middleware(['ability:create-documents-students']);
 });
 
 Route::post('login', [AuthController::class, 'store']);

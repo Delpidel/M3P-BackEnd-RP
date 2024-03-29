@@ -3,54 +3,53 @@
 namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
+use App\Models\Student;
+use App\Models\File;
 use App\Models\StudentDocument;
 use App\Http\Services\File\CreateFileService;
 use App\Http\Controllers\StudentDocumentController;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentDocumentControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use WithFaker;
 
-    public function test_store_method_creates_document_successfully()
+    public function testStoreMethod()
     {
-        $file = UploadedFile::fake()->create('document.pdf', 1024);
+        $file = UploadedFile::fake()->create('document.pdf');
 
-        $createFileService = $this->createMock(CreateFileService::class);
+        $createFileServiceMock = $this->getMockBuilder(CreateFileService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $createFileService->expects($this->once())
+        $createFileServiceMock->expects($this->once())
             ->method('handle')
-            ->with(
-                $this->anything(),
-                $this->identicalTo($file),
-                $this->anything()
-            )
-            ->willReturn(['name' => 'document.pdf', 'size' => 1024, 'mime' => 'pdf', 'url' => 'http://example.com/document.pdf']);
+            ->willReturn([
+                'id' => 1,
+                'name' => 'file.pdf',
+                'size' => 1024,
+                'mime' => 'pdf',
+                'url' => 'http://s3-testing.com/path/to/file.pdf'
+            ]);
 
-        $controller = new StudentDocumentController($createFileService);
+        $this->app->instance(CreateFileService::class, $createFileServiceMock);
 
-        $request = Request::create('/api/documents', 'POST', [
-            'title' => 'Document Title',
-            'file_id' => 1
+        $student = Student::factory()->create();
+
+        $response = $this->postJson(route('students.documents.store', ['id' => $student->id]), [
+            'title' => $this->faker->sentence,
+            'file_id' => 1,
+            'document' => $file,
         ]);
 
-        $request->setUserResolver(function () {
-            return (object) ['id' => 1];
-        });
+        $response->assertStatus(Response::HTTP_OK);
 
-        $response = $controller->store($request);
-
-        $response->assertStatus(Response::HTTP_OK)
-            ->assertJson([
-                'message' => 'Document created successfully',
-                'document' => [
-                    'title' => 'Document Title',
-                    'student_id' => 1,
-                    'file_id' => 1,
-                ]
-            ]);
+        $this->assertDatabaseHas('student_documents', [
+            'title' => $response['document']['title'],
+            'file_id' => 1,
+            'student_id' => $student->id,
+        ]);
     }
 }
