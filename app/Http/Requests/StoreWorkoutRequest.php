@@ -28,7 +28,7 @@ class StoreWorkoutRequest extends FormRequest
             'repetitions' => 'required|integer',
             'weight' => 'required|numeric',
             'break_time' => 'required|integer',
-            'day' => 'required|string|in:SEGUNDA,TERCA,QUARTA,QUINTA,SEXTA,SABADO,DOMINGO',
+            'day' => 'required|string|in:SEGUNDA,TERÇA,QUARTA,QUINTA,SEXTA,SÁBADO,DOMINGO',
             'observations' => 'nullable|string',
         ];
     }
