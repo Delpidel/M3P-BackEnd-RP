@@ -13,7 +13,7 @@ class StudentDocumentController extends Controller
     public function storeDocuments(
         StoreDocumentRequest $request,
         CreateFileService $createFileService,
-        $id
+        $student_id
     ) {
         $data = $request->validated();
 
@@ -28,7 +28,7 @@ class StudentDocumentController extends Controller
         $document = StudentDocument::create([
             'title' => $data['title'],
             'file_id' => $file->id,
-            'student_id' => $id,
+            'student_id' => $student_id,
         ]);
 
         return response()->json(['message' => 'Document created successfully', 'document' => $document], Response::HTTP_OK);

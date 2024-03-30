@@ -16,4 +16,9 @@ class StudentDocument extends Model
     {
         return $this->belongsTo(File::class);
     }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }
