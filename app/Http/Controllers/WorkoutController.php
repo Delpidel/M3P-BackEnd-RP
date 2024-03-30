@@ -29,20 +29,23 @@ class WorkoutController extends Controller
     
         if ($studentId !== null) {
 
-            $workouts = Workout::select('workouts.*', 'users_students.user_id', 'exercises.description')
+            $workouts = Workout::select('workouts.*', 'users_students.user_id', 'users.name as user_name', 'exercises.description')
                 ->join('users_students', 'workouts.student_id', '=', 'users_students.student_id')
                 ->join('exercises', 'workouts.exercise_id', '=', 'exercises.id')
+                ->join('users', 'users_students.user_id', '=', 'users.id') 
                 ->where('users_students.user_id', $studentId)
                 ->orderBy('workouts.created_at')
                 ->get();
             
-            $formattingWorkouts = [];
+            $formattingWorkouts = [
+                'student_id' => $studentId, 
+                'name' => null, 
+                'workouts' => []
+            ];
+           
+            $formattingWorkouts['name'] = $workouts->isNotEmpty() ? $workouts->first()->user_name : null;
 
             foreach ($workouts as $workout) {
-                $formattingWorkouts['student_id'] = $workout->student_id;
-                $formattingWorkouts['user_id'] = $workout->user_id; // Agrega el id del usuario
-                $formattingWorkouts['name'] = $workout->name;
-                
                 $day = $workout->day;
                 $formattingWorkouts['workouts'][$day][] = [
                     'description' => $workout->description,
