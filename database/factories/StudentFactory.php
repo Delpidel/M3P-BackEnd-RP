@@ -12,7 +12,7 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            'photo' => $this->faker->image('public/storage/photos', 400, 300, null, false), // Gera um nome de arquivo aleatório
+            'photo' => $this->faker->image('public/storage/photos', 400, 300, null, false),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'date_birth' => $this->faker->date('Y-m-d'),

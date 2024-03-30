@@ -12,11 +12,10 @@ class FileFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word . '.jpg', // Simula um nome de arquivo
-            'size' => $this->faker->numberBetween(1000, 5000), // Simula um tamanho de arquivo
-            'mime' => 'image/jpeg', // Simula o tipo MIME da imagem
-            'url' => $this->faker->imageUrl(), // Simula um link para a imagem
-            // Outros atributos conforme necessário
+            'name' => $this->faker->word . '.jpg',
+            'size' => $this->faker->numberBetween(1000, 5000),
+            'mime' => 'image/jpeg',
+            'url' => $this->faker->imageUrl(),
         ];
     }
 }
