@@ -3,6 +3,7 @@
 namespace App\Http\Services\Student;
 
 use App\Http\Repositories\StudentRepository;
+use Symfony\Component\HttpFoundation\Response;
 use App\Traits\HttpResponses;
 
 use ErrorException;
@@ -20,7 +21,7 @@ class UpdateOneStudentService
     {
         $student = $this->studentRepository->getOne($id);
 
-        if(!$student) throw new ErrorException('Aluno não encontrado', 404);
+        if(!$student) throw new ErrorException('Aluno não encontrado', Response::HTTP_NOT_FOUND);
 
         return $this->studentRepository->updateOne($student, $data);
     }
