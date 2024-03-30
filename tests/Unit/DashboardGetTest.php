@@ -2,49 +2,53 @@
 
 namespace Tests\Feature;
 
-use App\Models\Exercise;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class DashboardGetTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testGetDashboard()
+    public function test_admin_can_get_dashboard()
     {
-        // Preparação dos dados de exercício e usuário necessários
-        // Exercise::factory()->count(5)->create();
+        $user = User::factory()->create(['profile_id' => 1]);
+        $token = $user->createToken('@academia', ['get-dashboard'])->plainTextToken;
 
-        User::factory()->count(2)->create(['profile_id' => 1]);
-        User::factory()->count(3)->create(['profile_id' => 2]);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/dashboard/admin');
 
-        // Chama a rota que corresponde ao método getDashboard() do DashboardController
-        $response = $this->get('/dashboard/admin');
-
-        // Verifica se a resposta HTTP é 200 (OK)
-        $response->assertStatus(Response::HTTP_OK);
-
-        // Verifica se a resposta contém as chaves esperadas
-        $response->assertJsonStructure([
-            'registered_exercises',
-            'profiles',
-        ]);
-
-        // Verifica se a quantidade de exercícios registrados está correta
-        $response->assertJsonFragment([
-            'registered_exercises' => 5,
-        ]);
-
-        // Verifica se os perfis de usuários e suas contagens estão corretos
-        $response->assertJsonFragment([
-            'profiles' => [
-                'admin' => 2,
-                'user' => 3,
+        $response->assertStatus(200)->assertJsonStructure([
+            'message',
+            'status',
+            'data' => [
+                'registered_exercises',
+                'profiles' => [
+                    'ADMIN',
+                    'ALUNO',
+                    'INSTRUTOR',
+                    'NUTRICIONISTA',
+                    'RECEPCIONISTA',
+                ],
+                'exercises' => [
+                    '*' => [
+                        'id',
+                        'description',
+                        'user_id',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ],
             ],
         ]);
+    }
 
-        // Outras asserções conforme necessário
+    public function test_others_users_can_not_get_dashboard()
+    {
+        $user = User::factory()->create(['profile_id' => 2]);
+        $token = $user->createToken('@academia', [''])->plainTextToken;
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/dashboard/admin');
+
+        $response->assertStatus(403);
     }
 }

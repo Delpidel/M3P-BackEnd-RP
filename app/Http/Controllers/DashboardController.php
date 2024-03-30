@@ -11,9 +11,10 @@ class DashboardController extends Controller
 {
     use HttpResponses;
 
-    public function getDashboard()
+    public function index()
     {
         $registeredExercises = Exercise::count();
+        $exercises = Exercise::all();
 
         $profiles = User::selectRaw('profiles.name as profile_name, count(users.id) as count')
             ->join('profiles', 'users.profile_id', '=', 'profiles.id')
@@ -23,6 +24,7 @@ class DashboardController extends Controller
         return $this->response('',Response::HTTP_OK,[
             'registered_exercises' => $registeredExercises,
             'profiles' => $profiles,
+            'exercises' => $exercises,
         ]);
     }
 }
