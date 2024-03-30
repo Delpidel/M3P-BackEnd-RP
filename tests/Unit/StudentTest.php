@@ -10,10 +10,66 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class StudentTest extends TestCase
 {
+    public function test_recepcionist_can_create_student(): void
+    {
+
+        // Autentica um usuário recepcionista e obtém o token de autenticação
+        $user = User::factory()->create([
+            'profile_id' => 2
+        ]);
+        $token = $user->createToken('Token recepcionista', ['create-students'])->plainTextToken;
+
+        Storage::fake('s3'); // Mock AWS S3
+
+        $photo = UploadedFile::fake()->image('photo.jpg');
+
+        // Simula os dados do corpo da requisição, incluindo o id para a imagem
+        $student = [
+            'name' => 'João da Silva',
+            'email' => 'joao@example.com',
+            'cpf' => '024.892.560-26',
+            'date_birth' => '1945-01-24',
+            'contact' => '980579171',
+            'cep' => '96810174',
+            'street' => 'Rua vinte e oito de setembro',
+            'state' => 'RS',
+            'neighborhood' => 'Centro',
+            'city' => 'Santa cruz do sul',
+            'number' => '642',
+            'complement' => 'Casa amarela',
+            'photo' => $photo
+        ];
+
+        // Faz uma requisição POST para o endpoint do controlador
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->post('/api/students', $student);
+
+
+        // Verifica se a resposta tem o status 201 (ou o status esperado)
+        $response->assertStatus(201)
+            ->assertJsonFragment([
+                'name' => 'João da Silva',
+                'email' => 'joao@example.com',
+                'cpf' => '024.892.560-26',
+                'date_birth' => '1945-01-24',
+                'contact' => '980579171',
+                'cep' => '96810174',
+                'street' => 'Rua vinte e oito de setembro',
+                'state' => 'RS',
+                'neighborhood' => 'Centro',
+                'city' => 'Santa cruz do sul',
+                'number' => '642',
+                'complement' => 'Casa amarela',
+                'file_id' => 1,
+                'id' => 1
+            ]);
+    }
+
     public function test_receptionist_token_was_generated(): void
     {
         $receptionist = User::find(2);
@@ -74,57 +130,5 @@ class StudentTest extends TestCase
         $emailServiceMock->shouldReceive('handle')->with($student, $password)->once();
 
         $emailServiceMock->handle($student, $password);
-    }
-
-    public function test_recepcionist_can_create_student(): void
-    {
-
-        // Autentica um usuário recepcionista e obtém o token de autenticação
-        $user = User::factory()->create();
-        $token = $user->createToken('Token Name', ['ability:create-students'])->plainTextToken;
-
-        $imagePath = public_path('test/photo-test.jpg');
-
-        $photo = new UploadedFile($imagePath, 'photo-teste.jpg', 'image/jpeg', null, true);
-
-        // Simula os dados do corpo da requisição, incluindo o id para a imagem
-        $student = [
-            'name' => 'João da Silva',
-            'email' => 'joao@example.com',
-            'cpf' => '024.892.560-26',
-            'date_birth' => '1945-01-24',
-            'contact' => '980579171',
-            'cep' => '96810174',
-            'street' => 'Rua vinte e oito de setembro',
-            'state' => 'RS',
-            'neighborhood' => 'Centro',
-            'city' => 'Santa cruz do sul',
-            'number' => '642',
-            'complement' => 'Casa amarela',
-            'photo' => $photo
-        ];
-
-        // Faz uma requisição POST para o endpoint do controlador
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->post('/api/students', $student);
-
-
-        // Verifica se a resposta tem o status 201 (ou o status esperado)
-        $response->assertStatus(201)
-            ->assertDatabaseHas('students', [
-                'name' => 'João da Silva',
-                'email' => 'joao@example.com',
-                'cpf' => '024.892.560-26',
-                'date_birth' => '1945-01-24',
-                'contact' => '980579171',
-                'cep' => '96810174',
-                'street' => 'Rua vinte e oito de setembro',
-                'state' => 'RS',
-                'neighborhood' => 'Centro',
-                'city' => 'Santa cruz do sul',
-                'number' => '642',
-                'complement' => 'Casa amarela',
-                'file_id' => 1
-            ]);
     }
 }
