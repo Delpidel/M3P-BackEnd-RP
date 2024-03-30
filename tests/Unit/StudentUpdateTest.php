@@ -28,7 +28,8 @@ class StudentUpdateTest extends TestCase
             'state' => 'RS',
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/students/' . $student->id, $body);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+                         ->put('/api/students/' . $student->id, $body);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -57,7 +58,8 @@ class StudentUpdateTest extends TestCase
             'name' => '',
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/students/' . $student->id, $body);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+                         ->put('/api/students/' . $student->id, $body);
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -78,7 +80,8 @@ class StudentUpdateTest extends TestCase
             'cpf' => '12345678999',
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/students/' . $student->id, $body);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+                         ->put('/api/students/' . $student->id, $body);
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -100,11 +103,35 @@ class StudentUpdateTest extends TestCase
             'email' => $studentTwo->email,
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->put('/api/students/' . $studentOne->id, $body);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+                         ->put('/api/students/' . $studentOne->id, $body);
 
         $response->assertStatus(400);
         $response->assertJson([
             "message" => "O email informado já está em uso.",
+        ]);
+    }
+
+    public function test_receptionist_cannot_found_id()
+    {
+        $receptionist = User::factory()->create(['profile_id' => 2]);
+        $token = $receptionist->createToken('@recepcao', ['update-students'])->plainTextToken;
+
+        $nonExistentId = 999;
+
+        $body = [
+            'city' => 'Salvador',
+        ];
+
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+                         ->put('/api/students/' . $nonExistentId, $body);
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            "message" => "O Aluno não foi encontrado no banco de dados.",
+            "status" => 404,
+            "errors" => [],
+            "data" => []
         ]);
     }
 }
