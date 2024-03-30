@@ -71,7 +71,9 @@ class StudentController extends Controller
         return $student;
     }
 
-    public function update($id, UpdateStudentRequest $request, UpdateOneStudentService $updateOneStudentService)
+    public function update($id,
+    UpdateStudentRequest $request,
+    UpdateOneStudentService $updateOneStudentService)
     {
         $body = $request->all();
         $student =  $updateOneStudentService->handle($id, $body);
