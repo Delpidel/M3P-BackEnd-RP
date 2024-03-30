@@ -51,13 +51,10 @@ class StudentTest extends TestCase
         $response->assertStatus(201)->assertJson([...$student, 'file_id' => 1]);
     }
 
-    public function test_non_receptionist_cannot_create_student(): void
+    public function test_others_users_cannot_create_student(): void
     {
-
-        $user = User::factory()->create([
-            'profile_id' => 3
-        ]);
-        $token = $user->createToken('Token', ['create-exercises'])->plainTextToken;
+        $user = User::factory()->create(['profile_id' => 3]);
+        $token = $user->createToken('Token', [''])->plainTextToken;
 
         $photo = UploadedFile::fake()->image('photo.jpg');
 
@@ -81,9 +78,6 @@ class StudentTest extends TestCase
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
             ->post('/api/students', $student + ['photo' => $photo]);
 
-        $response->assertStatus(403)
-            ->assertJsonFragment([
-                'message' => 'Acesso negado. Você não possui permissão para executar esta ação.'
-            ]);
+        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
     }
 }
