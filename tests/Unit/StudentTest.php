@@ -52,7 +52,7 @@ class StudentTest extends TestCase
 
         // Verifica se a resposta tem o status 201 (ou o status esperado)
         $response->assertStatus(201)
-            ->assertJsonFragment([
+            ->assertJson('students', [
                 'name' => 'João da Silva',
                 'email' => 'joao@example.com',
                 'cpf' => '024.892.560-26',
