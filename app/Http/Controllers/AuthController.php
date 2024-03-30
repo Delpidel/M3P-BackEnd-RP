@@ -39,9 +39,10 @@ class AuthController extends Controller
         $this->getPermissionsService = $getPermissionsService;
     }
 
-    public function store(Request $request)
+    public function store(AuthRequest $request)
     {
-        $authenticated = $this->authenticationService->handle($request);
+        $data = $request->only('email', 'password');
+        $authenticated = $this->authenticationService->handle($data);
 
         if (!$authenticated) {
             return $this->error("Não autorizado. Credenciais incorretas", Response::HTTP_UNAUTHORIZED);

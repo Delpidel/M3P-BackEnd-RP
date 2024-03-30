@@ -3,6 +3,7 @@
 namespace App\Http\Services\Auth;
 
 use App\Http\Repositories\AuthRepository;
+use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 
 class AuthenticationService
@@ -14,15 +15,8 @@ class AuthenticationService
         $this->authRepository = $authRepository;
     }
 
-    public function handle(Request $request)
+    public function handle($data)
     {
-        $data = $request->only('email', 'password');
-
-        $request->validate([
-            'email' => 'string|required',
-            'password' => 'string|required'
-        ]);
-
         return $this->authRepository->attempt($data);
     }
 }
