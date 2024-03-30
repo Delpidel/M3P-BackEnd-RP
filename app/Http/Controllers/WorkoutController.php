@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Workout;
 use App\Traits\HttpResponses;
 
@@ -29,6 +30,8 @@ class WorkoutController extends Controller
     
         if ($studentId !== null) {
 
+            $userName = User::where('id', $studentId)->value('name');
+
             $workouts = Workout::select('workouts.*', 'users_students.user_id', 'users.name as user_name', 'exercises.description')
                 ->join('users_students', 'workouts.student_id', '=', 'users_students.student_id')
                 ->join('exercises', 'workouts.exercise_id', '=', 'exercises.id')
@@ -39,11 +42,9 @@ class WorkoutController extends Controller
             
             $formattingWorkouts = [
                 'student_id' => $studentId, 
-                'name' => null, 
+                'name' => $userName, 
                 'workouts' => []
-            ];
-           
-            $formattingWorkouts['name'] = $workouts->isNotEmpty() ? $workouts->first()->user_name : null;
+            ];  
 
             foreach ($workouts as $workout) {
                 $day = $workout->day;
