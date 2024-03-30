@@ -8,7 +8,7 @@ use App\Http\Services\File\CreateFileService;
 use App\Http\Services\Student\CreateOneStudentService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\PasswordHashingService;
-use App\Http\Services\Student\SendCredentialsStudentEmail;
+use App\Http\Services\Student\SendCredentialsStudentEmailService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
 
@@ -39,7 +39,7 @@ class StudentController extends Controller
         CreateOneStudentService $createOneStudentService,
         PasswordGenerationService $passwordGenerationService,
         PasswordHashingService $passwordHashingService,
-        SendCredentialsStudentEmail $sendCredentialsStudentEmail,
+        SendCredentialsStudentEmailService $sendCredentialsStudentEmailService,
         CreateOneUserService $createOneUserService,
         CreateOneUserStudentService $createOneUserStudentService
     ) {
@@ -60,7 +60,7 @@ class StudentController extends Controller
 
         $createOneUserStudentService->handle(['user_id' => $user->id, 'student_id' => $student->id]);
 
-        $sendCredentialsStudentEmail->handle($student, $password);
+        $sendCredentialsStudentEmailService->handle($student, $password);
 
         return $student;
     }
