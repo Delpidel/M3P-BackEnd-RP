@@ -2,35 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetStudentsRequest;
 use App\Http\Requests\StoreStudentRequest;
-
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\Student\CreateOneStudentService;
+use App\Http\Services\Student\ListAllStudentsService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\PasswordHashingService;
 use App\Http\Services\Student\SendCredentialsStudentEmail;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
 
-use App\Models\Student;
-
-use App\Traits\HttpResponses;
-
-use Symfony\Component\HttpFoundation\Response;
-
 class StudentController extends Controller
 {
-    use HttpResponses;
+    protected $listAllStudentsService;
 
-    public function index()
+    public function __construct(ListAllStudentsService $listAllStudentsService)
     {
-        try {
+        $this->listAllStudentsService = $listAllStudentsService;
+    }
 
-            $students = Student::all();
-            return $students;
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+    public function index(GetStudentsRequest $request)
+    {
+
+        $search = $request->input('search');
+
+        $students = $this->listAllStudentsService->handle($search);
+
+        if ($students->isEmpty()) {
+            return response()->json(['message' => 'Nenhum estudante encontrado.'], 404);
         }
+
+        return response()->json($students, 200);
     }
 
     public function store(
