@@ -18,6 +18,9 @@ class DashboardGetTest extends TestCase
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/dashboard/admin');
 
         $response->assertStatus(200)->assertJsonStructure([
+            'message',
+            'status',
+            'data' => [
                 'registered_exercises',
                 'profiles' => [
                     'ADMIN',
@@ -35,7 +38,8 @@ class DashboardGetTest extends TestCase
                         'updated_at',
                     ],
                 ],
-        ]);        
+            ],
+        ]);    
     }
 
     public function test_others_users_can_not_get_dashboard()

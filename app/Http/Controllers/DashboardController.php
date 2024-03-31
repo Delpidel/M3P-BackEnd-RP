@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\Dashboard\DashboardService;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
 
 class DashboardController extends Controller
 {
+    use HttpResponses;
+
     protected $dashboardService;
 
     public function __construct(DashboardService $dashboardService)
@@ -17,6 +20,6 @@ class DashboardController extends Controller
     public function index()
     {
         $dashboardData = $this->dashboardService->getDashboardData();
-        return response()->json($dashboardData, Response::HTTP_OK);
+        return $this->response('Dashboard carregado com sucesso.', Response::HTTP_OK, $dashboardData);
     }
 }
