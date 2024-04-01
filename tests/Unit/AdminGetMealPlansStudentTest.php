@@ -62,11 +62,11 @@ class AdminGetMealPlansStudentTest extends TestCase
             'student_name',
             'meal_plans' => [
                 'SEGUNDA' => [],
-                'TERÇA' => [],
+                'TERCA' => [],
                 'QUARTA' => [],
                 'QUINTA' => [],
                 'SEXTA' => [],
-                'SÁBADO' => [],
+                'SABADO' => [],
                 'DOMINGO' => [],
             ],
         ]);
