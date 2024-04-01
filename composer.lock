@@ -32,10 +32,21 @@
             },
             "type": "library",
             "autoload": {
+<<<<<<< HEAD
                 "classmap": ["src/"]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": ["Apache-2.0"],
+=======
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "authors": [
                 {
                     "name": "AWS SDK Common Runtime Team",
@@ -44,7 +55,16 @@
             ],
             "description": "AWS Common Runtime for PHP",
             "homepage": "https://github.com/awslabs/aws-crt-php",
+<<<<<<< HEAD
             "keywords": ["amazon", "aws", "crt", "sdk"],
+=======
+            "keywords": [
+                "amazon",
+                "aws",
+                "crt",
+                "sdk"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "support": {
                 "issues": "https://github.com/awslabs/aws-crt-php/issues",
                 "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.4"
@@ -53,6 +73,7 @@
         },
         {
             "name": "aws/aws-sdk-php",
+<<<<<<< HEAD
             "version": "3.301.4",
             "source": {
                 "type": "git",
@@ -63,6 +84,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1d04b11a621eaceb389d2cfbd82bcdc423903796",
                 "reference": "1d04b11a621eaceb389d2cfbd82bcdc423903796",
+=======
+            "version": "3.301.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "18c0ebd71d3071304f1ea02aa9af75f95863177a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/18c0ebd71d3071304f1ea02aa9af75f95863177a",
+                "reference": "18c0ebd71d3071304f1ea02aa9af75f95863177a",
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
                 "shasum": ""
             },
             "require": {
@@ -110,13 +143,25 @@
                 }
             },
             "autoload": {
+<<<<<<< HEAD
                 "files": ["src/functions.php"],
+=======
+                "files": [
+                    "src/functions.php"
+                ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
                 "psr-4": {
                     "Aws\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+<<<<<<< HEAD
             "license": ["Apache-2.0"],
+=======
+            "license": [
+                "Apache-2.0"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "authors": [
                 {
                     "name": "Amazon Web Services",
@@ -138,9 +183,15 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.301.4"
             },
             "time": "2024-03-20T18:16:55+00:00"
+=======
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.6"
+            },
+            "time": "2024-03-22T18:05:21+00:00"
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
         },
         {
             "name": "brick/math",
@@ -1851,7 +1902,13 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+<<<<<<< HEAD
             "license": ["MIT"],
+=======
+            "license": [
+                "MIT"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "authors": [
                 {
                     "name": "Frank de Jonge",
@@ -2096,7 +2153,13 @@
                 "composer/xdebug-handler": "^3.0.3",
                 "phpunit/phpunit": "^8.5.33"
             },
+<<<<<<< HEAD
             "bin": ["bin/jp.php"],
+=======
+            "bin": [
+                "bin/jp.php"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2104,13 +2167,25 @@
                 }
             },
             "autoload": {
+<<<<<<< HEAD
                 "files": ["src/JmesPath.php"],
+=======
+                "files": [
+                    "src/JmesPath.php"
+                ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
                 "psr-4": {
                     "JmesPath\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+<<<<<<< HEAD
             "license": ["MIT"],
+=======
+            "license": [
+                "MIT"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "authors": [
                 {
                     "name": "Graham Campbell",
@@ -2124,7 +2199,14 @@
                 }
             ],
             "description": "Declaratively specify how to extract elements from a JSON document",
+<<<<<<< HEAD
             "keywords": ["json", "jsonpath"],
+=======
+            "keywords": [
+                "json",
+                "jsonpath"
+            ],
+>>>>>>> d6c305605b016f1af4d50c31cf8b61465c1fa10d
             "support": {
                 "issues": "https://github.com/jmespath/jmespath.php/issues",
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.7.0"

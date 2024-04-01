@@ -45,6 +45,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::post('logout', [AuthController::class, 'logout']);
 
+    //rotas para cadastro de avaliações em 3 etapas
+    Route::prefix('avaliations')->group(function () {
+        Route::post('step1', [AvaliationController::class, 'step1']);
+        Route::post('step2', [AvaliationController::class, 'step2']);
+        Route::post('step3', [AvaliationController::class, 'step3']);
+    })->middleware(['ability:create-avaliations']);
+
+
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::post('login', [AuthController::class, 'store']);

@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Http\Repositories\MealPlanScheduleRepository;
-use App\Http\Services\MealPlanScheduleService;
-use App\Interfaces\MealPlanScheduleRepositoryInterface;
-use App\Interfaces\MealPlanScheduleServiceInterface;
+use App\Http\Repositories\AvaliationRepository;
+use App\Interfaces\AvaliationRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,8 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(MealPlanScheduleRepositoryInterface::class, MealPlanScheduleRepository::class);
-        $this->app->bind(MealPlanScheduleServiceInterface::class, MealPlanScheduleServiceInterface::class);
+
     }
 
     /**
