@@ -17,7 +17,7 @@ class WorkoutFactory extends Factory
             'repetitions' => $this->faker->numberBetween(1, 12),
             'weight' => $this->faker->randomFloat(2, 1, 100),
             'break_time' => $this->faker->numberBetween(30, 600),
-            'day' => $this->faker->randomElement(['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO']),
+            'day' => $this->faker->randomElement(['SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO', 'DOMINGO']),
             'observations' => $this->faker->text(),
             'time' => $this->faker->numberBetween(60, 3600)
         ];

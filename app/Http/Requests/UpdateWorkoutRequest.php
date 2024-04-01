@@ -27,7 +27,7 @@ class UpdateWorkoutRequest extends FormRequest
             'repetitions' => 'integer',
             'weight' => 'numeric',
             'break_time' => 'integer',
-            'day' => 'in:SEGUNDA,TERÇA,QUARTA,QUINTA,SEXTA,SÁBADO,DOMINGO',
+            'day' => 'in:SEGUNDA,TERCA,QUARTA,QUINTA,SEXTA,SABADO,DOMINGO',
             'observations' => 'string',
             'time' => 'integer',
         ];
@@ -41,7 +41,7 @@ class UpdateWorkoutRequest extends FormRequest
             'repetitions.integer' => 'O número de repetições deve ser um número inteiro',
             'weight.numeric' => 'O peso deve ser um número decimal',
             'break_time.integer' => 'O tempo de pausa entre as séries deve ser um número inteiro',
-            'day.in' => 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO',
+            'day.in' => 'O dia da semana deve ser um dos seguintes: SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO, DOMINGO',
             'observations.string' => 'As observações devem ser uma string',
             'time.integer' => 'O tempo deve ser um número inteiro',
         ];
