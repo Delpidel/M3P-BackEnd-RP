@@ -6,8 +6,6 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Workout;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class WorkoutFactory extends Factory
 {
