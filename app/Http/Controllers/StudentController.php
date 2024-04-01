@@ -9,11 +9,12 @@ use App\Http\Services\Student\CreateOneStudentService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\PasswordHashingService;
 use App\Http\Services\Student\SendCredentialsStudentEmail;
+use App\Http\Services\Student\DeleteOneStudentService;
+
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
 
 use App\Models\Student;
-
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,22 +66,14 @@ class StudentController extends Controller
         return $student;
     }
 
-    public function destroy($id)
+    public function destroy($id, DeleteOneStudentService $deleteOneStudentService)
     {
-
         $userId = Auth::id();
 
         if ($userId != 2) {
-            return $this->error('Usuário logado não pode excluir estudante, somente recepcionista.', Response::HTTP_FORBIDDEN);
+            return $this->error('Usuário logado não pode excluir estudante', Response::HTTP_FORBIDDEN);
         }
 
-        $student = Student::find($id);
-        if (!$student) {
-            return $this->error('Estudante não encontrado.', Response::HTTP_NOT_FOUND);
-        }
-
-        $student->delete();
-
-        return $this->response('', Response::HTTP_NO_CONTENT);
+        return $deleteOneStudentService->handle($id);
     }
 }
