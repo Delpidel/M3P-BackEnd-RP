@@ -11,4 +11,14 @@ class StudentRepository implements StudentRepositoryInterface
     {
         return Student::create($data);
     }
+
+    public function find($id)
+    {
+        return Student::find($id);
+    }
+
+    public function delete(Student $student)
+    {
+        return $student->delete();
+    }
 }
