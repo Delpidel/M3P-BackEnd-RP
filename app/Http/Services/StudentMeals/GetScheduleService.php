@@ -31,11 +31,11 @@ class GetScheduleService
             'student_name' => $userName,
             'meal_plans' => [
                 "SEGUNDA" => [],
-                "TERÇA" => [],
+                "TERCA" => [],
                 "QUARTA" => [],
                 "QUINTA" => [],
                 "SEXTA" => [],
-                "SÁBADO" => [],
+                "SABADO" => [],
                 "DOMINGO" => [],
             ]
         ];
