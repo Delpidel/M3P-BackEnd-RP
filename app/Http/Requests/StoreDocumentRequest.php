@@ -16,8 +16,8 @@ class StoreDocumentRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string|max:255',
-            'file_id' => 'required|exists:files,id',
             'document' => 'required|file',
+            'student_id' => 'exists:students,id',
         ];
     }
 }

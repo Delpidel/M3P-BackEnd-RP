@@ -4,33 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Services\File\CreateFileService;
+use App\Models\File;
 use App\Models\StudentDocument;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class StudentDocumentController extends Controller
 {
     public function storeDocuments(
-        StoreDocumentRequest $request,
-        CreateFileService $createFileService,
-        $student_id
+        StoreDocumentRequest $request
     ) {
-        $data = $request->validated();
+        $file = $request->file('document');
+        $body =  $request->input();
 
-        $slug = $request->filled('title') ? Str::slug($request->input("title")) : null;
+        $pathBucket = Storage::disk('s3')->put('studentdocument', $file);
+        $fullPathFile = Storage::disk('s3')->url($pathBucket);
 
-        $file = $createFileService->handle(
-            "student_document",
-            $request->file("document"),
-            $slug
+        $file = File::create(
+            [
+                'name' => 'documento' . $body['title'],
+                'size' => $file->getSize(),
+                'mime' => $file->extension(),
+                'url' => $fullPathFile
+            ]
         );
 
-        $document = StudentDocument::create([
-            'title' => $data['title'],
-            'file_id' => $file->id,
-            'student_id' => $student_id,
-        ]);
-
-        return response()->json(['message' => 'Document created successfully', 'document' => $document], Response::HTTP_OK);
+        return StudentDocument::create([...$body, 'file_id' => $file->id]);
     }
 }
