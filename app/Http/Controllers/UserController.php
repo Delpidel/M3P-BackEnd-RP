@@ -57,6 +57,12 @@ class UserController extends Controller
         return $users;
     }
 
+    public function show($id, GetOneUserService $getOneUserService)
+    {
+        $user = $getOneUserService->handle($id);
+        return $user;
+    }
+
     public function update(
         $id,
         UpdateUserRequest $request,
