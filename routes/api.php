@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::post('students/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);});
+    Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);});
 
 Route::post('login', [AuthController::class, 'store']);
 

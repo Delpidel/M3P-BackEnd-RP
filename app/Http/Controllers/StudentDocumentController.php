@@ -12,24 +12,26 @@ use Illuminate\Support\Str;
 
 class StudentDocumentController extends Controller
 {
-    public function storeDocuments(
-        StoreDocumentRequest $request
-    ) {
-        $file = $request->file('document');
-        $body =  $request->input();
+    public function storeDocuments(StoreDocumentRequest $request, $id)
+    {
+        $studentId = $id;
 
+        $body = $request->validated();
+
+        $file = $request->file('document');
         $pathBucket = Storage::disk('s3')->put('studentdocument', $file);
         $fullPathFile = Storage::disk('s3')->url($pathBucket);
 
-        $file = File::create(
-            [
-                'name' => 'documento' . $body['title'],
-                'size' => $file->getSize(),
-                'mime' => $file->extension(),
-                'url' => $fullPathFile
-            ]
-        );
+        $file = File::create([
+            'name' => 'documento' . $body['title'],
+            'size' => $file->getSize(),
+            'mime' => $file->extension(),
+            'url' => $fullPathFile
+        ]);
 
-        return StudentDocument::create([...$body, 'file_id' => $file->id]);
+        $body['student_id'] = $studentId;
+
+        return StudentDocument::create($body + ['file_id' => $file->id]);
+
     }
 }
