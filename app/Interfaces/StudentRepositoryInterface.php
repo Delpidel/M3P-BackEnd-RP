@@ -9,4 +9,6 @@ interface StudentRepositoryInterface
     public function createOne(array $data);
     public function find($id);
     public function delete(Student $student);
+    public function search($name, $email, $cpf);
 }
+

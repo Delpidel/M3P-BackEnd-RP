@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class AuthTest extends TestCase
 {
     public function test_admin_can_login()
     {
@@ -48,7 +48,7 @@ class UserTest extends TestCase
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $responseData = json_decode($response->getContent(), true);
-        $this->assertEquals('The email field is required.', $responseData['message']);
+        $this->assertEquals('O email e obrigátorio', $responseData['message']);
     }
 
     public function test_admin_permissions_load_correct()
