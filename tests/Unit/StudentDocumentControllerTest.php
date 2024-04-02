@@ -33,7 +33,7 @@ class StudentDocumentControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->postJson('/api/students/documents', $data);
+        ])->postJson('/api/students/1/documents', $data);
 
         $response->assertStatus(201);
 
