@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Profile::class);
     }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
 }

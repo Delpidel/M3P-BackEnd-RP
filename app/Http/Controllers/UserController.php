@@ -10,14 +10,13 @@ use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\User\DeleteOneUserService;
 use App\Http\Services\User\GetAllUsersService;
 use App\Http\Services\User\GetOneUserService;
+use App\Http\Services\User\GetOneUserWithFileService;
 use App\Http\Services\User\PasswordGenerationService;
 use App\Http\Services\User\PasswordHashingService;
 use App\Http\Services\User\SendEmailWelcomeService;
 use App\Http\Services\User\UpdateOneUserService;
-use App\Models\User;
-use App\Traits\HttpResponses;
 
-use Illuminate\Http\Response;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -57,9 +56,9 @@ class UserController extends Controller
         return $users;
     }
 
-    public function show($id, GetOneUserService $getOneUserService)
+    public function show($id, GetOneUserWithFileService $getOneUserWithFileService)
     {
-        $user = $getOneUserService->handle($id);
+        $user = $getOneUserWithFileService->handle($id);
         return $user;
     }
 
