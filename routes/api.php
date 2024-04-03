@@ -47,8 +47,12 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('login', [AuthController::class, 'store']);
-Route::get('students/avaliations', [AvaliationController::class, 'index']);
+
+Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
+
 Route::get('students', [StudentController::class, 'index']);
+Route::get('students/{id}', [StudentController::class, 'show']);
+
 Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
 // ->middleware(['ability:get-students']);
 
