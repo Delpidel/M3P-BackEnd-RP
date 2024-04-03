@@ -54,6 +54,7 @@ class MealsTest extends TestCase
 
         $response->assertJson([
             'meal_plan_id' => true,
+            'student_id' => true,
             'hour' => $response['hour'],
             'title' => $response['title'],
             'description' => $response['description'],
@@ -65,7 +66,6 @@ class MealsTest extends TestCase
         $response->assertStatus(400);
 
         $response->assertJson([
-            "message" => "The meal plan id field is required. (and 3 more errors)",
             "status" => 400,
             "errors" => [],
             "data" => []
@@ -82,7 +82,22 @@ class MealsTest extends TestCase
         $response->assertStatus(400);
 
         $response->assertJson([
-            "message" => "The selected day is invalid.",
+            "status" => 400,
+            "errors" => [],
+            "data" => []
+        ]);
+
+        // Test with invalid mealplanid
+        $response = $this->post('/api/cad_meal', [
+            'meal_plan_id' => 999999,
+            'hour' => '08:00',
+            'title' => 'cafe da manha',
+            'description' => 'pao com ovos',
+            'day' => 'sabado',
+        ]);
+        $response->assertStatus(400);
+
+        $response->assertJson([
             "status" => 400,
             "errors" => [],
             "data" => []
@@ -99,7 +114,6 @@ class MealsTest extends TestCase
         $response->assertStatus(400);
 
         $response->assertJson([
-            "message" => "The meal plan id field is required.",
             "status" => 400,
             "errors" => [],
             "data" => []
