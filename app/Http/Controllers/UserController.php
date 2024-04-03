@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
 use App\Http\Services\File\CreateFileService;
+use App\Http\Services\File\RemoveFileService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\User\DeleteOneUserService;
 use App\Http\Services\User\GetAllUsersService;
@@ -42,7 +43,7 @@ class UserController extends Controller
         $hashedPassword = $passwordHashingService->handle($password);
 
         $user = $createOneUserService->handle([...$body, 'password' => $hashedPassword]);
-        $sendEmailWelcomeService->handle($user, $password);
+        // $sendEmailWelcomeService->handle($user, $password);
 
         return $user;
     }
@@ -66,10 +67,11 @@ class UserController extends Controller
         $id,
         UpdateUserRequest $request,
         UpdateOneUserService $updateOneUserService,
-        GetOneUserService $getOneUserService,
-        CreateFileService $createFileService
+        GetOneUserWithFileService $getOneUserWithFileService,
+        CreateFileService $createFileService,
+        RemoveFileService $removeFileService
     ) {
-        $user = $getOneUserService->handle($id);
+        $user = $getOneUserWithFileService->handle($id);
         $body = $request->except('profile_id');
 
         if ($request->has('photo')) {
@@ -77,6 +79,7 @@ class UserController extends Controller
                 $file = $createFileService->handle('photos', $request->file('photo'), $user['name']);
                 $body['file_id'] = $file->id;
             } else {
+                if ($user->file) $removeFileService->handle($user->file->url);
                 $body['file_id'] = null;
             }
         }
