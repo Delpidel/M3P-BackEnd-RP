@@ -16,6 +16,7 @@ class GetPlansService
 
     public function handle()
     {
+
         $userId = Auth::user()->id;
         return $this->studentMealsRepository->getPlans($userId);
     }
