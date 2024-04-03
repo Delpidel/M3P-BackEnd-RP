@@ -51,7 +51,7 @@ class SendEvaluationEmail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromPath('colocarpdf')
+            Attachment::fromPath('pdfs.Evaluations')
         ];
     }
 }

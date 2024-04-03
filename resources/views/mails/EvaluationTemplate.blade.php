@@ -63,20 +63,25 @@
     <div class="container">
 
         <header>
-            <img>
+            <div class="imagem">
+                {{-- <a href='https://postimages.org/' target='_blank'> --}}
+                    {{-- <img src='https://i.postimg.cc/L6gFw716/academia.jpg' border='0' alt='academia'/> --}}
+                {{-- </a> --}}
+            </div>
             <h2>Veja os resultados da sua avaliação</h2>
         </header>
 
         <section>
-            <p>Olá, ____________ </p>
+            <p>Testando</p>
+            {{-- <p>Olá, {{ $student->name }} </p>
 
-            <p>Vimos que você realizou uma avaliação no dia _____________ com a nossa equipe. Dito isso,
-                gostaríamos de compartilhar com você o resultado dela:</p>
+            <p>Vimos que você realizou uma avaliação no dia {{ $student->date }} com a nossa equipe. Dito isso,
+                gostaríamos de compartilhar com você o resultado dela:</p> --}}
         </section>
 
         <br>
 
-        <section>
+        {{-- <section>
             <h3>Informações Gerais</h3>
             <table>
                 <tr class="title">
@@ -85,21 +90,19 @@
                     <th>Peso</th>
                     <th>Altura</th>
                 </tr>
-                @foreach ($avaliations as $avaliation)
                 <tr class="info">
-                    <td>Nome</td>
+                    <td>{{ $student->name }}</td>
                     <td>{{ $avaliation->age }}</td>
                     <td>{{ $avaliation->weight }}</td>
                     <td>{{ $avaliation->height }}</td>
                 </tr>
-                @endforeach
             </table>
             <br>
             <h3>Medidas</h3>
             <table>
                 <tr class="title">
-                    <th>Medida1</th>
-                    <th>Medida2</th>
+                    <th>Medidas da Avaliação</th>
+                    <th>Valores</th>
                 </tr>
                 <tr>
                     <td class="title">Valor1</td>
@@ -130,7 +133,7 @@
                     <td class="info">Medida7</td>
                 </tr>
             </table>
-        </section>
+        </section> --}}
 
     </div>
 </body>
