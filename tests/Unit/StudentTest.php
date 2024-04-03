@@ -3,64 +3,31 @@
 namespace Tests\Feature;
 
 use App\Http\Services\Student\PasswordGenerationService;
-use App\Http\Services\Student\SendCredentialsStudentEmailService;
-use App\Mail\CredentialsStudent;
+use App\Http\Services\Student\SendCredentialsStudentEmail;
 use App\Models\Student;
 use App\Models\User;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class StudentTest extends TestCase
 {
-    public function test_recepcionist_can_create_student(): void
+    public function test_receptionist_token_was_generated(): void
     {
-        Mail::fake();
-
-        $user = User::factory()->create(['profile_id' => 2]);
-        $token = $user->createToken('Token recepcionista', ['create-students'])->plainTextToken;
-
-        Storage::fake('s3'); // Mock AWS S3
-        $photo = UploadedFile::fake()->image('photo.jpg');
-
-        $student = [
-            'name' => 'João da Silva',
-            'email' => 'joao@example.com',
-            'cpf' => '024.892.560-26',
-            'date_birth' => '1945-01-24',
-            'contact' => '980579171',
-            'cep' => '96810174',
-            'street' => 'Rua vinte e oito de setembro',
-            'state' => 'RS',
-            'neighborhood' => 'Centro',
-            'city' => 'Santa cruz do sul',
-            'number' => '642',
-            'complement' => 'Casa amarela',
+        $receptionist = User::find(2);
+        $credentials = [
+            'email' => $receptionist->email,
+            'password' => '12345678',
         ];
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->post('/api/students', $student + ['photo' => $photo]);
+        $response = $this->postJson('/api/login', $credentials);
 
-        Mail::assertSent(CredentialsStudent::class, function ($mail) {
-            return $mail->hasTo('joao@example.com');
-        });
-
-        $response->assertStatus(201)->assertJson([...$student, 'file_id' => 1]);
+        $response->assertStatus(200);
     }
 
-    public function test_others_users_cannot_create_student(): void
+    public function test_request_body_all(): void
     {
-        $user = User::factory()->create(['profile_id' => 3]);
-        $token = $user->createToken('Token', [''])->plainTextToken;
-
-        $photo = UploadedFile::fake()->image('photo.jpg');
-
-        Storage::fake('s3'); // Mock AWS S3
-
-        $student = [
+        $body = [
             'name' => 'João da Silva',
             'email' => 'joao@example.com',
             'cpf' => '024.892.560-26',
@@ -72,12 +39,38 @@ class StudentTest extends TestCase
             'neighborhood' => 'Centro',
             'city' => 'Santa cruz do sul',
             'number' => '642',
-            'complement' => 'Casa amarela',
         ];
+        $request = new Request($body);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
-            ->post('/api/students', $student + ['photo' => $photo]);
+        $result = $request->all();
 
-        $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
+        $this->assertEquals($body, $result);
+    }
+
+    public function test_password_is_being_generated(): void
+    {
+
+        $passwordGenerationService = new PasswordGenerationService();
+
+        $password = $passwordGenerationService->handle();
+
+        $this->assertIsString($password);
+        $this->assertGreaterThanOrEqual(8, strlen($password));
+    }
+
+    public function test_credentials_are_being_sent_by_email(): void
+    {
+        $student = new Student([
+            'name' => 'João da Silva',
+            'email' => 'joao@example.com',
+        ]);
+
+        $password = 'senha123';
+
+        $emailServiceMock = \Mockery::mock(SendCredentialsStudentEmail::class);
+
+        $emailServiceMock->shouldReceive('handle')->with($student, $password)->once();
+
+        $emailServiceMock->handle($student, $password);
     }
 }

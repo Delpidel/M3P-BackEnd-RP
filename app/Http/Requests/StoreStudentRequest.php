@@ -10,9 +10,6 @@ class StoreStudentRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-
-    protected $stopOnFirstFailure = true;
-
     public function authorize(): bool
     {
         return Auth::check();
@@ -32,13 +29,13 @@ class StoreStudentRequest extends FormRequest
             'date_birth' => 'date_format:Y-m-d|required',
             'contact' => 'string|required|max:20',
             'cpf' => 'string|required|unique:students|regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$/',
-            'cep' => 'required|string|max:20',
+            'cep' => 'string|max:20',
             'street' => 'required|string',
             'state' => 'required|string|max:2',
             'neighborhood' => 'required|string',
             'city' => 'required|string',
             'number' => 'required|string',
-            'complement' => 'string|max: 50|nullable'
+            'complement' => 'string|max: 50'
         ];
     }
 
@@ -58,7 +55,7 @@ class StoreStudentRequest extends FormRequest
             'date_birth.required' => 'O campo de data de nascimento é obrigatório',
             'contact.required' => 'O campo contato é obrigatório.',
             'contact.max' => 'O campo contato deve ter no máximo 20 caracteres.',
-            'cpf.regex' => 'O campo CPF deve estar no formato válido XXX.XXX.XXX-XX',
+            'cpf.regex' => 'O campo CPF deve estar no formato válido.',
             'cpf.unique' => 'O cpf informado já esta em uso',
             'cep.max' => 'O campo CEP deve ter no máximo 20 caracteres.',
             'cep.required' => 'O campo CEP é obrigatório',
@@ -72,7 +69,7 @@ class StoreStudentRequest extends FormRequest
             'street.max' => 'O campo rua deve ter no máximo 30 caracteres',
             'state.required' => 'O campo estado é obrigatório',
             'state.max' => 'O campo estado deve ter no máximo 2 caracteres',
-            'complement.max' => 'O campo de complemento deve ter no máximo 50 caracteres.'
+            'complement' => 'O campo de complemento deve ter no máximo 50 caracteres.'
         ];
     }
 }
