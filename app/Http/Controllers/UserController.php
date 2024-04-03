@@ -72,9 +72,13 @@ class UserController extends Controller
         $user = $getOneUserService->handle($id);
         $body = $request->except('profile_id');
 
-        if ($request->hasFile('photo')) {
-            $file = $createFileService->handle('photos', $request->file('photo'), $user['name']);
-            $body['file_id'] = $file->id;
+        if ($request->has('photo')) {
+            if ($request->hasFile('photo')) {
+                $file = $createFileService->handle('photos', $request->file('photo'), $user['name']);
+                $body['file_id'] = $file->id;
+            } else {
+                $body['file_id'] = null;
+            }
         }
 
         $updatedUser = $updateOneUserService->handle($user, $body);
