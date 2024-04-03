@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentDocumentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
@@ -26,10 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
-    Route::delete('students/{id}', [StudentController::class, 'destroy'])->middleware(['ability:delete-students']);
-
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
     Route::post('logout', [AuthController::class, 'logout']);
-});
+
+    Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);});
 
 Route::post('login', [AuthController::class, 'store']);
+

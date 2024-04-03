@@ -12,10 +12,10 @@ class FileFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word . '.jpg',
-            'size' => $this->faker->numberBetween(1000, 5000),
-            'mime' => 'image/jpeg',
-            'url' => $this->faker->imageUrl(),
+            'name' => $this->faker->sentence(),
+            'size' => $this->faker->numberBetween(1, 10000),
+            'mime' => $this->faker->mimeType,
+            'url' => $this->faker->url,
         ];
     }
 }

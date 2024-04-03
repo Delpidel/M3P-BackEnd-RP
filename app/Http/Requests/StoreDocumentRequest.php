@@ -5,9 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class GetStudentsRequest extends FormRequest
+class StoreDocumentRequest extends FormRequest
 {
-    public function authorize(): bool
+    public function authorize()
     {
         return Auth::check();
     }
@@ -15,9 +15,9 @@ class GetStudentsRequest extends FormRequest
     public function rules()
     {
         return [
-            'cpf' => 'nullable|string|max:20',
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|max:255', 
+            'title' => 'nullable|string|max:255',
+            'document' => 'required|file',
+            'student_id' => 'exists:students,id',
         ];
     }
 }
