@@ -22,12 +22,13 @@ class GetScheduleService
         $userName = Auth::user()->name;
         $userId = Auth::user()->id;
         $student = $this->studentMealsRepository->getSchedule($id, $userId);
+        $studentId= $this->studentMealsRepository->getStudentId($userId);
 
         if(!$student) return $this->error('Dado não encontrado', Response::HTTP_NOT_FOUND);
         $array = $student->mealPlansSchedule;
 
          $mealPlanSchedule = [
-            'student_id' => $userId,
+            'student_id' => $studentId,
             'student_name' => $userName,
             'meal_plans' => [
                 "SEGUNDA" => [],
