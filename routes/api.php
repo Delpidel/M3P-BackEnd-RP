@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update']);
    Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy']);
 
-   Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index']);
+   Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index'])->middleware(['ability:instrutor-dashboard']);
 
    Route::get('/exercises', [ExerciseInstructorController::class, 'index']);
    Route::post('exercises', [ExerciseController::class, 'store'])->middleware(['ability:create-exercises']);
