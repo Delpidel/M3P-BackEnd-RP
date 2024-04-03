@@ -20,6 +20,7 @@ class StudentRepository implements StudentRepositoryInterface
     public function delete(Student $student)
     {
         return $student->delete();
+    }
 
     public function search($name, $email, $cpf)
     {
