@@ -9,24 +9,19 @@ class StudentFactory extends Factory
 
     public function definition(): array
     {
-
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'date_birth' => $this->faker->date(),
+            'cpf' => $this->faker->numerify('###########'),
+            'date_birth' => $this->faker->date,
             'contact' => $this->faker->phoneNumber,
-            'cpf' => function () {
-                $cpf = $this->faker->numerify('###.###.###-##');
-                return $cpf;
-            },
-            'city' => $this->faker->city,
-            'neighborhood' => $this->faker->citySuffix,
-            'number' => $this->faker->buildingNumber,
+            'cep' => $this->faker->numerify('########'),
             'street' => $this->faker->streetName,
             'state' => $this->faker->stateAbbr,
-            'cep' => $this->faker->postcode,
-            'file_id' => null,
-            'complement' => $this->faker->secondaryAddress,
+            'neighborhood' => $this->faker->city,
+            'city' => $this->faker->city,
+            'number' => $this->faker->randomNumber(3),
+            'complement' => 'Apartamento ' . $this->faker->randomNumber(2)
         ];
     }
 }
