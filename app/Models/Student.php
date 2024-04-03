@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-  
+
    protected $fillable = [
         'name', 'email', 'date_birth', 'contact', 'cpf', 'city', 'neighborhood', 'number', 'street', 'state', 'cep', 'file_id', 'complement'
    ];
 
   protected $hidden = ['created_at', 'updated_at'];
-  
+
   public function user()
     {
        return $this->belongsTo(User::class);
@@ -23,5 +23,10 @@ class Student extends Model
    public function mealPlanSchedules()
     {
         return $this->hasMany(MealPlanSchedule::class, 'student_id');
+    }
+
+    public function avaliations()
+    {
+        return $this->hasMany(Avaliation::class);
     }
 }

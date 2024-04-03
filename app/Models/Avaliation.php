@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Avaliation extends Model
 {
     use HasFactory;
+
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class); // Relação * para 1
+    }
 }
