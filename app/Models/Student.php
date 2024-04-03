@@ -10,4 +10,9 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function mealPlanSchedules()
+    {
+        return $this->hasMany(MealPlanSchedule::class, 'student_id');
+    }
 }
