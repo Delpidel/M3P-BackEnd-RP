@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\SendEvaluationEmail;
 use App\Models\Avaliation;
+use App\Models\Student;
 use App\Traits\HttpResponses;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -35,17 +36,13 @@ class StudentExportController extends Controller
 
         // $user = $request->user();
 
-        // $students = $user->students()->findOrFail($id);
+        $avaliation = Avaliation::query()->where('id', $id)->first();
 
-        // $student_name = $students->name;
-
-        $avaliations = Avaliation::where('student_id', $id)->get();
-
-        // $avaliations = Avaliation::all();
+        $student = Student::find($avaliation->student_id);
 
         $pdf = Pdf::loadView('pdfs.Evaluations', [
-            // 'students' => $students,
-            'avaliations' => $avaliations]);
+            'student' => $student,
+            'avaliation' => $avaliation]);
 
         return $pdf->stream('Evaluations.pdf');
 

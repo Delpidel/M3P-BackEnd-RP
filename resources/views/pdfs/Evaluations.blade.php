@@ -6,6 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sua avaliação está aqui!</title>
     <style>
+        div {
+            display: flex;
+            justify-content: center;
+        }
+        img{
+            width: 20%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+        }
         h2{
             background-color: #424242;
             color: #ffffff;
@@ -58,12 +68,17 @@
     </style>
 </head>
 <body>
-    {{-- <img src=""> --}}
+    <div>
+        {{-- <a href='https://postimages.org/' target='_blank'> --}}
+            <img src='https://i.postimg.cc/L6gFw716/academia.jpg' border='0' alt='academia'/>
+        {{-- </a> --}}
+    </div>
+
     <h2>Veja os resultados da sua avaliação</h2>
 
-    <p>Olá, ____________ </p>
+    <p>Olá, {{ $student->name }} </p>
 
-    <p>Segue o resultado da avaliação que você realizou uma avaliação no dia _____________
+    <p>Segue o resultado da avaliação que você realizou uma avaliação no dia {{ $avaliation->date }}
         com a nossa equipe.</p>
 
     <br>
@@ -75,21 +90,19 @@
             <th>Peso</th>
             <th>Altura</th>
         </tr>
-        @foreach ($avaliations as $avaliation)
         <tr class="info">
-            <td>Nome</td>
+            <td>{{ $student->name }}</td>
             <td>{{ $avaliation->age }}</td>
             <td>{{ $avaliation->weight }}</td>
             <td>{{ $avaliation->height }}</td>
         </tr>
-        @endforeach
     </table>
     <br>
     <h3>Medidas</h3>
     <table>
         <tr class="title">
-            <th>Medida1</th>
-            <th>Medida2</th>
+            <th>Medidas da Avaliação</th>
+            <th>Valores</th>
         </tr>
         <tr>
             <td class="title">Valor1</td>

@@ -12,12 +12,9 @@ class AvaliationController extends Controller
     public function index($student_id)
     {
         try {
-            $student = Student::findOrFail($student_id);
 
-            // Obtenha apenas as avaliações para esse estudante
-            //$evaluations = $student->avaliations;
-            $evaluations = Avaliation::where('student_id', $student_id)->get();
-            return $evaluations;
+            $students = Avaliation::all();
+            return $students;
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
 
