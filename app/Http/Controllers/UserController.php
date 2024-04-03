@@ -78,14 +78,17 @@ class UserController extends Controller
             if ($request->hasFile('photo')) {
                 $file = $createFileService->handle('photos', $request->file('photo'), $user['name']);
                 $body['file_id'] = $file->id;
+
+                $updatedUser = $updateOneUserService->handle($user, $body);
+                return $updatedUser;
             } else {
-                if ($user->file) $removeFileService->handle($user->file->url);
                 $body['file_id'] = null;
+                $updatedUser = $updateOneUserService->handle($user, $body);
+
+                if ($user->file) $removeFileService->handle($user->file->url, $user->file->id);
+                return $updatedUser;
             }
         }
-
-        $updatedUser = $updateOneUserService->handle($user, $body);
-        return $updatedUser;
     }
 
     public function destroy($id, DeleteOneUserService $deleteOneUserService)
