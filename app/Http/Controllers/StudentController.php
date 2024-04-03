@@ -66,7 +66,7 @@ class StudentController extends Controller
 
         $student = $createOneStudentService->handle([...$body, 'file_id' => $file->id]);
 
-        $user = $createOneUserService->handle([...$body, 'password' => $passwordHashed]);
+        $user = $createOneUserService->handle([...$body, 'password' => $passwordHashed, 'file_id' => $file->id]);
 
         $createOneUserStudentService->handle(['user_id' => $user->id, 'student_id' => $student->id]);
 
