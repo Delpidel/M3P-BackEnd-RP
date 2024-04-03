@@ -35,8 +35,7 @@ class StudentFactory extends Factory
             'state' => 'RS',
             'neighborhood' => 'Centro',
             'city' => 'Santa cruz do sul',
-            'number' => '642',
-            'file_id' => '1'
+            'number' => '642'
         ];
     }
 }
