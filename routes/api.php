@@ -28,8 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
     Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
-    Route::get('students/meal_plans', [StudentMealsController::class, 'index']);
-    Route::get('students/meal_plans/{id}', [StudentMealsController::class, 'show']);
+    Route::get('students/meal_plans', [StudentMealsController::class, 'index'])->middleware(['ability:get-meal-plans']);;
+    Route::get('students/meal_plans/{id}', [StudentMealsController::class, 'show'])->middleware(['ability:get-meal-plans']);;
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
