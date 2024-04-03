@@ -87,6 +87,15 @@ class AvaliationController extends Controller
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function getAvaliationsByStudentId($student_id)
+    {
+        $avaliations = Avaliation::with('file')
+            ->where('student_id', $student_id)
+            ->get();
+
+        return response()->json($avaliations);
+    }
 }
 
 
