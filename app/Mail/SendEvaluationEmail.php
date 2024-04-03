@@ -15,12 +15,15 @@ class SendEvaluationEmail extends Mailable
     use Queueable, SerializesModels;
 
 
-    public $activeStudentName;
+    public $studentName;
+    public $avaliationDate;
 
 
-    public function __construct($activeStudentName)
+    public function __construct($studentName, $avaliationDate)
     {
-        $this->activeStudentName = $activeStudentName;
+        $this->studentName = $studentName;
+        $this->avaliationDate = $avaliationDate;
+
     }
 
     /**
