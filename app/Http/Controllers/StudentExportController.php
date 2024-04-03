@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SendEvaluationEmail;
+use App\Models\Avaliation;
 use App\Traits\HttpResponses;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -30,20 +31,23 @@ class StudentExportController extends Controller
 
     }
 
-    public function export (Request $request, $id){
+    public function export ($id){
 
-        $user = $request->user();
+        // $user = $request->user();
 
-        $students = $user->students()->findOrFail($id);
+        // $students = $user->students()->findOrFail($id);
 
-        $evaluations = Avaliations::where('student_id', $id)->get();
+        // $student_name = $students->name;
 
+        $avaliations = Avaliation::where('student_id', $id)->get();
 
-        $pdf = Pdf::loadView('pdf.Evaluations', [
-            'students' => $students,
-        ]);
+        // $avaliations = Avaliation::all();
 
-        return $pdf->stream('treino.pdf');
+        $pdf = Pdf::loadView('pdfs.Evaluations', [
+            // 'students' => $students,
+            'avaliations' => $avaliations]);
+
+        return $pdf->stream('Evaluations.pdf');
 
     }
 
