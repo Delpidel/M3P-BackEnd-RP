@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 class StudentFactory extends Factory
 {
@@ -22,7 +21,7 @@ class StudentFactory extends Factory
             'neighborhood' => $this->faker->city,
             'city' => $this->faker->city,
             'number' => $this->faker->randomNumber(3),
-            'complement' => 'Apartamento ' . $this->faker->randomNumber(2), // Adicionando o complemento aos dados gerados
+            'complement' => 'Apartamento ' . $this->faker->randomNumber(2)
         ];
     }
 }
