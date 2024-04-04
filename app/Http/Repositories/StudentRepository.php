@@ -23,4 +23,31 @@ class StudentRepository implements StudentRepositoryInterface
     {
         return $student->documents()->create($documentData);
     }
+    public function find($id)
+    {
+        return Student::find($id);
+    }
+
+    public function delete(Student $student)
+    {
+        return $student->delete();
+    }
+    public function search($name, $email, $cpf)
+    {
+        return Student::where(function ($query) use ($name, $email, $cpf) {
+            if ($name !== null) {
+                $query->where('name', 'like', '%' . $name . '%');
+            }
+            if ($email !== null) {
+                $query->orWhere('email', 'like', '%' . $email . '%');
+            }
+            if ($cpf !== null) {
+                $query->orWhere('cpf', 'like', '%' . $cpf . '%');
+            }
+        })
+            ->orderBy('name')
+            ->orderBy('id') // Ordenar por ID para garantir uma ordem determinística
+            ->get(['id', 'name', 'email', 'contact', 'cpf']);
+    }
 }
+
