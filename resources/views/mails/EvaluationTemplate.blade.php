@@ -73,10 +73,10 @@
 
         <section>
             <p>Testando</p>
-            {{-- <p>Olá, {{ $student->name }} </p>
+            <p>Olá, {{ $studentName }} </p>
 
-            <p>Vimos que você realizou uma avaliação no dia {{ $student->date }} com a nossa equipe. Dito isso,
-                gostaríamos de compartilhar com você o resultado dela:</p> --}}
+            <p>Vimos que você realizou uma avaliação no dia {{ $avaliationDate }} com a nossa equipe. Dito isso,
+                gostaríamos de compartilhar com você o resultado dela:</p>
         </section>
 
         <br>

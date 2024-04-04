@@ -17,12 +17,14 @@ class SendEvaluationEmail extends Mailable
 
     public $studentName;
     public $avaliationDate;
+    public $pdf;
 
 
     public function __construct($studentName, $avaliationDate)
     {
         $this->studentName = $studentName;
         $this->avaliationDate = $avaliationDate;
+        // $this->pdf = $pdf;
 
     }
 
@@ -54,7 +56,7 @@ class SendEvaluationEmail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromPath('pdfs.Evaluations')
+            // Attachment::fromData($this->pdf -> output())
         ];
     }
 }

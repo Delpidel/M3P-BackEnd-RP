@@ -23,22 +23,22 @@ class StudentExportController extends Controller
         //     return $this->response("Usuário não autenticado", Response::HTTP_UNAUTHORIZED);
         // }
 
-        // $active_students = $user_id->orderby('name')->get();
-
         $avaliation = Avaliation::query()->where('id', $id)->first();
 
         $student = Student::find($avaliation->student_id);
 
-        Mail::to('ingrid.mariane.araujo@gmail.com', 'Ingrid')
-        ->send(new SendEvaluationEmail($student->name, $avaliation->date));
-
-        // return $avaliation;
+        Mail::to($student->email, $student->name)
+        ->send(new SendEvaluationEmail($student->name, date('d-m-Y', strtotime($avaliation->date))));
 
     }
 
-    public function export ($id){
+    public function export (Request $request, $id){
 
-        // $user = $request->user();
+        $user_id = $request->user();
+
+        if (!$user_id) {
+            return $this->response('Usuário não autenticado', Response::HTTP_UNAUTHORIZED);
+        }
 
         $avaliation = Avaliation::query()->where('id', $id)->first();
 
