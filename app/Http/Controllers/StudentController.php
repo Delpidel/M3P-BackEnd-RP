@@ -6,6 +6,7 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\Student\CreateOneStudentService;
+use App\Http\Services\Student\DeleteOneStudentService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\PasswordHashingService;
 use App\Http\Services\Student\SendCredentialsStudentEmail;
@@ -19,7 +20,7 @@ use App\Models\File;
 
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -78,5 +79,16 @@ class StudentController extends Controller
         $body = $request->all();
         $student =  $updateOneStudentService->handle($id, $body);
         return $student;
+    }
+
+    public function destroy($id, DeleteOneStudentService $deleteOneStudentService)
+    {
+        $userId = Auth::id();
+
+        if ($userId != 2) {
+            return $this->error('Usuário logado não pode excluir estudante', Response::HTTP_FORBIDDEN);
+        }
+
+        return $deleteOneStudentService->handle($id);
     }
 }
