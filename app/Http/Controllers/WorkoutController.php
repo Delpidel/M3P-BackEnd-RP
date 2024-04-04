@@ -37,12 +37,11 @@ class WorkoutController extends Controller
     }
 
     public function destroy($id, DeleteWorkoutService $deleteWorkoutService)
-{
-       $workout = Workout::find($id);
+    {
+        $workout = Workout::find($id);
 
         if (!$workout) return $this->error('Treino não encontrado', Response::HTTP_NOT_FOUND);
-         $deleteWorkoutService->handle($id);
-         return $this->response('', Response::HTTP_NO_CONTENT);
-}
-
+        $deleteWorkoutService->handle($id);
+        return $this->response('', Response::HTTP_NO_CONTENT);
+    }
 }

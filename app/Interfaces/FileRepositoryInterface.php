@@ -2,7 +2,9 @@
 
 namespace App\Interfaces;
 
-interface FileRepositoryInterface {
+interface FileRepositoryInterface
+{
 
     public function create(array $data);
+    public function delete($fileUrl);
 }

@@ -34,4 +34,14 @@ class ExerciseRepository implements ExerciseRepositoryInterface
     {
         $exercise->delete();
     }
+
+    public function count()
+    {
+        return Exercise::count();
+    }
+
+    public function all()
+    {
+        return Exercise::all();
+    }
 }
