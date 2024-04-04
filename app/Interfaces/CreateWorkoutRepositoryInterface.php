@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface RaceRepositoryInterface {
-    public function getAll();
+interface CreateWorkoutRepositoryInterface
+{
     public function create(array $data);
 }

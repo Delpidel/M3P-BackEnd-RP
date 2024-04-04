@@ -13,6 +13,7 @@ class ExerciseFactory extends Factory
 
     public function definition(): array
     {
+
         return [
             'user_id' => User::factory(),
             'description' => fake()->sentence(),

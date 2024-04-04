@@ -18,37 +18,37 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
 
-   Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
-   Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
-   Route::put('users/{id}', [UserController::class, 'update'])->middleware(['ability:update-users']);
-   Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
+    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
+    Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
+    Route::put('users/{id}', [UserController::class, 'update'])->middleware(['ability:update-users']);
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
 
-   Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
-   Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
+    Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
+    Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
 
-   Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
 
-   Route::get('meal_plans', [MealPlanController::class, 'index']);
-   Route::post('meal_plans', [MealPlanController::class, 'store']);
+    Route::get('meal_plans', [MealPlanController::class, 'index']);
+    Route::post('meal_plans', [MealPlanController::class, 'store']);
 
-   Route::get('meal/{id}', [MealPlanScheduleController::class, 'studentMeal']);
-   Route::get('meals', [MealPlanScheduleController::class, 'index']);
-   Route::post('cad_meal', [MealPlanScheduleController::class, 'store']);
-   Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update']);
-   Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy']);
+    Route::get('meal/{id}', [MealPlanScheduleController::class, 'studentMeal']);
+    Route::get('meals', [MealPlanScheduleController::class, 'index']);
+    Route::post('cad_meal', [MealPlanScheduleController::class, 'store']);
+    Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update']);
+    Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy']);
 
-   Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index'])->middleware(['ability:instrutor-dashboard']);
+    Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index'])->middleware(['ability:instrutor-dashboard']);
 
-   Route::get('/exercises', [ExerciseInstructorController::class, 'index']);
-   Route::post('exercises', [ExerciseController::class, 'store'])->middleware(['ability:create-exercises']);
-   Route::delete('exercises/{id}', [ExerciseController::class, 'destroy'])->middleware(['ability:delete-exercises']);
 
-   Route::put('workouts/{id}', [WorkoutController::class, 'update'])->middleware(['ability:get-workouts']);
-   Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
-   Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'listWorkouts'])->middleware(['ability:get-workouts']);
-   Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('/exercises', [ExerciseInstructorController::class, 'index']);
+    Route::post('exercises', [ExerciseController::class, 'store'])->middleware(['ability:create-exercises']);
+    Route::delete('exercises/{id}', [ExerciseController::class, 'destroy'])->middleware(['ability:delete-exercises']);
 
+    Route::post('workouts', [WorkoutController::class, 'store'])->middleware(['ability:create-workouts']);
+    Route::put('workouts/{id}', [WorkoutController::class, 'update'])->middleware(['ability:get-workouts']);
+    Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
+    Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'listWorkouts'])->middleware(['ability:get-workouts']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::post('login', [AuthController::class, 'store']);
-
