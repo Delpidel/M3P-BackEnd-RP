@@ -26,8 +26,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'string|max:255|regex:/^[\p{L}\s]+$/u',
-            'email' => 'string|email|max:255|unique:users',
-            'photo' => 'file|mimes:jpeg,png,jpg,gif,svg',
+            'email' => "string|email|max:255|unique:users,email,{$this->route('id')}",
+            'photo' => 'exclude_if:photo,null|nullable|file|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
     public function messages(): array

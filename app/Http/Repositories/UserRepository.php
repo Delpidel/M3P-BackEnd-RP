@@ -46,6 +46,11 @@ class UserRepository implements UserRepositoryInterface
         return User::withTrashed()->find($id);
     }
 
+    public function getUserAndFiles($id)
+    {
+        return User::with('file')->find($id);
+    }
+
     public function deactivateUser($user)
     {
         $user->is_active = false;
