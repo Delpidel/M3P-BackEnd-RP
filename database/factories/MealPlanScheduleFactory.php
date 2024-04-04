@@ -23,6 +23,7 @@ class MealPlanScheduleFactory extends Factory
 
         return [
             'meal_plan_id' => $meal_plan->id,
+            'student_id' => $student->id,
             'hour' => '08:00',
             'title' => 'cafe da manha',
             'description' => 'pao com ovos',

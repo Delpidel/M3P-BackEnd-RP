@@ -34,18 +34,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
 
-   Route::get('meal_plans', [MealPlanController::class, 'index']);
-   Route::post('meal_plans', [MealPlanController::class, 'store']);
+   Route::get('meal_plans', [MealPlanController::class, 'index'])->middleware(['ability:get-meal-plans']);
+   Route::post('meal_plans', [MealPlanController::class, 'store'])->middleware(['ability:create-meal-plans']);
 
-   Route::get('meal/{id}', [MealPlanScheduleController::class, 'studentMeal']);
-   Route::get('meals', [MealPlanScheduleController::class, 'index']);
-   Route::post('cad_meal', [MealPlanScheduleController::class, 'store']);
-   Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update']);
-   Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy']);
+   Route::get('meal/{id}', [MealPlanScheduleController::class, 'studentMeal'])->middleware(['ability:get-meal-plans']);
+   Route::get('meals', [MealPlanScheduleController::class, 'index'])->middleware(['ability:get-meal-plans']);
+   Route::post('cad_meal', [MealPlanScheduleController::class, 'store'])->middleware(['ability:create-meal-plans']);
+   Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update'])->middleware(['ability:update-meal-plans']);
+   Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy'])->middleware(['ability:delete-meal-plans']);
 
    Route::post('logout', [AuthController::class, 'logout']);
 
-    //rotas para cadastro de avaliações em 3 etapas
+
     Route::prefix('avaliations')->group(function () {
         Route::post('step1', [AvaliationController::class, 'step1']);
         Route::post('step2', [AvaliationController::class, 'step2']);
