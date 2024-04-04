@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Controllers\StudentController;
 
 use App\Http\Services\Student\DeleteOneStudentService;
+use App\Http\Services\Student\ListAllStudentsService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\SendCredentialsStudentEmail;
 
@@ -88,7 +89,9 @@ class StudentTest extends TestCase
 
         $deleteOneStudentServiceMock->shouldReceive('handle')->once()->with(1)->andReturn('success');
 
-        $student = new StudentController();
+        $listAllStudentServiceMock = \Mockery::mock(ListAllStudentsService::class);
+
+        $student = new StudentController($listAllStudentServiceMock);
 
         $response = $student->destroy(1, $deleteOneStudentServiceMock);
 
