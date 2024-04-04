@@ -24,39 +24,45 @@ class AvaliationFactory extends Factory
      */
     public function definition()
     {
-            $backImage = UploadedFile::fake()->image('back.jpg');
-            $frontImage = UploadedFile::fake()->image('front.jpg');
-            $leftImage = UploadedFile::fake()->image('left.jpg');
-            $rightImage = UploadedFile::fake()->image('right.jpg');
+        $backImage = UploadedFile::fake()->image('back.jpg');
+        $frontImage = UploadedFile::fake()->image('front.jpg');
+        $leftImage = UploadedFile::fake()->image('left.jpg');
+        $rightImage = UploadedFile::fake()->image('right.jpg');
 
-        $studentId = Student::factory()->create()->id;
-            return [
-                'student_id' => $studentId,
-                'date' => $this->faker->date(),
-                'weight' => $this->faker->randomFloat(2, 40, 100),
-                'height' => $this->faker->randomFloat(2, 1, 2),
-                'age' => $this->faker->numberBetween(18, 60),
-                'observations_to_student' => $this->faker->sentence,
-                'observations_to_nutritionist' => $this->faker->sentence,
-                'back' => $backImage,
-                'front' =>  $frontImage,
-                'left' => $leftImage,
-                'right' => $rightImage,
-                'torax' => $this->faker->randomFloat(2, 50, 200),
-                'braco_direito' => $this->faker->randomFloat(2, 20, 50),
-                'braco_esquerdo' => $this->faker->randomFloat(2, 20, 50),
-                'cintura' => $this->faker->randomFloat(2, 50, 200),
-                'antebraco_direito' => $this->faker->randomFloat(2, 15, 30),
-                'antebraco_esquerdo' => $this->faker->randomFloat(2, 15, 30),
-                'abdomen' => $this->faker->randomFloat(2, 50, 200),
-                'coxa_direita' => $this->faker->randomFloat(2, 30, 80),
-                'coxa_esquerda' => $this->faker->randomFloat(2, 30, 80),
-                'quadril' => $this->faker->randomFloat(2, 50, 200),
-                'panturrilha_direita' => $this->faker->randomFloat(2, 20, 50),
-                'panturrilha_esquerda' => $this->faker->randomFloat(2, 20, 50),
-                'punho' => $this->faker->randomFloat(2, 10, 30),
-                'biceps_femoral_direito' => $this->faker->randomFloat(2, 20, 50),
-                'biceps_femoral_esquerdo' => $this->faker->randomFloat(2, 20, 50),
-            ];
+        $backImagePath = Storage::putFile('images', $backImage);
+        $frontImagePath = Storage::putFile('images', $frontImage);
+        $leftImagePath = Storage::putFile('images', $leftImage);
+        $rightImagePath = Storage::putFile('images', $rightImage);
+
+        $studentId = Student::factory()->create();
+
+        return [
+            'student_id' => $studentId->user_id,
+            'date' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
+            'weight' => $this->faker->randomFloat(2, 40, 100),
+            'height' => $this->faker->randomFloat(2, 1, 2),
+            'age' => $this->faker->numberBetween(18, 60),
+            'observations_to_student' => $this->faker->sentence,
+            'observations_to_nutritionist' => $this->faker->sentence,
+            'back' => $backImagePath,
+            'front' => $frontImagePath,
+            'left' => $leftImagePath,
+            'right' => $rightImagePath,
+            'torax' => $this->faker->randomFloat(2, 50, 200),
+            'braco_direito' => $this->faker->randomFloat(2, 20, 50),
+            'braco_esquerdo' => $this->faker->randomFloat(2, 20, 50),
+            'cintura' => $this->faker->randomFloat(2, 50, 200),
+            'antebraco_direito' => $this->faker->randomFloat(2, 15, 30),
+            'antebraco_esquerdo' => $this->faker->randomFloat(2, 15, 30),
+            'abdomen' => $this->faker->randomFloat(2, 50, 200),
+            'coxa_direita' => $this->faker->randomFloat(2, 30, 80),
+            'coxa_esquerda' => $this->faker->randomFloat(2, 30, 80),
+            'quadril' => $this->faker->randomFloat(2, 50, 200),
+            'panturrilha_direita' => $this->faker->randomFloat(2, 20, 50),
+            'panturrilha_esquerda' => $this->faker->randomFloat(2, 20, 50),
+            'punho' => $this->faker->randomFloat(2, 10, 30),
+            'biceps_femoral_direito' => $this->faker->randomFloat(2, 20, 50),
+            'biceps_femoral_esquerdo' => $this->faker->randomFloat(2, 20, 50),
+        ];
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AvaliationController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\MealPlanScheduleController;
 use App\Http\Controllers\StudentController;
@@ -25,6 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
 
    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+
+   Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
 
    Route::get('meal_plans', [MealPlanController::class, 'index']);
    Route::post('meal_plans', [MealPlanController::class, 'store']);
