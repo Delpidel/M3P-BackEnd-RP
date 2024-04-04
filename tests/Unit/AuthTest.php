@@ -65,7 +65,7 @@ class AuthTest extends TestCase
                     'get-users',
                     'delete-users',
                     'update-users',
-                    'admin-dashboard',
+                    'get-dashboard',
                 ]
             ]
         ]);
