@@ -14,16 +14,16 @@ return new class extends Migration
 
         Schema::table('students', function (Blueprint $table) {
 
-            $table->string('email', 255)->unique()->after('id');
-            $table->date('date_birth')->nullable()->after('email');
-            $table->string('contact', 20)->after('date_birth');
-            $table->string('cpf')->unique()->after('contact');
-            $table->string('cep', 20)->nullable();
-            $table->string('city', 50)->nullable()->after('cep');
-            $table->string('neighborhood', 50)->nullable()->after('city');
-            $table->string('number', 30)->nullable()->after('neighborhood');
-            $table->string('street', 30)->nullable()->after('number');
-            $table->string('state', 2)->nullable()->after('street');
+            $table->string('email', 255)->unique();
+            $table->date('date_birth')->required();
+            $table->string('contact', 20)->required();
+            $table->string('cpf')->unique();
+            $table->string('cep', 20)->required();
+            $table->string('city', 50)->required();
+            $table->string('neighborhood', 50)->required();
+            $table->string('number', 30)->required();
+            $table->string('street', 30)->required();
+            $table->string('state', 2)->required();
         });
     }
 

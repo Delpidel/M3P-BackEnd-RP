@@ -11,14 +11,16 @@ class StudentRepository implements StudentRepositoryInterface
     {
         return Student::create($data);
     }
-
     public function getOne($id) {
         return Student::find($id);
     }
-
     public function updateOne(Student $student, $data) {
         $student->update($data);
         $student->save();
         return $student;
+
+    public function createDocument(Student $student, array $documentData)
+    {
+        return $student->documents()->create($documentData);
     }
 }
