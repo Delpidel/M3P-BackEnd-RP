@@ -7,6 +7,7 @@ use App\Http\Requests\AvaliationFirstStep;
 use App\Http\Services\File\CreateFileService; // Serviço para criar arquivos
 use App\Models\Avaliation;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class AvaliationController extends Controller
 {
@@ -83,13 +84,19 @@ class AvaliationController extends Controller
         }
     }
 
-    public function getAvaliationsByStudentId($student_id)
+    public function getAvaliationsByStudentId(Request $request, $student_id)
     {
-        $avaliations = Avaliation::with('file')
-            ->where('student_id', $student_id)
-            ->get();
+        try {
+            $avaliation = Avaliation::where('student_id', $student_id)->get();
 
-        return response()->json($avaliations);
+            if ($avaliation->isEmpty()) {
+                return response()->json(['message' => 'Nenhuma avaliação encontrada para este estudante'], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->json($avaliation, Response::HTTP_OK);
+        } catch (\Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 }
 

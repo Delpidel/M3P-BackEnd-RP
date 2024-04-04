@@ -22,9 +22,6 @@ use App\Http\Controllers\AvaliationController;
 |
 */
 
-    Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
-
-
 Route::middleware('auth:sanctum')->group(function () {
 
    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
@@ -55,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('step3', [AvaliationController::class, 'step3']);
     })->middleware(['ability:create-avaliations']);
 
+    Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
     Route::get('/avaliations/{student_id}', [AvaliationController::class, 'getAvaliationsByStudentId']);
 
     Route::post('logout', [AuthController::class, 'logout']);
