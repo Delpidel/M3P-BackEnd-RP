@@ -15,13 +15,13 @@ class StudentExportController extends Controller
 {
     use HttpResponses;
 
-    public function index ($id) {
+    public function index (Request $request, $id) {
 
-        // $user_id = $request->user();
+        $user_id = $request->user();
 
-        // if(!$user_id) {
-        //     return $this->response("Usuário não autenticado", Response::HTTP_UNAUTHORIZED);
-        // }
+        if(!$user_id) {
+            return $this->response("Usuário não autenticado", Response::HTTP_UNAUTHORIZED);
+        }
 
         $avaliation = Avaliation::query()->where('id', $id)->first();
 

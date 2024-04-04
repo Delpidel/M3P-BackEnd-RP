@@ -63,11 +63,6 @@
     <div class="container">
 
         <header>
-            <div class="imagem">
-                {{-- <a href='https://postimages.org/' target='_blank'> --}}
-                    {{-- <img src='https://i.postimg.cc/L6gFw716/academia.jpg' border='0' alt='academia'/> --}}
-                {{-- </a> --}}
-            </div>
             <h2>Veja os resultados da sua avaliação</h2>
         </header>
 
@@ -81,7 +76,7 @@
 
         <br>
 
-        {{-- <section>
+        <section>
             <h3>Informações Gerais</h3>
             <table>
                 <tr class="title">
@@ -105,35 +100,67 @@
                     <th>Valores</th>
                 </tr>
                 <tr>
-                    <td class="title">Valor1</td>
-                    <td class="info">Medida1</td>
+                    <td class="title">Tórax</td>
+                    <td class="info">{{$avaliation->torax}}</td>
                 </tr>
                 <tr>
-                    <td class="title">Valor2</td>
-                    <td class="info">Medida2</td>
+                    <td class="title">Braço Direito</td>
+                    <td class="info">{{$avaliation->braco_direito}}</td>
                 </tr>
                 <tr>
-                    <td class="title">Valor3</td>
-                    <td class="info">Medida3</td>
+                    <td class="title">Braço Esquerdo</td>
+                    <td class="info">{{$avaliation->braco_esquerdo}}</td>
                 </tr>
                 <tr>
-                    <td class="title">Valor4</td>
-                    <td class="info">Medida4</td>
+                    <td class="title">Cintura</td>
+                    <td class="info">{{$avaliation->cintura}}</td>
                 </tr>
                 <tr>
-                    <td class="title">Valor5</td>
-                    <td class="info">Medida5</td>
+                    <td class="title">Antebraço Direito</td>
+                    <td class="info">{{$avaliation->antebraco_direito}}</td>
                 </tr>
                 <tr>
-                    <td class="title">Valor6</td>
-                    <td class="info">Medida6</td>
+                    <td class="title">Antebraço Esquerdo</td>
+                    <td class="info">{{$avaliation->antebraco_esquerdo}}</td>
                 </tr>
                 <tr>
-                    <td class="title">Valor7</td>
-                    <td class="info">Medida7</td>
+                    <td class="title">Abdomen</td>
+                    <td class="info">{{$avaliation->abdome}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Coxa Direita</td>
+                    <td class="info">{{$avaliation->coxa_direita}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Coxa Esquerda</td>
+                    <td class="info">{{$avaliation->coxa_esquerda}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Quadril</td>
+                    <td class="info">{{$avaliation->quadril}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Panturrilha Direita</td>
+                    <td class="info">{{$avaliation->panturrilha_direita}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Panturrilha Esquerda</td>
+                    <td class="info">{{$avaliation->panturrilha_esquerda}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Punho</td>
+                    <td class="info">{{$avaliation->punho}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Bíceps Femoral Direito</td>
+                    <td class="info">{{$avaliation->b_femoral_direito}}</td>
+                </tr>
+                <tr>
+                    <td class="title">Bíceps Femoral Esquerdo</td>
+                    <td class="info">{{$avaliation->b_femoral_esquerdo}}</td>
                 </tr>
             </table>
-        </section> --}}
+        </section>
 
     </div>
 </body>

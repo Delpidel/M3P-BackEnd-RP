@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Attachment;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -24,7 +23,6 @@ class SendEvaluationEmail extends Mailable
     {
         $this->studentName = $studentName;
         $this->avaliationDate = $avaliationDate;
-        // $this->pdf = $pdf;
 
     }
 
@@ -56,7 +54,6 @@ class SendEvaluationEmail extends Mailable
     public function attachments(): array
     {
         return [
-            // Attachment::fromData($this->pdf -> output())
         ];
     }
 }
