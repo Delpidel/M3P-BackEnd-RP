@@ -25,7 +25,8 @@ class User extends Authenticatable
         'password',
         'profile_id',
         'is_active',
-        'file_id'
+        'file_id',
+        'deleted_at'
     ];
 
     /**

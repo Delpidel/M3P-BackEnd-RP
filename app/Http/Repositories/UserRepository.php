@@ -26,6 +26,14 @@ class UserRepository implements UserRepositoryInterface
             ->get();
     }
 
+    public function getProfilesWithCount()
+    {
+        return User::selectRaw('profiles.name as profile_name, count(users.id) as count')
+            ->join('profiles', 'users.profile_id', '=', 'profiles.id')
+            ->groupBy('profiles.name')
+            ->pluck('count', 'profile_name');
+    }
+
     public function updateOne($user, $body)
     {
         $user->update($body);
@@ -35,7 +43,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function find($id)
     {
-        return User::find($id);
+        return User::withTrashed()->find($id);
     }
 
     public function getUserAndFiles($id)
