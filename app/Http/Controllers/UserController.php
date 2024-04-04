@@ -43,7 +43,7 @@ class UserController extends Controller
         $hashedPassword = $passwordHashingService->handle($password);
 
         $user = $createOneUserService->handle([...$body, 'password' => $hashedPassword]);
-        // $sendEmailWelcomeService->handle($user, $password);
+        $sendEmailWelcomeService->handle($user, $password);
 
         return $user;
     }
@@ -89,6 +89,9 @@ class UserController extends Controller
                 return $updatedUser;
             }
         }
+
+        $updatedUser = $updateOneUserService->handle($user, $body);
+        return $updatedUser;
     }
 
     public function destroy($id, DeleteOneUserService $deleteOneUserService)
