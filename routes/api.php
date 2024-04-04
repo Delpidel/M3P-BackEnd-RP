@@ -26,7 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
 
     Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
+
     Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
+    Route::put('students/{id}', [StudentController::class, 'update'])->middleware(['ability:update-students']);
+
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
     Route::post('logout', [AuthController::class, 'logout']);
 
