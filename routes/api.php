@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AvaliationController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\MealPlanScheduleController;
 use App\Http\Controllers\StudentController;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+    Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->group(function () {
   
    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
