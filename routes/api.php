@@ -25,28 +25,28 @@ use Illuminate\Support\Facades\Route;
 
     Route::post('logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->group(function () {
-  
+
    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
    Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
    Route::put('users/{id}', [UserController::class, 'update'])->middleware(['ability:update-users']);
    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
-  
+
    Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
    Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
-  
-   Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
-  
-   Route::get('meal_plans', [MealPlanController::class, 'index']);
-   Route::post('meal_plans', [MealPlanController::class, 'store']);
 
-   Route::get('meal/{id}', [MealPlanScheduleController::class, 'studentMeal']);
-   Route::get('meals', [MealPlanScheduleController::class, 'index']);
-   Route::post('cad_meal', [MealPlanScheduleController::class, 'store']);
-   Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update']);
-   Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy']);
+   Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
+
+   Route::get('meal_plans', [MealPlanController::class, 'index'])->middleware(['ability:get-meal-plans']);
+   Route::post('meal_plans', [MealPlanController::class, 'store'])->middleware(['ability:create-meal-plans']);
+
+   Route::get('meal/{id}', [MealPlanScheduleController::class, 'studentMeal'])->middleware(['ability:get-meal-plans']);
+   Route::get('meals', [MealPlanScheduleController::class, 'index'])->middleware(['ability:get-meal-plans']);
+   Route::post('cad_meal', [MealPlanScheduleController::class, 'store'])->middleware(['ability:create-meal-plans']);
+   Route::put('update_meal/{id}', [MealPlanScheduleController::class, 'update'])->middleware(['ability:update-meal-plans']);
+   Route::delete('delete_meal/{id}', [MealPlanScheduleController::class, 'destroy'])->middleware(['ability:delete-meal-plans']);
 
    Route::post('logout', [AuthController::class, 'logout']);
-  
+
 });
 
 Route::post('login', [AuthController::class, 'store']);

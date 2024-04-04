@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\MealPlan;
 
 use App\Interfaces\MealPlanScheduleRepositoryInterface;
 use App\Interfaces\MealPlanScheduleServiceInterface;
@@ -42,6 +42,7 @@ class MealPlanScheduleService implements MealPlanScheduleServiceInterface
 
         $request->validate([
             'meal_plan_id' => 'int|required',
+            'student_id' => 'int|required',
             'hour' => 'string',
             'title' => 'string|required',
             'description' => 'string|required',
