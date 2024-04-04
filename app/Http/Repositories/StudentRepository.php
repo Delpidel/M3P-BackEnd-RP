@@ -18,7 +18,7 @@ class StudentRepository implements StudentRepositoryInterface
         $student->update($data);
         $student->save();
         return $student;
-
+    }
     public function createDocument(Student $student, array $documentData)
     {
         return $student->documents()->create($documentData);
