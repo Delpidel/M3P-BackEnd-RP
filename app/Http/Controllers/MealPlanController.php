@@ -21,7 +21,7 @@ class MealPlanController extends Controller
     {
             $data = $request->all();
             $request->validate([
-                'sudent_id' => 'int|required',
+                'student_id' => 'int|required',
                 'description' => 'string|required'
             ]);
 
