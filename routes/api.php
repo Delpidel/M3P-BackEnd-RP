@@ -22,6 +22,9 @@ use App\Http\Controllers\AvaliationController;
 |
 */
 
+    Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
 
    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);

@@ -60,27 +60,22 @@ class AvaliationController extends Controller
     {
         // Validação e processamento dos dados da terceira etapa
         try {
-            $data = $request->validated();
+            $data = $request->input();
+            $back = $request->file('back');
+            $front = $request->file('front');
+            $left = $request->file('left');
+            $right = $request->file('right');
 
-            // Usando CreateFileService para manipular o upload do arquivo
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                // Substitua 'folderPath' pelo caminho desejado dentro do seu armazenamento
-                $folderPath = 'avaliations';
+            $folderPath = 'avaliations';
 
-                // Note: A função handle espera um nome, que você pode obter do arquivo ou gerar como preferir
-                $name = time() . '_' . $file->getClientOriginalName();
+            $createdFileBack = $this->createFileService->handle($folderPath, $back, 'foto_costas');
+            $createdFileFront = $this->createFileService->handle($folderPath, $front, 'foto_frente');
+            $createdFileLeft = $this->createFileService->handle($folderPath, $left, 'foto_esquerda');
+            $createdFileRight = $this->createFileService->handle($folderPath, $right, 'foto_direita');
 
-                $createdFile = $this->createFileService->handle($folderPath, $file, $name);
-
-                // Assumindo que o método handle retorna a instância do arquivo com um id
-                $data['file_id'] = $createdFile->id;
-            } else {
-                throw new \Exception("Falha no upload do arquivo.");
-            }
-
-            // Criar avaliação com os dados validados e o ID do arquivo
-            $createdAvaliation = $this->avaliationRepository->createAvaliation($data);
+            $createdAvaliation = $this->avaliationRepository->createAvaliation([...$data, 'back'=>$createdFileBack->id, 'front'=>$createdFileFront->id,
+            'left'=>$createdFileLeft->id, 'right'=>$createdFileRight->id
+        ]);
 
             return response()->json($createdAvaliation, Response::HTTP_CREATED);
         } catch (\Exception $exception) {
