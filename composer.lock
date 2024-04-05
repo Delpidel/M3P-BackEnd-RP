@@ -2222,9 +2222,19 @@
                 "composer/xdebug-handler": "^3.0.3",
                 "phpunit/phpunit": "^8.5.33"
             },
+<<<<<<< HEAD
+<<<<<<< HEAD
             "bin": [
                 "bin/jp.php"
             ],
+=======
+            "bin": ["bin/jp.php"],
+>>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
+=======
+            "bin": [
+                "bin/jp.php"
+            ],
+>>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2232,17 +2242,37 @@
                 }
             },
             "autoload": {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 "files": [
                     "src/JmesPath.php"
                 ],
+=======
+                "files": ["src/JmesPath.php"],
+>>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
+=======
+                "files": [
+                    "src/JmesPath.php"
+                ],
+>>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
                 "psr-4": {
                     "JmesPath\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+<<<<<<< HEAD
+<<<<<<< HEAD
             "license": [
                 "MIT"
             ],
+=======
+            "license": ["MIT"],
+>>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
+=======
+            "license": [
+                "MIT"
+            ],
+>>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
             "authors": [
                 {
                     "name": "Graham Campbell",
@@ -2256,10 +2286,20 @@
                 }
             ],
             "description": "Declaratively specify how to extract elements from a JSON document",
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
             "keywords": [
                 "json",
                 "jsonpath"
             ],
+<<<<<<< HEAD
+=======
+            "keywords": ["json", "jsonpath"],
+>>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
+=======
+>>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
             "support": {
                 "issues": "https://github.com/jmespath/jmespath.php/issues",
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.7.0"

@@ -5,12 +5,16 @@ namespace Database\Seeders;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DatabaseSeeder extends Seeder
 {
 
     public function run(): void
     {
+        try {
+            DB::beginTransaction();
 
             Profile::create(['id' => 1, 'name' => 'ADMIN']);
             Profile::create(['id' => 2, 'name' => 'RECEPCIONISTA']);
@@ -18,9 +22,14 @@ class DatabaseSeeder extends Seeder
             Profile::create(['id' => 4, 'name' => 'NUTRICIONISTA']);
             Profile::create(['id' => 5, 'name' => 'ALUNO']);
 
+            $defaultEmail = env("DEFAULT_EMAIL");
+            if (!$defaultEmail) {
+                throw new \Exception('O valor do email padrão não está definido no arquivo .env');
+            }
+
             User::create([
                 'name' => 'ADMIN',
-                'email' => env("DEFAULT_EMAIL"),
+                'email' => $defaultEmail,
                 'password' => env("DEFAULT_PASSWORD"),
                 'profile_id' => 1
             ]);
@@ -53,5 +62,10 @@ class DatabaseSeeder extends Seeder
                 'profile_id' => 5
             ]);
 
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erro ao popular o banco de dados: ' . $e->getMessage());
+        }
     }
 }
