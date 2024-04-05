@@ -16,7 +16,7 @@ class AdminGetMealPlansStudentTest extends TestCase
         $user = User::factory()->create(['profile_id' => 5]);
         $token = $user->createToken('@academia', ['get-meal-plans'])->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/students/meal_plans');
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/student/meal_plans');
 
         $response->assertStatus(200)->assertJsonStructure([
             '*' => [
@@ -43,17 +43,20 @@ class AdminGetMealPlansStudentTest extends TestCase
             'neighborhood' => 'Centro',
             'city' => 'Santa cruz do sul',
             'number' => '642',
+            'user_id' => $user->id,
         ]);
+
         UserStudent::create([
             'user_id' => $user->id,
             'student_id' => $student->id,
         ]);
+
         $studentId = UserStudent::where('user_id', $user->id)->value('student_id');
         $mealPlan = MealPlans::create(['description' => 'emagrecimento', 'student_id' => $studentId]);
         $mealPlanId = $mealPlan->id;
         $token = $user->createToken('@academia', ['get-meal-plans'])->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/students/meal_plans/' . $mealPlanId);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/student/meal_plans/' . $mealPlanId);
 
         $response->assertStatus(200)->assertJsonStructure([
             'student_id',
@@ -72,7 +75,7 @@ class AdminGetMealPlansStudentTest extends TestCase
 
     public function test_can_not_view_meal_plans_if_the_user_is_not_logged()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . '')->get('/api/students/meal_plans');
+        $response = $this->withHeader('Authorization', 'Bearer ' . '')->get('/api/student/meal_plans');
 
         $response->assertStatus(500);
     }
@@ -85,7 +88,7 @@ class AdminGetMealPlansStudentTest extends TestCase
         $mealPlanId = $mealPlan->id;
         $token = $user2->createToken('@academia', ['get-meal-plans'])->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/students/meal_plans/' . $mealPlanId);
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->get('/api/student/meal_plans/' . $mealPlanId);
 
         $response->assertStatus(404);
     }
