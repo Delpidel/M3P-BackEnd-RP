@@ -19,7 +19,7 @@ class CreateAvaliationsTable extends Migration
             $table->float('height');
             $table->text('observations_to_student')->nullable();
             $table->text('observations_to_nutritionist')->nullable();
-
+          
             $table->unsignedBigInteger('back');
             $table->foreign('back')->references('id')->on('files');
             $table->unsignedBigInteger('front');
