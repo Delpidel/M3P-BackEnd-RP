@@ -15,6 +15,7 @@ use App\Http\Services\Student\SendCredentialsStudentEmail;
 use App\Http\Services\Student\UpdateOneStudentService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
+use App\Models\Student;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,6 +77,17 @@ class StudentController extends Controller
         $sendCredentialsStudentEmail->handle($student, $password);
 
         return $student;
+    }
+
+    public function show($id){
+
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json(['message' => 'Estudante não encontrado'], 404);
+        }
+
+        return response()->json($student);
     }
 
     public function update($id,

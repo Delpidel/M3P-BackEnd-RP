@@ -27,4 +27,8 @@ class Student extends Model
         return $this->hasMany(MealPlanSchedule::class, 'student_id');
     }
 
+    public function avaliations()
+    {
+        return $this->hasMany(Avaliation::class);
+    }
 }

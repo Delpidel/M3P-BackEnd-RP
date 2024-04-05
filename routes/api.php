@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AvaliationController;
 use App\Http\Controllers\MealPlanController;
 use App\Http\Controllers\MealPlanScheduleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentExportController;
 use App\Http\Controllers\StudentMealsController;
 use App\Http\Controllers\StudentWorkoutController;
 use App\Http\Controllers\StudentDocumentController;
@@ -16,7 +18,6 @@ use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\InstructorWorkoutController;
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AvaliationController;
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
     Route::put('students/{id}', [StudentController::class, 'update'])->middleware(['ability:update-students']);
     Route::delete('students/{id}', [StudentController::class, 'destroy'])->middleware(['ability:delete-students']);
+    Route::get('students/{id}', [StudentController::class, 'show'])->middleware(['ability:get-students']);
 
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
     Route::post('workouts', [WorkoutController::class, 'store'])->middleware(['ability:create-workouts']);
@@ -70,6 +72,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);
 
     Route::get('/avaliations/{student_id}', [AvaliationController::class, 'getAvaliationsByStudentId']);
+
+    Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
+    Route::get('avaliations/send/{id}', [StudentExportController::class, 'index']);
+    Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
