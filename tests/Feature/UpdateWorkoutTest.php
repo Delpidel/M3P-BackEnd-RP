@@ -103,7 +103,7 @@ class UpdateWorkoutTest extends TestCase
         $validator = Validator::make(['day' => 'invalid_day'], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
-        $this->assertEquals(['O dia da semana deve ser um dos seguintes: SEGUNDA, TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO'], $validator->errors()->all());
+        $this->assertEquals(['O dia da semana deve ser um dos seguintes: SEGUNDA, TERCA, QUARTA, QUINTA, SEXTA, SABADO, DOMINGO'], $validator->errors()->all());
     }
 
     public function test_observations_must_be_a_string(): void
