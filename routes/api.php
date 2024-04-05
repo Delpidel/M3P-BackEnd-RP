@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
 
+
+    //rotas para cadastro de avaliações em 3 etapas
+   Route::prefix('avaliations')->group(function () {
+        Route::post('step1', [AvaliationController::class, 'step1']);
+        Route::post('step2', [AvaliationController::class, 'step2']);
+        Route::post('step3', [AvaliationController::class, 'step3']);
+    })->middleware(['ability:create-avaliations']);
+
    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
    Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
    Route::put('users/{id}', [UserController::class, 'update'])->middleware(['ability:update-users']);
