@@ -10,7 +10,7 @@ class GetPermissionsService
             'get-users',
             'delete-users',
             'update-users',
-            'admin-dashboard',
+            'get-dashboard',
         ],
         'RECEPCIONISTA' => [
             'create-students',
@@ -37,7 +37,10 @@ class GetPermissionsService
             'get-actives-students',
             'get-avaliations',
             'create-meal-plans',
-            'get-meal-plans'
+            'get-meal-plans',
+            'delete-meal-plans',
+            'update-meal-plans',
+            'get-students'
         ],
         'ALUNO' => [
             'get-workout',

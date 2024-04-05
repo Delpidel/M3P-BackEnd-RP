@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\MealPlanScheduleService;
+use App\Http\Services\MealPlan\MealPlanScheduleService;
 use App\Models\MealPlanSchedule;
 use Illuminate\Http\Request;
 

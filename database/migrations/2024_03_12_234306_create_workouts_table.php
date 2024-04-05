@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('repetitions');
             $table->decimal('weight');
             $table->integer('break_time');
-            $table->enum('day', ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO']);
+            $table->enum('day', ['SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO', 'DOMINGO']);
             $table->text('observations')->nullable();
             $table->integer('time');
             $table->foreign('student_id')->references('id')->on('students');
