@@ -19,12 +19,15 @@ class CreateFileService
         $pathBucket = Storage::disk('s3')->put($folderPath, $file);
         $fullPathFile = Storage::disk('s3')->url($pathBucket);
 
-        return $this->fileRepository->create([
+        // Crie o arquivo e obtenha o ID retornado
+        $fileModel = $this->fileRepository->create([
             'name' => 'foto_' . $name,
             'size' => $file->getSize(),
             'mime' => $file->extension(),
             'url' => $fullPathFile
         ]);
 
+        // Retorne o ID do arquivo criado
+        return $fileModel;
     }
 }
