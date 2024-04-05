@@ -10,7 +10,7 @@ class GetPermissionsService
             'get-users',
             'delete-users',
             'update-users',
-            'admin-dashboard',
+            'get-dashboard',
         ],
         'RECEPCIONISTA' => [
             'create-students',

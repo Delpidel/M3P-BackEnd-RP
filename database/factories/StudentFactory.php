@@ -1,27 +1,27 @@
 <?php
-
 namespace Database\Factories;
+
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StudentFactory extends Factory
 {
 
-    public function definition(): array
+    public function definition()
     {
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'cpf' => $this->faker->numerify('###########'),
-            'date_birth' => $this->faker->date,
+            'date_birth' => $this->faker->date('Y-m-d'),
             'contact' => $this->faker->phoneNumber,
-            'cep' => $this->faker->numerify('########'),
+            'cpf' => $this->faker->unique()->regexify('^\d{3}\.\d{3}\.\d{3}-\d{2}$'),
+            'cep' => $this->faker->postcode,
             'street' => $this->faker->streetName,
             'state' => $this->faker->stateAbbr,
-            'neighborhood' => $this->faker->city,
+            'neighborhood' => $this->faker->citySuffix,
             'city' => $this->faker->city,
-            'number' => $this->faker->randomNumber(3),
-            'complement' => 'Apartamento ' . $this->faker->randomNumber(2)
+            'number' => $this->faker->buildingNumber,
+            'complement' => $this->faker->optional()->text(50)
         ];
     }
 }
