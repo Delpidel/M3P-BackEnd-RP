@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.303.2",
+            "version": "3.303.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c087819351de027791d830ffc7f45195488ae988"
+                "reference": "3389ceccdc8e78d38bf60c6648d7da9768a86d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c087819351de027791d830ffc7f45195488ae988",
-                "reference": "c087819351de027791d830ffc7f45195488ae988",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3389ceccdc8e78d38bf60c6648d7da9768a86d9b",
+                "reference": "3389ceccdc8e78d38bf60c6648d7da9768a86d9b",
                 "shasum": ""
             },
             "require": {
@@ -151,10 +151,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.301.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.303.3"
             },
-            "time": "2024-03-28T18:13:20+00:00"
+            "time": "2024-04-04T18:11:56+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -232,11 +231,6 @@
                 }
             ],
             "time": "2024-03-15T12:48:39+00:00"
-=======
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.303.2"
-            },
-            "time": "2024-04-03T18:08:21+00:00"
->>>>>>> 54439e13e1a0dbb347c0ec175eae750f8882b7b8
         },
         {
             "name": "brick/math",
@@ -2246,16 +2240,16 @@
         },
         {
             "name": "masterminds/html5",
-            "version": "2.8.1",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Masterminds/html5-php.git",
-                "reference": "f47dcf3c70c584de14f21143c55d9939631bc6cf"
+                "reference": "f5ac2c0b0a2eefca70b2ce32a5809992227e75a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/f47dcf3c70c584de14f21143c55d9939631bc6cf",
-                "reference": "f47dcf3c70c584de14f21143c55d9939631bc6cf",
+                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/f5ac2c0b0a2eefca70b2ce32a5809992227e75a6",
+                "reference": "f5ac2c0b0a2eefca70b2ce32a5809992227e75a6",
                 "shasum": ""
             },
             "require": {
@@ -2263,7 +2257,7 @@
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7.21 || ^6 || ^7 || ^8"
+                "phpunit/phpunit": "^4.8.35 || ^5.7.21 || ^6 || ^7 || ^8 || ^9"
             },
             "type": "library",
             "extra": {
@@ -2307,9 +2301,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Masterminds/html5-php/issues",
-                "source": "https://github.com/Masterminds/html5-php/tree/2.8.1"
+                "source": "https://github.com/Masterminds/html5-php/tree/2.9.0"
             },
-            "time": "2023-05-10T11:58:31+00:00"
+            "time": "2024-03-31T07:05:07+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2434,25 +2428,9 @@
                 "composer/xdebug-handler": "^3.0.3",
                 "phpunit/phpunit": "^8.5.33"
             },
-<<<<<<< HEAD
             "bin": [
                 "bin/jp.php"
             ],
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-            "bin": [
-                "bin/jp.php"
-            ],
-=======
-            "bin": ["bin/jp.php"],
->>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
-=======
-            "bin": [
-                "bin/jp.php"
-            ],
->>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
->>>>>>> 54439e13e1a0dbb347c0ec175eae750f8882b7b8
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2460,49 +2438,17 @@
                 }
             },
             "autoload": {
-<<<<<<< HEAD
                 "files": [
                     "src/JmesPath.php"
                 ],
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-                "files": [
-                    "src/JmesPath.php"
-                ],
-=======
-                "files": ["src/JmesPath.php"],
->>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
-=======
-                "files": [
-                    "src/JmesPath.php"
-                ],
->>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
->>>>>>> 54439e13e1a0dbb347c0ec175eae750f8882b7b8
                 "psr-4": {
                     "JmesPath\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-<<<<<<< HEAD
             "license": [
                 "MIT"
             ],
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-            "license": [
-                "MIT"
-            ],
-=======
-            "license": ["MIT"],
->>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
-=======
-            "license": [
-                "MIT"
-            ],
->>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
->>>>>>> 54439e13e1a0dbb347c0ec175eae750f8882b7b8
             "authors": [
                 {
                     "name": "Graham Campbell",
@@ -2516,26 +2462,10 @@
                 }
             ],
             "description": "Declaratively specify how to extract elements from a JSON document",
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
->>>>>>> 54439e13e1a0dbb347c0ec175eae750f8882b7b8
             "keywords": [
                 "json",
                 "jsonpath"
             ],
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-            "keywords": ["json", "jsonpath"],
->>>>>>> 4c5974e56f58d75844fdf00823eb1559e7ea742d
-=======
->>>>>>> 952af558cb2617e0690030c10d181ad8b9233b03
->>>>>>> 54439e13e1a0dbb347c0ec175eae750f8882b7b8
             "support": {
                 "issues": "https://github.com/jmespath/jmespath.php/issues",
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.7.0"
