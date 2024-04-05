@@ -13,7 +13,7 @@ class AvaliationController extends Controller
     {
         try {
 
-            $students = Avaliation::all();
+            $students = Avaliation::query()->where('student_id', $student_id)->get();
             return $students;
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);

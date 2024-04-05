@@ -67,7 +67,6 @@
         </header>
 
         <section>
-            <p>Testando</p>
             <p>Olá, {{ $studentName }} </p>
 
             <p>Vimos que você realizou uma avaliação no dia {{ $avaliationDate }} com a nossa equipe. Dito isso,
@@ -78,7 +77,7 @@
 
         <section>
             <h3>Informações Gerais</h3>
-            <table>
+            {{-- <table>
                 <tr class="title">
                     <th>Nome</th>
                     <th>Idade</th>
@@ -159,7 +158,7 @@
                     <td class="title">Bíceps Femoral Esquerdo</td>
                     <td class="info">{{$avaliation->b_femoral_esquerdo}}</td>
                 </tr>
-            </table>
+            </table> --}}
         </section>
 
     </div>

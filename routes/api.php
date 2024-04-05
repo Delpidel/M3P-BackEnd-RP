@@ -55,5 +55,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('login', [AuthController::class, 'store']);
 
+Route::get('students', [StudentController::class, 'index']);
+// ->middleware(['ability:get-students']);
+Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
+Route::get('students/{id}', [StudentController::class, 'show']);
+// ->middleware(['ability:get-students']);
+Route::get('students', [StudentController::class, 'index']);
+// ->middleware(['ability:get-students']);
+
+Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
+Route::get('avaliations/send/{id}', [StudentExportController::class, 'index']);
+
+
 
 
