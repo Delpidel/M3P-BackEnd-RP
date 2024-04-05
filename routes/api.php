@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMealsController;
 use App\Http\Controllers\StudentWorkoutController;
+use App\Http\Controllers\StudentDocumentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\DashboardInstructorController;
@@ -26,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
    Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
+   Route::put('students/{id}', [StudentController::class, 'update'])->middleware(['ability:update-students']);
+   Route::delete('students/{id}', [StudentController::class, 'destroy'])->middleware(['ability:delete-students']);
 
    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
 
@@ -51,6 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('students/{id}/workouts', [StudentWorkoutController::class, 'workoutsByStudent'])->middleware(['ability:get-workout']);
    Route::get('students/meal_plans', [StudentMealsController::class, 'index'])->middleware(['ability:get-meal-plans']);;
    Route::get('students/meal_plans/{id}', [StudentMealsController::class, 'show'])->middleware(['ability:get-meal-plans']);;
+
+   Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);
 
    Route::post('logout', [AuthController::class, 'logout']);
 
