@@ -18,5 +18,3 @@ abstract class TestCase extends BaseTestCase
         $this->seed(DatabaseSeeder::class);
     }
 }
-
-

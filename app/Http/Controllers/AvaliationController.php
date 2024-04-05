@@ -20,6 +20,18 @@ class AvaliationController extends Controller
         $this->createFileService = $createFileService;
     }
 
+    public function index($student_id)
+    {
+        try {
+
+            $students = Avaliation::all();
+            return $students;
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+
+        }
+    }
+
     public function step1(AvaliationFirstStep $request)
     {
           // Validação dos dados recebidos na requisição

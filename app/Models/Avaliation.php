@@ -15,7 +15,7 @@ class Avaliation extends Model
         'measures' => 'array',
     ];
 
-    public function Student() {
+    public function student() {
         return $this->belongsTo(Student::class, 'student_id');
     }
 
