@@ -1,23 +1,27 @@
 <?php
-
 namespace Database\Factories;
+
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
- */
 class StudentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+
+    public function definition()
     {
         return [
-            'name'=> fake()->name()
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'date_birth' => $this->faker->date('Y-m-d'),
+            'contact' => $this->faker->phoneNumber,
+            'cpf' => $this->faker->unique()->regexify('^\d{3}\.\d{3}\.\d{3}-\d{2}$'),
+            'cep' => $this->faker->postcode,
+            'street' => $this->faker->streetName,
+            'state' => $this->faker->stateAbbr,
+            'neighborhood' => $this->faker->citySuffix,
+            'city' => $this->faker->city,
+            'number' => $this->faker->buildingNumber,
+            'complement' => $this->faker->optional()->text(50)
         ];
     }
 }
