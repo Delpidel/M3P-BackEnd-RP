@@ -13,16 +13,16 @@ class StudentFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'date_birth' => $this->faker->date(),
+
+            'cpf' => $this->faker->numerify('###.###.###-##'),
+            'date_birth' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
             'contact' => $this->faker->phoneNumber,
-            'cpf' => $this->faker->unique()->numerify('###########'),
-            'cep' => $this->faker->numerify('#####-###'),
-            'city' => $this->faker->city,
-            'neighborhood' => $this->faker->word,
-            'number' => $this->faker->buildingNumber,
+            'cep' => $this->faker->postcode,
             'street' => $this->faker->streetName,
             'state' => $this->faker->stateAbbr,
-            'user_id' => $this->faker->numberBetween(1, 10),
+            'neighborhood' => $this->faker->word,
+            'city' => $this->faker->city,
+            'number' => $this->faker->buildingNumber
         ];
     }
 }
