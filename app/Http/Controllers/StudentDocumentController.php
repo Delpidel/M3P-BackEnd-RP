@@ -38,7 +38,6 @@ class StudentDocumentController extends Controller
         $body['student_id'] = $studentId;
 
         return StudentDocument::create($body + ['file_id' => $file->id]);
-
     }
     public function index($id)
 
