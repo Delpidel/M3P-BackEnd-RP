@@ -35,7 +35,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);});
+    Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);
+    Route::get('students/{id}/documents', [StudentDocumentController::class, 'index'])->middleware(['ability:get-documents-students']);});
+
+   Route::put('workouts/{id}', [WorkoutController::class, 'update'])->middleware(['ability:get-workouts']);
+   Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
+
+   Route::post('logout', [AuthController::class, 'logout']);
+
+
 
 Route::post('login', [AuthController::class, 'store']);
 
