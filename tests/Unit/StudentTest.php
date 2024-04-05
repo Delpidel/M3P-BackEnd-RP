@@ -2,13 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Http\Services\Student\PasswordGenerationService;
-use App\Http\Services\Student\SendCredentialsStudentEmailService;
 use App\Mail\CredentialsStudent;
-use App\Models\Student;
 use App\Models\User;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
