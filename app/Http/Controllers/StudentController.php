@@ -15,6 +15,7 @@ use App\Http\Services\Student\SendCredentialsStudentEmail;
 use App\Http\Services\Student\UpdateOneStudentService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
+use App\Models\Student;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,15 +68,27 @@ class StudentController extends Controller
 
         $passwordHashed = $passwordHashingService->handle($password);
 
-        $student = $createOneStudentService->handle([...$body, 'file_id' => $file->id]);
 
         $user = $createOneUserService->handle([...$body, 'password' => $passwordHashed]);
+
+        $student = $createOneStudentService->handle([...$body, 'file_id' => $file->id, 'user_id' => $user->id]); // verificar motivo
 
         $createOneUserStudentService->handle(['user_id' => $user->id, 'student_id' => $student->id]);
 
         $sendCredentialsStudentEmail->handle($student, $password);
 
         return $student;
+    }
+
+    public function show($id){
+
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json(['message' => 'Estudante não encontrado'], 404);
+        }
+
+        return response()->json($student);
     }
 
     public function update($id,
