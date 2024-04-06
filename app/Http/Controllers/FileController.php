@@ -13,8 +13,8 @@ class FileController extends Controller
     ) {
 
         $file = $request->file('photo');
-        $body = $request->all();
-        $file = $createFileService->handle('photos', $file, $body['name']);
+        $body = $request->input();
+        $file = $createFileService->handle('photos', $file, 'imagem');
         return $file;
     }
 }
