@@ -67,7 +67,7 @@ class AvaliationController extends Controller
 
     public function step2(StoreAvaliationRequest $request)
     {
-        // Validação e processamento dos dados da segunda etapa
+
     }
     public function step3(StoreAvaliationRequest $request)
     {
@@ -111,6 +111,5 @@ class AvaliationController extends Controller
         }
     }
 }
-
 
 

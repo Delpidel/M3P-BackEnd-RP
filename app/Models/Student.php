@@ -12,7 +12,7 @@ class Student extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'email', 'date_birth', 'contact', 'cpf', 'city', 'neighborhood', 'number', 'street', 'state', 'cep', 'file_id', 'complement'
+        'name', 'email', 'date_birth', 'contact', 'cpf', 'city', 'neighborhood', 'number', 'street', 'state', 'cep', 'file_id', 'complement', 'user_id'
    ];
 
   protected $hidden = ['created_at', 'updated_at'];
