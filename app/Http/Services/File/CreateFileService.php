@@ -28,6 +28,6 @@ class CreateFileService
         ]);
 
         // Retorne o ID do arquivo criado
-        return $fileModel->id;
+        return $fileModel;
     }
 }

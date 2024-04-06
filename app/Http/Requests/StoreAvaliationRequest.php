@@ -17,6 +17,7 @@ class StoreAvaliationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            
             'student_id' => 'required|exists:students,id',
             'age' => 'required|integer|min:0',
             'date' => 'required|date_format:Y-m-d H:i:s',
@@ -39,6 +40,7 @@ class StoreAvaliationRequest extends FormRequest
             'punho' => 'required|numeric',
             'biceps_femoral_direito' => 'required|numeric',
             'biceps_femoral_esquerdo' => 'required|numeric',
+            
         ];
     }
 
