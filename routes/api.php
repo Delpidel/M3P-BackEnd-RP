@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\DashboardInstructorController;
 use App\Http\Controllers\ExerciseInstructorController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\InstructorWorkoutController;
 
@@ -76,6 +77,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
     Route::get('avaliations/send/{id}', [StudentExportController::class, 'index']);
     Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
+
+    Route::post('upload', [FileController::class, 'store']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
