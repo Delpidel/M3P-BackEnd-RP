@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Http\Controllers\InstructorWorkoutController;
 use App\Http\Services\Workout\InstructorListWorkoutService;
