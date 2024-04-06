@@ -22,22 +22,8 @@ class AvaliationController extends Controller
     {
         try {
             $data = $request->input();
-            $back = $request->file('back');
-            $front = $request->file('front');
-            $left = $request->file('left');
-            $right = $request->file('right');
 
-            $folderPath = 'avaliations';
-
-            $createdFileBack = $this->createFileService->handle($folderPath, $back, 'foto_costas');
-            $createdFileFront = $this->createFileService->handle($folderPath, $front, 'foto_frente');
-            $createdFileLeft = $this->createFileService->handle($folderPath, $left, 'foto_esquerda');
-            $createdFileRight = $this->createFileService->handle($folderPath, $right, 'foto_direita');
-
-            return;
-
-            $createdAvaliation = $this->avaliationRepository->createAvaliation([...$data, 'back'=>$createdFileBack->id, 'front'=>$createdFileFront->id,
-            'left'=>$createdFileLeft->id, 'right'=>$createdFileRight->id
+            $createdAvaliation = $this->avaliationRepository->createAvaliation([...$data
         ]);
 
             return response()->json($createdAvaliation, Response::HTTP_CREATED);
