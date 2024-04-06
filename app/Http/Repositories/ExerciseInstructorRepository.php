@@ -20,7 +20,7 @@ class ExerciseInstructorRepository implements ExerciseInstructorRepositoryInterf
         $query = Exercise::where('user_id', $userId);
 
         // Referente a testes: Mudar esse valor '10', afeta o número de itens na página.
-        return $this->paginationService->paginate($query, 10, ['id', 'description']);
+        return $this->paginationService->paginate($query, 20, ['id', 'description']);
 
     }
 }
