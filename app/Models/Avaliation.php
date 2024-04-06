@@ -22,4 +22,20 @@ class Avaliation extends Model
     public function file() {
         return $this->belongsTo(File::class, 'file_id');
     }
+
+    public function imagemFront() {
+        return $this->hasOne(File::class, "id","front");
+    }
+
+    public function imagemBack() {
+        return $this->hasOne(File::class, "id","back");
+    }
+
+    public function imagemLeft() {
+        return $this->hasOne(File::class, "id","left");
+    }
+
+    public function imagemRight() {
+        return $this->hasOne(File::class, "id","right");
+    }
 }

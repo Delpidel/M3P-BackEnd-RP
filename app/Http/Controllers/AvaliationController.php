@@ -99,7 +99,7 @@ class AvaliationController extends Controller
     public function getAvaliationsByStudentId(Request $request, $student_id)
     {
         try {
-            $avaliation = Avaliation::where('student_id', $student_id)->get();
+            $avaliation = Avaliation::where('student_id', $student_id)->with("imagemFront", "imagemBack", "imagemLeft", "imagemRight")->get();
 
             if ($avaliation->isEmpty()) {
                 return response()->json(['message' => 'Nenhuma avaliação encontrada para este estudante'], Response::HTTP_NOT_FOUND);
