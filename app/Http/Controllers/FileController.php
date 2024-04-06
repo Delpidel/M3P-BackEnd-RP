@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\File\RemoveFileService;
 use App\Models\File;
+use Illuminate\Support\Facades\DB;
 
 class FileController extends Controller
 {
@@ -18,33 +19,46 @@ class FileController extends Controller
         $this->removeFileService = $removeFileService;
     }
 
-    public function store(
-        Request $request,
-        CreateFileService $createFileService,
-    ) {
+    public function store(Request $request)
+    {
+        try {
+            DB::beginTransaction();
 
-        $file = $request->file('photo');
-        $body = $request->input();
-        $file = $createFileService->handle('photos', $file, 'imagem');
-        return $file;
+            $file = $request->file('photo');
+            $body = $request->input();
+            $file = $this->createFileService->handle('photos', $file, 'imagem');
+
+            DB::commit();
+
+            return $file;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Erro ao criar o arquivo'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $file = File::find($id);
-
-        if (!$file) {
-            return response()->json(['message' => 'Arquivo não encontrado'], 404);
-        }
-
-        $fileUrl = $file->url;
-        $id = $file->id;
-
         try {
+            DB::beginTransaction();
+
+            $file = File::find($id);
+
+            if (!$file) {
+                return response()->json(['message' => 'Arquivo não encontrado'], 404);
+            }
+
+            $fileUrl = $file->url;
+            $id = $file->id;
+
             $this->removeFileService->handle($fileUrl, $id);
             $file->delete();
+
+            DB::commit();
+
             return response()->json(['message' => 'Arquivo excluído com sucesso'], 200);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['message' => 'Erro ao excluir o arquivo'], 500);
         }
     }
