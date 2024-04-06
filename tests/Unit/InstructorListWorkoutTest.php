@@ -43,7 +43,6 @@ class InstructorListWorkoutTest extends TestCase
             'weight' => 50.5,
             'break_time' => 60,
             'observations' => 'supino',
-            'time' => 10,
             'user_id' => $user->id,
             'day' => 'SEGUNDA',
         ]);
@@ -79,7 +78,6 @@ class InstructorListWorkoutTest extends TestCase
                         'weight' => 50.5,
                         'break_time' => 60,
                         'observations' => 'supino',
-                        'time' => 10,
                         'user_id' => $user->id,
                         'day' => 'SEGUNDA',
 

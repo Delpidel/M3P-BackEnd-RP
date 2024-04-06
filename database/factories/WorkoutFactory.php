@@ -23,8 +23,7 @@ class WorkoutFactory extends Factory
             'weight' => $this->faker->randomFloat(2, 1, 100),
             'break_time' => $this->faker->numberBetween(30, 600),
             'day' => $this->faker->randomElement(['SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO', 'DOMINGO']),
-            'observations' => $this->faker->text(),
-            'time' => $this->faker->numberBetween(60, 3600)
+            'observations' => $this->faker->text()
         ];
     }
 }
