@@ -67,41 +67,8 @@ class AvaliationController extends Controller
 
     public function step2(StoreAvaliationRequest $request)
     {
-        $validatedData = $request->validate([
-         'student_id' => ['required', 'exists:students,id'],
-          'front' => ['required', 'image'],
-            'back' => ['required', 'image'],
-            'left' => ['required', 'image'],]);
-        
-            try {
-                $data = $request->input();
-                $back = $request->file('back');
-                $front = $request->file('front');
-                $left = $request->file('left');
-                $right = $request->file('right');
-    
-                $folderPath = 'avaliations';
-    
-                // Use o serviço CreateFileService para fazer o upload das imagens
-                $createdFileBack = $this->createFileService->handle($folderPath, $back, 'foto_costas');
-                $createdFileFront = $this->createFileService->handle($folderPath, $front, 'foto_frente');
-                $createdFileLeft = $this->createFileService->handle($folderPath, $left, 'foto_esquerda');
-                $createdFileRight = $this->createFileService->handle($folderPath, $right, 'foto_direita');
-    
-                // Depois de obter os IDs dos arquivos, você pode salvar os dados da avaliação no banco de dados
-                $createdAvaliation = $this->avaliationRepository->createAvaliation([
-                    // Adicione os outros campos necessários aqui
-                    'back' => $createdFileBack->id,
-                    'front' => $createdFileFront->id,
-                    'left' => $createdFileLeft->id,
-                    'right' => $createdFileRight->id,
-                ]);
-    
-                return response()->json($createdAvaliation, Response::HTTP_CREATED);
-            } catch (\Exception $exception) {
-                return response()->json(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
-            }
-        }
+
+    }
     public function step3(StoreAvaliationRequest $request)
     {
         // Validação e processamento dos dados da terceira etapa
