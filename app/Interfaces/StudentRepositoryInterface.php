@@ -11,4 +11,3 @@ interface StudentRepositoryInterface
     public function delete(Student $student);
     public function search($name, $email, $cpf);
 }
-

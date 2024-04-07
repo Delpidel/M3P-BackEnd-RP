@@ -11,7 +11,18 @@ class StudentRepository implements StudentRepositoryInterface
     {
         return Student::create($data);
     }
-
+    public function getOne($id) {
+        return Student::find($id);
+    }
+    public function updateOne(Student $student, $data) {
+        $student->update($data);
+        $student->save();
+        return $student;
+    }
+    public function createDocument(Student $student, array $documentData)
+    {
+        return $student->documents()->create($documentData);
+    }
     public function find($id)
     {
         return Student::find($id);
@@ -21,7 +32,6 @@ class StudentRepository implements StudentRepositoryInterface
     {
         return $student->delete();
     }
-
     public function search($name, $email, $cpf)
     {
         return Student::where(function ($query) use ($name, $email, $cpf) {
@@ -40,3 +50,4 @@ class StudentRepository implements StudentRepositoryInterface
             ->get(['id', 'name', 'email', 'contact', 'cpf']);
     }
 }
+

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Models\Student;
 
-class SendCredentialsStudentEmailService
+class SendCredentialsStudentEmail
 {
     public function handle(Student $student, string $password)
     {

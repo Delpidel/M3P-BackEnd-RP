@@ -17,4 +17,4 @@ class ListAllStudentsService
     {
         return $this->studentRepository->search($name, $email, $cpf);
     }
-}
+}   

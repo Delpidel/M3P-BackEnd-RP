@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    
     protected $fillable = [
         'name', 'email', 'date_birth', 'contact', 'cpf', 'city', 'neighborhood', 'number', 'street', 'state', 'cep', 'file_id', 'complement'
     ];
@@ -21,6 +21,4 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
 }
-

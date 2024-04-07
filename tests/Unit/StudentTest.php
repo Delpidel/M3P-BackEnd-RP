@@ -2,10 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\StudentController;
+use App\Http\Services\Student\DeleteOneStudentService;
+use App\Http\Services\Student\ListAllStudentsService;
 use App\Mail\CredentialsStudent;
 use App\Models\User;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -75,5 +79,23 @@ class StudentTest extends TestCase
             ->post('/api/students', $student + ['photo' => $photo]);
 
         $response->assertStatus(403)->assertJson(['message' => 'Acesso negado. Você não possui permissão para executar esta ação.']);
+    }
+
+    public function test_delete_student_by_authorized_user(): void
+    {
+
+        Auth::shouldReceive('id')->once()->andReturn(2);
+
+        $deleteOneStudentServiceMock = \Mockery::mock(DeleteOneStudentService::class);
+
+        $deleteOneStudentServiceMock->shouldReceive('handle')->once()->with(1)->andReturn('success');
+
+        $listAllStudentServiceMock = \Mockery::mock(ListAllStudentsService::class);
+
+        $student = new StudentController($listAllStudentServiceMock);
+
+        $response = $student->destroy(1, $deleteOneStudentServiceMock);
+
+        $this->assertEquals('success', $response);
     }
 }

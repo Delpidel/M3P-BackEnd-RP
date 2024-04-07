@@ -4,24 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GetStudentsRequest;
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Services\File\CreateFileService;
 use App\Http\Services\Student\CreateOneStudentService;
+use App\Http\Services\Student\DeleteOneStudentService;
 use App\Http\Services\Student\ListAllStudentsService;
 use App\Http\Services\Student\PasswordGenerationService;
 use App\Http\Services\Student\PasswordHashingService;
-use App\Http\Services\Student\SendCredentialsStudentEmailService;
-use App\Http\Services\Student\DeleteOneStudentService;
-
+use App\Http\Services\Student\SendCredentialsStudentEmail;
+use App\Http\Services\Student\UpdateOneStudentService;
 use App\Http\Services\User\CreateOneUserService;
 use App\Http\Services\UserStudent\CreateOneUserStudentService;
+use Illuminate\Support\Str;
 
 use App\Models\Student;
+use App\Models\File;
+
 use App\Traits\HttpResponses;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
 {
+    use HttpResponses;
+    
     protected $listAllStudentsService;
 
     public function __construct(ListAllStudentsService $listAllStudentsService)
@@ -49,7 +58,7 @@ class StudentController extends Controller
         CreateOneStudentService $createOneStudentService,
         PasswordGenerationService $passwordGenerationService,
         PasswordHashingService $passwordHashingService,
-        SendCredentialsStudentEmailService $sendCredentialsStudentEmailService,
+        SendCredentialsStudentEmail $sendCredentialsStudentEmail,
         CreateOneUserService $createOneUserService,
         CreateOneUserStudentService $createOneUserStudentService
     ) {
@@ -66,12 +75,21 @@ class StudentController extends Controller
 
         $student = $createOneStudentService->handle([...$body, 'file_id' => $file->id]);
 
-        $user = $createOneUserService->handle([...$body, 'password' => $passwordHashed, 'file_id' => $file->id]);
+        $user = $createOneUserService->handle([...$body, 'password' => $passwordHashed]);
 
         $createOneUserStudentService->handle(['user_id' => $user->id, 'student_id' => $student->id]);
 
-        $sendCredentialsStudentEmailService->handle($student, $password);
+        $sendCredentialsStudentEmail->handle($student, $password);
 
+        return $student;
+    }
+
+    public function update($id,
+    UpdateStudentRequest $request,
+    UpdateOneStudentService $updateOneStudentService)
+    {
+        $body = $request->all();
+        $student =  $updateOneStudentService->handle($id, $body);
         return $student;
     }
 
