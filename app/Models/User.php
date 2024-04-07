@@ -57,7 +57,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Profile::class);
     }
-  
+
     /**
      * Obtenha os estudantes associados ao usuário.
      */
@@ -73,5 +73,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Exercise::class);
     }
-      
+
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
 }

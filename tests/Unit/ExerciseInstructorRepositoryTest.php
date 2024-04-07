@@ -25,12 +25,12 @@ class ExerciseInstructorRepositoryTest extends TestCase
         $user = User::factory()->create(['profile_id' => 3]);
         $exercises = Exercise::factory()->count(5)->create(['user_id' => $user->id]);
 
-        $expectedResult = new LengthAwarePaginator($exercises, $exercises->count(), 10);
+        $expectedResult = new LengthAwarePaginator($exercises, $exercises->count(), 20);
 
         $paginationServiceMock = $this->createMock(PaginationInstructorService::class);
         $paginationServiceMock->expects($this->once())
             ->method('paginate')
-            ->with($this->anything(), $this->equalTo(10), $this->equalTo(['id', 'description']))
+            ->with($this->anything(), $this->equalTo(20), $this->equalTo(['id', 'description']))
             ->willReturn($expectedResult);
 
         $repository = new ExerciseInstructorRepository($paginationServiceMock);
@@ -70,19 +70,19 @@ class ExerciseInstructorRepositoryTest extends TestCase
     {
         $user = User::factory()->create(['profile_id' => 3]);
 
-        Exercise::factory()->count(15)->create(['user_id' => $user->id]);
+        Exercise::factory()->count(20)->create(['user_id' => $user->id]);
 
         $paginationServiceMock = $this->createMock(PaginationInstructorService::class);
 
         $paginationServiceMock->method('paginate')->willReturnCallback(function ($query, $perPage) {
-            return new LengthAwarePaginator($query->take($perPage)->get(), 15, $perPage);
+            return new LengthAwarePaginator($query->take($perPage)->get(), 20, $perPage);
         });
 
         $repository = new ExerciseInstructorRepository($paginationServiceMock);
         $result = $repository->getUserExercises($user->id);
 
-        $this->assertCount(10, $result->items());
-        $this->assertEquals(15, $result->total());
+        $this->assertCount(20, $result->items());
+        $this->assertEquals(20, $result->total());
     }
 
     /**
