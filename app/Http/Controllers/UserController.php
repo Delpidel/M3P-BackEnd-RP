@@ -98,4 +98,11 @@ class UserController extends Controller
     {
         return $deleteOneUserService->handle($id);
     }
+
+    public function getImage(Request $request)
+    {
+        if ($request->user()->file) {
+            return $request->user()->file->url;
+        }
+    }
 }
