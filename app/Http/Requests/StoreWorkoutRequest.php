@@ -53,3 +53,4 @@ class StoreWorkoutRequest extends FormRequest
         ];
     }
 }
+
