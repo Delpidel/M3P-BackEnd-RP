@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::put('users/{id}', [UserController::class, 'update'])->middleware(['ability:update-users']);
    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
    Route::get('users/{id}', [UserController::class, 'show'])->middleware(['ability:get-users']);
+   Route::get('user/image', [UserController::class, 'getImage']);
 
    Route::get('dashboard/admin', [DashboardController::class, 'index'])->middleware(['ability:get-dashboard']);
    Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index'])->middleware(['ability:instrutor-dashboard']);
