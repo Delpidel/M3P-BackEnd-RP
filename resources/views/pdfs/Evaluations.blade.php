@@ -121,7 +121,7 @@
         </tr>
         <tr>
             <td class="title">Abdomen</td>
-            <td class="info">{{$avaliation->abdome}}</td>
+            <td class="info">{{$avaliation->abdomen}}</td>
         </tr>
         <tr>
             <td class="title">Coxa Direita</td>
@@ -149,11 +149,11 @@
         </tr>
         <tr>
             <td class="title">Bíceps Femoral Direito</td>
-            <td class="info">{{$avaliation->b_femoral_direito}}</td>
+            <td class="info">{{$avaliation->biceps_femoral_direito}}</td>
         </tr>
         <tr>
             <td class="title">Bíceps Femoral Esquerdo</td>
-            <td class="info">{{$avaliation->b_femoral_esquerdo}}</td>
+            <td class="info">{{$avaliation->biceps_femoral_esquerdo}}</td>
         </tr>
     </table>
 </body>

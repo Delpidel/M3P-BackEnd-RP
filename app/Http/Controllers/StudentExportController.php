@@ -28,7 +28,12 @@ class StudentExportController extends Controller
         $student = Student::find($avaliation->student_id);
 
         Mail::to($student->email, $student->name)
-        ->send(new SendEvaluationEmail($student->name, date('d-m-Y', strtotime($avaliation->date))));
+        ->send(new SendEvaluationEmail($student->name, date('d-m-Y', strtotime($avaliation->date)),
+        $avaliation->age, $avaliation->weight, $avaliation->height, $avaliation->torax, $avaliation->braco_direito,
+        $avaliation->braco_esquerdo, $avaliation->cintura, $avaliation->antebraco_direito, $avaliation->antebraco_esquerdo,
+        $avaliation->abdomen, $avaliation->coxa_direita, $avaliation->coxa_esquerda, $avaliation->quadril,
+        $avaliation->panturrilha_direita, $avaliation->panturrilha_esquerda, $avaliation->punho,
+        $avaliation->biceps_femoral_esquerdo, $avaliation->biceps_femoral_direito));
 
     }
 

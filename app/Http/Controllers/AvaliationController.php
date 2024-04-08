@@ -23,9 +23,6 @@ class AvaliationController extends Controller
 
     public function store(StoreAvaliationRequest $request)
     {
-
-        // Validação e processamento dos dados da terceira etapa
-
         try {
             $data = $request->input();
 
