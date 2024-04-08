@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAvaliationRequest;
-use App\Http\Repositories\AvaliationRepository; // Repositório de Avaliações
-use App\Http\Services\File\CreateFileService; // Serviço para criar arquivos
-use App\Http\Controllers\Request;
-use App\Http\Controllers\Avaliation;
+use App\Http\Repositories\AvaliationRepository;
+use App\Http\Services\File\CreateFileService;
+use Illuminate\Http\Request;
+use App\Models\Avaliation;
 use Illuminate\Http\Response;
 
 
