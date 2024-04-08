@@ -33,11 +33,11 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('student/meal_plans', [StudentMealsController::class, 'index'])->middleware(['ability:get-meal-plans']);
    Route::get('student/meal_plans/{id}', [StudentMealsController::class, 'show'])->middleware(['ability:get-meal-plans']);
 
+   Route::get('students/{id}', [StudentController::class, 'show'])->middleware(['ability:get-students']);
    Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
    Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
    Route::put('students/{id}', [StudentController::class, 'update'])->middleware(['ability:update-students']);
    Route::delete('students/{id}', [StudentController::class, 'destroy'])->middleware(['ability:delete-students']);
-   Route::get('students/{id}', [StudentController::class, 'show'])->middleware(['ability:get-students']);
 
    Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'listWorkouts'])->middleware(['ability:get-workouts']);
    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
@@ -59,10 +59,10 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::delete('workouts/{id}', [WorkoutController::class, 'destroy'])->middleware(['ability:delete-workouts']);
 
    Route::post('students/{id}/documents', [StudentDocumentController::class, 'storeDocuments'])->middleware(['ability:create-documents-students']);
-   Route::get('/avaliations/{student_id}', [AvaliationController::class, 'getAvaliationsByStudentId']);
+   Route::get('students/avaliations/{id}', [AvaliationController::class, 'index'])->middleware(['ability:get-avaliations']);
+   Route::get('/avaliations/{student_id}', [AvaliationController::class, 'getAvaliationsByStudentId'])->middleware(['ability:get-avaliations']);
    Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
    Route::get('avaliations/send/{id}', [StudentExportController::class, 'index']);
-   Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
 
    //rotas para cadastro de avaliações em 3 etapas
    Route::prefix('avaliations')->group(function () {
