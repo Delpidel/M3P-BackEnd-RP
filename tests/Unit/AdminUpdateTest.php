@@ -47,7 +47,6 @@ class AdminUpdateTest extends TestCase
 
     public function test_admin_can_update_user_photo()
     {
-        $this->markTestSkipped('Teste desabilitado temporariamente pois necessita de uma extensão específica para funcionar.');
         $admin = User::factory()->create(['profile_id' => 1]);
         $user = User::factory()->create(['profile_id' => 2]);
         $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
@@ -68,7 +67,6 @@ class AdminUpdateTest extends TestCase
 
     public function test_admin_can_update_all_user_data()
     {
-        $this->markTestSkipped('Teste desabilitado temporariamente pois necessita de uma extensão específica para funcionar.');
         $admin = User::factory()->create(['profile_id' => 1]);
         $user = User::factory()->create(['profile_id' => 2]);
         $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
@@ -93,7 +91,6 @@ class AdminUpdateTest extends TestCase
 
     public function test_admin_can_update_user_student()
     {
-        $this->markTestSkipped('Teste desabilitado temporariamente pois necessita de uma extensão específica para funcionar.');
         $admin = User::factory()->create(['profile_id' => 1]);
         $student = User::factory()->create(['profile_id' => 5]); //profile_id 5 é o de estudante
         $token = $admin->createToken('@academia', ['update-users'])->plainTextToken;
