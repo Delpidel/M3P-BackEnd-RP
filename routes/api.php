@@ -75,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
 
     Route::post('upload', [FileController::class, 'store']);
+    Route::delete('delete/{id}', [FileController::class, 'destroy']);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
