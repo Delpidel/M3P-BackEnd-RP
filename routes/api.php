@@ -14,30 +14,31 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\DashboardInstructorController;
 use App\Http\Controllers\ExerciseInstructorController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\InstructorWorkoutController;
 
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
+
+   Route::post('avaliations', [AvaliationController::class, 'store'])->middleware(['ability:create-avaliations']);
+  
    Route::post('users', [UserController::class, 'store'])->middleware(['ability:create-users']);
    Route::get('users', [UserController::class, 'index'])->middleware(['ability:get-users']);
    Route::put('users/{id}', [UserController::class, 'update'])->middleware(['ability:update-users']);
    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware(['ability:delete-users']);
    Route::get('users/{id}', [UserController::class, 'show'])->middleware(['ability:get-users']);
 
-   Route::get('dashboard/admin', [DashboardController::class, 'index'])->middleware(['ability:get-dashboard']);
-   Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index'])->middleware(['ability:instrutor-dashboard']);
-
    Route::get('student/{id}/workouts', [StudentWorkoutController::class, 'workoutsByStudent'])->middleware(['ability:get-workout']);
    Route::get('student/meal_plans', [StudentMealsController::class, 'index'])->middleware(['ability:get-meal-plans']);
    Route::get('student/meal_plans/{id}', [StudentMealsController::class, 'show'])->middleware(['ability:get-meal-plans']);
 
-   Route::get('students/{id}', [StudentController::class, 'show'])->middleware(['ability:get-students']);
    Route::get('students', [StudentController::class, 'index'])->middleware(['ability:get-students']);
    Route::post('students', [StudentController::class, 'store'])->middleware(['ability:create-students']);
    Route::put('students/{id}', [StudentController::class, 'update'])->middleware(['ability:update-students']);
    Route::delete('students/{id}', [StudentController::class, 'destroy'])->middleware(['ability:delete-students']);
+   Route::get('students/{id}', [StudentController::class, 'show'])->middleware(['ability:get-students']);
 
    Route::get('students/{id}/workouts', [InstructorWorkoutController::class, 'listWorkouts'])->middleware(['ability:get-workouts']);
    Route::get('workouts', [WorkoutController::class, 'index'])->middleware(['ability:get-workouts']);
@@ -64,14 +65,19 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
    Route::get('avaliations/send/{id}', [StudentExportController::class, 'index']);
 
-   //rotas para cadastro de avaliações em 3 etapas
-   Route::prefix('avaliations')->group(function () {
-      Route::post('step1', [AvaliationController::class, 'step1']);
-      Route::post('step2', [AvaliationController::class, 'step2']);
-      Route::post('step3', [AvaliationController::class, 'step3']);
-   })->middleware(['ability:create-avaliations']);
+    Route::get('dashboard/instrutor', [DashboardInstructorController::class, 'index'])->middleware(['ability:instrutor-dashboard']);
+    Route::get('dashboard/admin', [DashboardController::class, 'index'])->middleware(['ability:get-dashboard']);
 
-   Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('/avaliations/{student_id}', [AvaliationController::class, 'getAvaliationsByStudentId']);
+
+    Route::get('avaliations/export/{id}', [StudentExportController::class, 'export']);
+    Route::get('avaliations/send/{id}', [StudentExportController::class, 'index']);
+    Route::get('students/avaliations/{id}', [AvaliationController::class, 'index']);
+
+    Route::post('upload', [FileController::class, 'store']);
+    Route::delete('delete/{id}', [FileController::class, 'destroy']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::post('login', [AuthController::class, 'store']);

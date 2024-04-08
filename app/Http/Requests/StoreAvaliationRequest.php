@@ -17,6 +17,7 @@ class StoreAvaliationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            
             'student_id' => 'required|exists:students,id',
             'age' => 'required|integer|min:0',
             'date' => 'required|date_format:Y-m-d H:i:s',
@@ -39,6 +40,7 @@ class StoreAvaliationRequest extends FormRequest
             'punho' => 'required|numeric',
             'biceps_femoral_direito' => 'required|numeric',
             'biceps_femoral_esquerdo' => 'required|numeric',
+            
         ];
     }
 
@@ -57,15 +59,15 @@ class StoreAvaliationRequest extends FormRequest
         'cintura.required' => 'A medida da cintura é obrigatória.',
         'antebraco_esquerdo.required' => 'A medida do antebraço esquerdo é obrigatória.',
         'antebraco_direito.required' => 'A medida do antebraço direito é obrigatória.',
-        'abdome.required' => 'A medida do abdome é obrigatória.',
+        'abdomen.required' => 'A medida do abdomen é obrigatória.',
         'coxa_direita.required' => 'A medida da coxa direita é obrigatória.',
         'coxa_esquerda.required' => 'A medida da coxa esquerda é obrigatória.',
         'quadril.required' => 'A medida do quadril é obrigatória.',
         'panturrilha_direita.required' => 'A medida da panturrilha direita é obrigatória.',
         'panturilha_esquerda.required' => 'A medida da panturrilha esquerda é obrigatória.',
         'punho.required' => 'A medida do punho é obrigatória.',
-        'biceps_femoral_direito.required' => 'A medida da coxa femoral direita é obrigatória.',
-        'biceps_femoral_esquerdo.required' => 'A medida da coxa femoral esquerda é obrigatória.',
+        'biceps_femoral_direito.required' => 'A medida do bíceps femoral direito é obrigatório.',
+        'biceps_femoral_esquerdo.required' => 'A do bíceps femoral esquerdo é obrigatório.',
         ];
     }
 }
